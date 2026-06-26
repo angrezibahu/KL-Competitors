@@ -1,1 +1,5 @@
-[]
+{
+ "ok": false,
+ "error": "The request failed: Google returned a response with code 429",
+ "data": {}
+}

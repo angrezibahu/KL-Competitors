@@ -7,17 +7,17 @@
   "brands": [
     { "name": "Katie Loxton", "slug": "katie-loxton", "url": "https://www.katieloxton.com/", "listing_url": "https://www.katieloxton.com/collections/bags", "is_self": true },
     { "name": "Strathberry", "slug": "strathberry", "url": "https://www.strathberry.com/", "listing_url": "https://www.strathberry.com/collections/all" },
-    { "name": "DeMellier", "slug": "demellier", "url": "https://www.demellier.com/", "listing_url": "https://www.demellier.com/collections/all" },
-    { "name": "Charles & Keith", "slug": "charles-keith", "url": "https://www.charleskeith.com/en-gb", "listing_url": "https://www.charleskeith.com/en-gb/bags" },
+    { "name": "DeMellier", "slug": "demellier", "url": "https://demellierlondon.com/", "listing_url": "https://demellierlondon.com/collections/all-bags" },
+    { "name": "Charles & Keith", "slug": "charles-keith", "url": "https://www.charleskeith.co.uk/gb", "listing_url": "https://www.charleskeith.co.uk/gb/bags" },
     { "name": "Polene", "slug": "polene", "url": "https://uk.polene-paris.com/", "listing_url": "https://uk.polene-paris.com/collections/handbags" },
-    { "name": "Loewe", "slug": "loewe", "url": "https://www.loewe.com/gbr/en/", "listing_url": "https://www.loewe.com/gbr/en/women-bags/" },
+    { "name": "Loewe", "slug": "loewe", "url": "https://www.loewe.com/gbr/en/", "listing_url": "https://www.loewe.com/gbr/en/women/bags" },
     { "name": "The White Company", "slug": "white-company", "url": "https://www.thewhitecompany.com/uk/", "listing_url": "https://www.thewhitecompany.com/uk/c/accessories" },
-    { "name": "Mejuri", "slug": "mejuri", "url": "https://mejuri.com/en-gb", "listing_url": "https://mejuri.com/en-gb/collections/all" },
-    { "name": "Sezane", "slug": "sezane", "url": "https://www.sezane.com/en", "listing_url": "https://www.sezane.com/en/category/accessories" },
-    { "name": "Coach", "slug": "coach", "url": "https://uk.coach.com/", "listing_url": "https://uk.coach.com/shop/women/bags" },
-    { "name": "Oliver Bonas", "slug": "oliver-bonas", "url": "https://www.oliverbonas.com/", "listing_url": "https://www.oliverbonas.com/bags" },
-    { "name": "Leo et Violette", "slug": "leo-et-violette", "url": "https://leoetviolette.com/en-gb/", "listing_url": "https://leoetviolette.com/en-gb/collections/all" },
-    { "name": "Mint Velvet", "slug": "mint-velvet", "url": "https://www.mintvelvet.co.uk/", "listing_url": "https://www.mintvelvet.co.uk/accessories" }
+    { "name": "Mejuri", "slug": "mejuri", "url": "https://mejuri.com/gb/en/", "listing_url": "https://mejuri.com/gb/en/collections/shop-all" },
+    { "name": "Sezane", "slug": "sezane", "url": "https://www.sezane.com/en-en", "listing_url": "https://www.sezane.com/en-en/collection/the-accessories" },
+    { "name": "Coach", "slug": "coach", "url": "https://uk.coach.com/", "listing_url": "https://uk.coach.com/shop/women/bags/view-all" },
+    { "name": "Oliver Bonas", "slug": "oliver-bonas", "url": "https://www.oliverbonas.com/", "listing_url": "https://www.oliverbonas.com/accessories/bags" },
+    { "name": "Leo et Violette", "slug": "leo-et-violette", "url": "https://www.leoetviolette.com/en-uk", "listing_url": "https://www.leoetviolette.com/en-uk/collections/all" },
+    { "name": "Mint Velvet", "slug": "mint-velvet", "url": "https://www.mintvelvet.com/", "listing_url": "https://www.mintvelvet.com/collections/all-accessories" }
   ],
   "product_categories": {
     "bags":          ["bag", "tote", "shopper", "crossbody", "clutch", "backpack", "satchel", "handbag", "pouch"],

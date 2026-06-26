@@ -1,5 +1,12 @@
 {
- "generated_at": "2026-06-26T15:15:16Z",
+ "generated_at": "2026-06-26T15:52:36Z",
  "events": [],
- "opportunities": []
+ "opportunities": [
+  {
+   "priority": "medium",
+   "kind": "delivery",
+   "title": "3 competitors advertise free delivery with no threshold — Joma's is over £40",
+   "detail": "Free-delivery messaging is a visible basket-conversion lever."
+  }
+ ]
 }

@@ -2,7 +2,7 @@
  "runs": [
   {
    "date": "2026-06-26",
-   "captured_at": "2026-06-26T15:15:15Z",
+   "captured_at": "2026-06-26T15:52:30Z",
    "brands": {
     "katie-loxton": {
      "product_count": null,
@@ -31,13 +31,17 @@
      }
     },
     "demellier": {
-     "product_count": null,
+     "product_count": 113,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
-     "ok": false,
-     "first_seen": false,
-     "error": "no product URLs in sitemap"
+     "ok": true,
+     "first_seen": true,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
     },
     "charles-keith": {
      "product_count": null,
@@ -49,13 +53,18 @@
      "error": "no sitemap.xml"
     },
     "polene": {
-     "product_count": null,
+     "product_count": 430,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
-     "ok": false,
-     "first_seen": false,
-     "error": "no sitemap.xml"
+     "ok": true,
+     "first_seen": true,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
     },
     "loewe": {
      "product_count": null,
@@ -76,7 +85,7 @@
      "error": "no product URLs in sitemap"
     },
     "mejuri": {
-     "product_count": 561,
+     "product_count": 549,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
@@ -84,7 +93,7 @@
      "first_seen": true,
      "error": null,
      "categories": {
-      "bags": 13,
+      "bags": 14,
       "purses": 3,
       "gifting": 2
      }

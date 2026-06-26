@@ -1,7 +1,7 @@
 [
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:15:59Z",
+  "captured_at": "2026-06-26T15:12:42Z",
   "brand": "Katie Loxton",
   "slug": "katie-loxton",
   "url": "https://www.katieloxton.com/",
@@ -345,7 +345,7 @@
     "share": 0.521
    },
    {
-    "hex": "#d8d7d6",
+    "hex": "#d8d7d7",
     "name": "blush",
     "share": 0.185
    },
@@ -435,7 +435,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:11Z",
+  "captured_at": "2026-06-26T15:12:56Z",
   "brand": "Strathberry",
   "slug": "strathberry",
   "url": "https://www.strathberry.com/",
@@ -826,7 +826,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:21Z",
+  "captured_at": "2026-06-26T15:13:06Z",
   "brand": "DeMellier",
   "slug": "demellier",
   "url": "https://www.demellier.com/",
@@ -1112,7 +1112,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:27Z",
+  "captured_at": "2026-06-26T15:13:12Z",
   "brand": "Charles & Keith",
   "slug": "charles-keith",
   "url": "https://www.charleskeith.com/en-gb",
@@ -1440,7 +1440,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:40Z",
+  "captured_at": "2026-06-26T15:13:27Z",
   "brand": "Polene",
   "slug": "polene",
   "url": "https://polene-paris.com/en-gb/",
@@ -1735,7 +1735,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:51Z",
+  "captured_at": "2026-06-26T15:13:37Z",
   "brand": "Loewe",
   "slug": "loewe",
   "url": "https://www.loewe.com/gbr/en/",
@@ -2031,7 +2031,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:16:58Z",
+  "captured_at": "2026-06-26T15:13:46Z",
   "brand": "The White Company",
   "slug": "white-company",
   "url": "https://www.thewhitecompany.com/",
@@ -2316,7 +2316,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:07Z",
+  "captured_at": "2026-06-26T15:13:54Z",
   "brand": "Mejuri",
   "slug": "mejuri",
   "url": "https://mejuri.com/en-gb",
@@ -2404,14 +2404,6 @@
     3
    ],
    [
-    "store",
-    3
-   ],
-   [
-    "change",
-    3
-   ],
-   [
     "tube",
     3
    ],
@@ -2428,11 +2420,19 @@
     2
    ],
    [
+    "store",
+    2
+   ],
+   [
     "steel",
     2
    ],
    [
     "fine",
+    2
+   ],
+   [
+    "change",
     2
    ]
   ],
@@ -2495,8 +2495,8 @@
     "ImageObject",
     "Person"
    ],
-   "word_count": 531,
-   "image_count": 31,
+   "word_count": 502,
+   "image_count": 30,
    "internal_link_count": 72
   },
   "accessibility": {
@@ -2537,7 +2537,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "31/31 images"
+     "detail": "30/30 images"
     },
     {
      "id": "link_text",
@@ -2552,10 +2552,10 @@
      "id": "button_name",
      "label": "Buttons have accessible names",
      "weight": 8,
-     "ratio": 0.946,
+     "ratio": 0.945,
      "passed": true,
      "applicable": true,
-     "detail": "53/56 buttons"
+     "detail": "52/55 buttons"
     },
     {
      "id": "form_labels",
@@ -2594,8 +2594,8 @@
      "detail": "present"
     }
    ],
-   "images_total": 31,
-   "images_with_alt": 31,
+   "images_total": 30,
+   "images_with_alt": 30,
    "links_total": 71,
    "links_with_text": 71
   },
@@ -2603,32 +2603,32 @@
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.2306
+    "share": 0.2486
    },
    {
-    "hex": "#4b362f",
+    "hex": "#4a352f",
     "name": "brown",
-    "share": 0.2008
+    "share": 0.1992
    },
    {
-    "hex": "#ac907c",
+    "hex": "#ab907b",
     "name": "tan",
-    "share": 0.1678
+    "share": 0.1668
    },
    {
-    "hex": "#fdfdfd",
+    "hex": "#f2f2f1",
     "name": "white",
-    "share": 0.1364
+    "share": 0.1291
    },
    {
-    "hex": "#c1bcb6",
-    "name": "sage",
-    "share": 0.133
+    "hex": "#c2bdb8",
+    "name": "beige",
+    "share": 0.1288
    },
    {
-    "hex": "#f0f0ef",
+    "hex": "#fefefe",
     "name": "white",
-    "share": 0.1314
+    "share": 0.1275
    }
   ],
   "screenshot": "screenshots/mejuri/2026-06-26.jpg",
@@ -2637,7 +2637,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:16Z",
+  "captured_at": "2026-06-26T15:14:05Z",
   "brand": "Sezane",
   "slug": "sezane",
   "url": "https://www.sezane.com/en",
@@ -2805,22 +2805,22 @@
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.958
+    "share": 0.9582
    },
    {
-    "hex": "#bcbdbc",
-    "name": "lilac",
-    "share": 0.0164
+    "hex": "#bcbcbb",
+    "name": "sage",
+    "share": 0.017
    },
    {
-    "hex": "#dbdbda",
-    "name": "blush",
-    "share": 0.0142
+    "hex": "#dbdcdb",
+    "name": "cream",
+    "share": 0.0137
    },
    {
-    "hex": "#f7f7f6",
+    "hex": "#f7f7f7",
     "name": "white",
-    "share": 0.0061
+    "share": 0.0058
    },
    {
     "hex": "#fefffe",
@@ -2839,7 +2839,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:23Z",
+  "captured_at": "2026-06-26T15:14:11Z",
   "brand": "Coach",
   "slug": "coach",
   "url": "https://uk.coach.com/",
@@ -2850,7 +2850,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:27Z",
+  "captured_at": "2026-06-26T15:14:15Z",
   "brand": "Oliver Bonas",
   "slug": "oliver-bonas",
   "url": "https://www.oliverbonas.com/",
@@ -3256,7 +3256,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:42Z",
+  "captured_at": "2026-06-26T15:14:30Z",
   "brand": "Leo et Violette",
   "slug": "leo-et-violette",
   "url": "https://leoetviolette.com/en-gb/",
@@ -3553,7 +3553,7 @@
  },
  {
   "date": "2026-06-26",
-  "captured_at": "2026-06-26T15:17:52Z",
+  "captured_at": "2026-06-26T15:14:41Z",
   "brand": "Mint Velvet",
   "slug": "mint-velvet",
   "url": "https://www.mintvelvet.co.uk/",

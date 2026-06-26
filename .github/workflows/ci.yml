@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install extraction deps
+        run: pip install beautifulsoup4 lxml Pillow
+      - name: Run extractor tests
+        run: python tests/test_extractors.py
+      - name: Run AIO parsing tests
+        run: python tests/test_aio.py
+      - name: Run events/opportunities tests
+        run: python tests/test_events.py
+      - name: Run catalogue/assortment tests
+        run: python tests/test_catalogue.py
+      - name: Sanity-check JSON + config
+        run: |
+          python -c "import json; json.load(open('config/competitors.json')); print('config ok')"
+          python -c "import json; json.load(open('config/aio_queries.json')); print('aio queries ok')"
+          python -c "import json; d=json.load(open('docs/data/captures.json')); assert isinstance(d, list); print(f'{len(d)} captures ok')"

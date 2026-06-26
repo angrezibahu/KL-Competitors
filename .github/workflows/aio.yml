@@ -1,0 +1,39 @@
+name: AI visibility (AIO)
+
+# Tracks which brands AI assistants name for buyer-intent questions.
+# Weekly, not daily: these queries are slow + rate-limited, and the signal moves
+# slowly. Runs only if the ANTHROPIC_API_KEY secret is set (skips cleanly otherwise).
+on:
+  schedule:
+    # Tuesdays 08:30 UTC (a day after the weekly digest, to spread load).
+    - cron: "30 8 * * 2"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  aio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install anthropic
+      - name: Run AIO visibility capture
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m scraper.aio
+      - name: Commit AIO data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- docs/data/aio.json; then
+            echo "No AIO changes to commit (likely no API key set)."
+          else
+            git add docs/data/aio.json
+            git commit -m "data: AIO visibility capture $(date -u +%Y-%m-%d)"
+            git push
+          fi

@@ -1,0 +1,57 @@
+name: Weekly digest email
+
+on:
+  schedule:
+    # 08:15 UTC every Monday (after the daily capture has run).
+    - cron: "15 8 * * 1"
+  workflow_dispatch: {}
+  push:
+    # Same one-time trick as daily.yml: a change to this file registers the
+    # workflow so it shows in the Actions sidebar and can be run manually.
+    branches: [main]
+    paths: [".github/workflows/weekly-digest.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    env:
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build digest
+        run: python -m scraper.digest
+
+      - name: Commit digest.html
+        run: |
+          git config user.name "katie-loxton-competitor-bot"
+          git config user.email "actions@github.com"
+          git add docs/digest.html docs/data/digest.txt
+          if ! git diff --staged --quiet; then
+            git commit -m "digest: weekly summary $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      # Email step only runs if SMTP secrets are configured (see README).
+      # Uses an app password, NOT your real password. Best-effort: skips silently
+      # if MAIL_USERNAME isn't set so the workflow never hard-fails on a missing secret.
+      - name: Send email
+        if: ${{ env.MAIL_USERNAME != '' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER || 'smtp.gmail.com' }}
+          server_port: ${{ secrets.MAIL_PORT || 465 }}
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: Katie Loxton Competitor Radar <${{ secrets.MAIL_USERNAME }}>
+          to: ${{ secrets.MAIL_TO || secrets.MAIL_USERNAME }}
+          subject: "Katie Loxton Competitor Radar — weekly digest"
+          html_body: file://docs/digest.html
+          convert_markdown: false

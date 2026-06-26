@@ -1,0 +1,15 @@
+{
+  "_comment": "Buyer-intent questions a real shopper might ask an AI assistant. The weekly AIO job asks Claude (with live web search) each of these, then records which tracked brands get named and in what order -- a 'share of voice in AI answers' signal over time. Edit freely.",
+  "_honesty_note": "AI answers are non-deterministic and depend on the model + live web results, so read this as directional share-of-voice over time, not a fixed ranking. Runs weekly and only when ANTHROPIC_API_KEY is set.",
+  "market": "UK women's accessories, bags and gifting",
+  "queries": [
+    { "q": "best women's handbag brands UK for a gift", "category": "bags" },
+    { "q": "affordable luxury handbag brands UK worth buying", "category": "bags" },
+    { "q": "best UK accessories brands for scarves and bags as gifts", "category": "scarves" },
+    { "q": "personalised bags and accessories gifts UK", "category": "personalised" },
+    { "q": "best UK gifting brands for women's accessories under £100", "category": "gifting" },
+    { "q": "stylish crossbody bags UK brands to know", "category": "bags" },
+    { "q": "best UK brands for thoughtful women's gifts accessories", "category": "sentiment" },
+    { "q": "new women's accessories brands UK worth following", "category": "new_in" }
+  ]
+}

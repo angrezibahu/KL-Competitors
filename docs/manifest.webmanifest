@@ -1,0 +1,13 @@
+{
+  "name": "Katie Loxton Competitor Radar",
+  "short_name": "Radar",
+  "description": "Daily competitor trading intelligence for Katie Loxton.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f8f7f0",
+  "theme_color": "#b46a83",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

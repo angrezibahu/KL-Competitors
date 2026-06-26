@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Katie Loxton Competitor Radar</title>
+  <meta name="theme-color" content="#b46a83" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#view">Skip to content</a>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="icon.svg" alt="" aria-hidden="true" width="30" height="30" />
+      <div>
+        <h1>Competitor Radar</h1>
+        <p class="sub">Katie Loxton &middot; market trading view</p>
+      </div>
+    </div>
+    <div class="meta" id="freshness" role="status" aria-live="polite">Loading…</div>
+  </header>
+
+  <div id="sampleBanner" class="banner hidden" role="status">
+    Showing <strong>SAMPLE</strong> data. The first real capture replaces this automatically.
+  </div>
+
+  <nav class="tabs" id="tabs" aria-label="Dashboard sections"></nav>
+
+  <main id="view" tabindex="-1" role="tabpanel" aria-label="Dashboard content"><div class="loading">Loading data…</div></main>
+
+  <footer class="foot">
+    <span id="footStatus"></span>
+    <span><a href="digest.html">📩 Weekly digest</a> &middot; Updated daily.</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

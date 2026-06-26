@@ -1,0 +1,32 @@
+{
+  "_comment": "Edit this file to add/remove brands or tune category keywords. slug must be filesystem-safe (lowercase, hyphens).",
+  "_listing_url_note": "Optional. A real product-listing/bestsellers page sampled for trading data (price distribution + how much of the range is on sale). Best-effort: if it 404s, blocks us or has no readable prices, the brand simply gets no `listing` block that day -- the homepage capture is unaffected. Tune these to each brand's best 'shop all' page.",
+  "_review_platforms_note": "Optional list of review/trust platforms a brand is KNOWN to use (e.g. Feefo). Many homepages inject the review widget client-side, so the platform name never appears in the server HTML and detection alone would false-negative it. Declared platforms are merged with whatever is detected, so a confirmed signal is never dropped.",
+  "_stockists_url_note": "Optional. A brand's 'stockists' / 'where to buy' page, scanned for OFF-SITE marketplace links (an Amazon storefront, a TikTok Shop) the homepage doesn't carry -- the result is merged into the Marketplace pillar, stronger state per channel winning.",
+  "timezone_note": "The daily job runs at 08:00 UTC = 09:00 UK summer (BST) / 08:00 UK winter (GMT). Change cron in .github/workflows/daily.yml to adjust.",
+  "brands": [
+    { "name": "Katie Loxton", "slug": "katie-loxton", "url": "https://www.katieloxton.com/", "listing_url": "https://www.katieloxton.com/collections/bags", "is_self": true },
+    { "name": "Strathberry", "slug": "strathberry", "url": "https://www.strathberry.com/", "listing_url": "https://www.strathberry.com/collections/all" },
+    { "name": "DeMellier", "slug": "demellier", "url": "https://www.demellier.com/", "listing_url": "https://www.demellier.com/collections/all" },
+    { "name": "Charles & Keith", "slug": "charles-keith", "url": "https://www.charleskeith.com/en-gb", "listing_url": "https://www.charleskeith.com/en-gb/bags" },
+    { "name": "Polene", "slug": "polene", "url": "https://polene-paris.com/en-gb/", "listing_url": "https://polene-paris.com/en-gb/collections/bags" },
+    { "name": "Loewe", "slug": "loewe", "url": "https://www.loewe.com/gbr/en/", "listing_url": "https://www.loewe.com/gbr/en/women-bags/" },
+    { "name": "The White Company", "slug": "white-company", "url": "https://www.thewhitecompany.com/", "listing_url": "https://www.thewhitecompany.com/uk/c/accessories" },
+    { "name": "Mejuri", "slug": "mejuri", "url": "https://mejuri.com/en-gb", "listing_url": "https://mejuri.com/en-gb/collections/all" },
+    { "name": "Sezane", "slug": "sezane", "url": "https://www.sezane.com/en", "listing_url": "https://www.sezane.com/en/category/accessories" },
+    { "name": "Coach", "slug": "coach", "url": "https://uk.coach.com/", "listing_url": "https://uk.coach.com/shop/women/bags" },
+    { "name": "Oliver Bonas", "slug": "oliver-bonas", "url": "https://www.oliverbonas.com/", "listing_url": "https://www.oliverbonas.com/bags" },
+    { "name": "Leo et Violette", "slug": "leo-et-violette", "url": "https://leoetviolette.com/en-gb/", "listing_url": "https://leoetviolette.com/en-gb/collections/all" },
+    { "name": "Mint Velvet", "slug": "mint-velvet", "url": "https://www.mintvelvet.co.uk/", "listing_url": "https://www.mintvelvet.co.uk/accessories" }
+  ],
+  "product_categories": {
+    "bags":          ["bag", "tote", "shopper", "crossbody", "clutch", "backpack", "satchel", "handbag", "pouch"],
+    "scarves":       ["scarf", "scarves", "wrap", "shawl"],
+    "purses":        ["purse", "wallet", "cardholder", "card holder", "coin"],
+    "accessories":   ["accessory", "accessories", "belt", "keyring", "key ring"],
+    "gifting":       ["gift", "gifting", "present", "treat"],
+    "personalised":  ["personalised", "personalized", "monogram", "initial", "engraved", "custom"],
+    "sentiment":     ["meaningful", "heartfelt", "thinking of you", "a little", "sentimental"],
+    "new_in":        ["new in", "new arrival", "just landed", "new season"]
+  }
+}

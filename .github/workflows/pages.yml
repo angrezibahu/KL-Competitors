@@ -1,0 +1,59 @@
+name: Deploy dashboard to Pages
+
+# Publishes docs/ to GitHub Pages via the GitHub Actions deployment path
+# (actions/deploy-pages) instead of the legacy "Deploy from a branch" build.
+# The branch build can silently stop firing after a default-branch change --
+# which is exactly what froze the live site. This path is driven by explicit
+# triggers we control, so it can't drift out of sync the same way.
+on:
+  # Human/merge pushes that change the dashboard or its data.
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  # The daily capture and weekly digest commit new data using the repo's
+  # GITHUB_TOKEN, and pushes made with that token do NOT trigger `on: push`.
+  # workflow_run fires on their completion regardless, so the freshly committed
+  # data actually reaches the live site each day.
+  workflow_run:
+    workflows: ["Daily competitor capture", "Weekly digest email"]
+    types: [completed]
+  # Manual redeploy button in the Actions tab.
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once, but don't cancel an in-flight publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Pages
+        # enablement: true flips the repo's Pages build type to "GitHub Actions"
+        # if it's still on the legacy branch build, so the deploy below succeeds
+        # without a manual settings change.
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload docs/ as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

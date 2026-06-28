@@ -72,7 +72,7 @@ def build_html():
         for c in new_codes:
             changes.append(f"<b>{_esc(r['brand'])}</b> new code: <code>{_esc(c)}</code>")
 
-    joma = next((r for r in brands if r.get("is_self")), None)
+    self_brand = next((r for r in brands if r.get("is_self")), None)
 
     def row_offer(r):
         return (f'<span style="color:#b46a83;font-weight:600">{_esc(r["headline_offer"])}</span>'
@@ -89,12 +89,12 @@ def build_html():
                  f'{len(on_sale)}/{len(brands)} brands on offer · avg headline discount '
                  f'{avg_disc if avg_disc is not None else "—"}%.</p>')
 
-    if joma:
-        jp = joma.get("prices") or {}
+    if self_brand:
+        jp = self_brand.get("prices") or {}
         parts.append('<div style="background:#faf2f5;border-radius:12px;padding:14px 16px;margin:14px 0">'
                      '<h2 style="margin:0 0 6px">★ Katie Loxton right now</h2>'
-                     f'<p style="margin:4px 0">Hero: “{_esc(joma.get("hero_message"))}”</p>'
-                     f'<p style="margin:4px 0">Offer: {row_offer(joma)} · '
+                     f'<p style="margin:4px 0">Hero: “{_esc(self_brand.get("hero_message"))}”</p>'
+                     f'<p style="margin:4px 0">Offer: {row_offer(self_brand)} · '
                      f'Price band: £{jp.get("min","—")}–£{jp.get("max","—")} (median £{jp.get("median","—")})</p></div>')
 
     parts.append("<h2>What changed this week</h2>")

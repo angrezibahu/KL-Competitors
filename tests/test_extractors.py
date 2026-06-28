@@ -88,16 +88,16 @@ def test_hero_prefers_provided():
 
 # A split-banner homepage: the PRIMARY panel is a sale *image* (copy only in
 # alt text), the SECONDARY panel is live text, and a smaller live birthday offer
-# sits elsewhere. This is the Joma failure: hero read as "July Birthday Girl"
-# and promo read as "15% off" because the 50% sale was image-baked.
+# sits elsewhere. This is a real-world failure mode: hero read as "July Birthday
+# Girl" and promo read as "15% off" because the 50% sale was image-baked.
 SPLIT_BANNER_HTML = """
-<html><head><title>Joma Jewellery</title></head><body>
+<html><head><title>Sample Store</title></head><body>
   <a class="hero" title="Shop the sale">
     <img src="/banners/summer.jpg" alt="Up to 50% Off Summer Sale">
   </a>
   <div class="hero-secondary"><h2>July Birthday Girl</h2></div>
   <p>Treat yourself: 15% off in your birthday month.</p>
-  <img src="/logo.svg" alt="Joma Jewellery logo">
+  <img src="/logo.svg" alt="Sample Store logo">
 </body></html>
 """
 # The browser-side largest-visible-text picks the live secondary panel.
@@ -121,17 +121,17 @@ def test_offers_read_image_baked_discount():
     assert "50% Off Summer Sale" in (fields["hero_message"] or "")
 
 
-# The REAL Joma case: the sale banner image has NO alt text at all -- the only
+# The harder real-world case: the sale banner image has NO alt text at all -- the only
 # trace of the offer is the link target ('/summer-sale-50-off') and the image
 # filename. alt/aria recovery sees nothing, so the offer must come from the URL.
 ALTLESS_BANNER_HTML = """
-<html><head><title>Joma Jewellery</title></head><body>
+<html><head><title>Sample Store</title></head><body>
   <a class="hero" href="/collections/summer-sale-50-off">
     <img src="/cdn/banners/summer-sale-50-off.jpg">
   </a>
   <div class="hero-secondary"><h2>July Birthday Girl</h2></div>
   <p>Treat yourself: 15% off in your birthday month.</p>
-  <img src="/logo.svg" alt="Joma Jewellery logo">
+  <img src="/logo.svg" alt="Sample Store logo">
 </body></html>
 """
 ALTLESS_BANNER_VISIBLE = "July Birthday Girl Treat yourself: 15% off in your birthday month."
@@ -446,7 +446,7 @@ def test_reputation_absent_is_graceful():
 
 def test_reputation_text_rating_requires_a_count():
     # A bare "5 stars" with no review tally is marketing copy, not an aggregate —
-    # we must NOT surface it as the brand's rating (the Joma/Abbott Lyon case).
+    # we must NOT surface it as the brand's rating (a real-world marketing-copy case).
     rep = extractors.extract_reputation("", "Loved by all — rated 5 stars!")
     assert rep["rating"] is None
     # Paired with a real count, the same rating is trustworthy.
@@ -495,10 +495,10 @@ def test_marketplace_amazon_text_mention():
 
 
 def test_marketplace_tiktok_shop():
-    html = ('<a href="https://www.tiktok.com/@joma/shop">Shop on TikTok</a>')
+    html = ('<a href="https://www.tiktok.com/@katieloxton/shop">Shop on TikTok</a>')
     mk = extractors.extract_marketplace_presence(html, "")
     assert mk["tiktok"]["state"] == "shop"
-    assert mk["tiktok"]["handle"] == "@joma"
+    assert mk["tiktok"]["handle"] == "@katieloxton"
 
 
 def test_marketplace_tiktok_social_only():

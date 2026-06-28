@@ -34,9 +34,9 @@ def test_events_sale_start_and_discount_change():
 
 def test_events_hero_code_and_bnpl():
     caps = [
-        cap("joma", "2026-06-01", hero_message="A little gift", discount_codes=[],
+        cap("katie-loxton", "2026-06-01", hero_message="A little gift", discount_codes=[],
             trading={"finance": ["PayPal"]}),
-        cap("joma", "2026-06-02", hero_message="Summer Sale", discount_codes=["SUMMER20"],
+        cap("katie-loxton", "2026-06-02", hero_message="Summer Sale", discount_codes=["SUMMER20"],
             trading={"finance": ["PayPal", "Klarna"]}),
     ]
     evs = events.compute_events(caps)
@@ -63,7 +63,7 @@ def test_events_price_shift_uses_listing_median():
 
 def test_opportunities_promo_and_bnpl_gap():
     caps = [
-        cap("joma", "2026-06-03", is_self=True, headline_offer=None, max_discount_pct=None,
+        cap("katie-loxton", "2026-06-03", is_self=True, headline_offer=None, max_discount_pct=None,
             trading={"finance": ["PayPal"]}),
         cap("a", "2026-06-03", headline_offer="20% off", max_discount_pct=20,
             trading={"finance": ["Klarna"]}),
@@ -74,21 +74,21 @@ def test_opportunities_promo_and_bnpl_gap():
     ]
     opps = events.compute_opportunities(caps)
     kinds = {o["kind"] for o in opps}
-    assert "promo" in kinds        # Joma not discounting, pack is
-    assert "finance" in kinds      # pack has BNPL, Joma doesn't
+    assert "promo" in kinds        # Katie Loxton not discounting, pack is
+    assert "finance" in kinds      # pack has BNPL, Katie Loxton doesn't
     # high-priority items sort first
     assert opps[0]["priority"] == "high"
 
 
 def test_opportunities_ai_visibility_gap():
     caps = [
-        cap("joma", "2026-06-03", is_self=True),
+        cap("katie-loxton", "2026-06-03", is_self=True),
         cap("a", "2026-06-03"),
     ]
     aio = {"runs": [{
         "queries": [
             {"query": "best friendship jewellery uk",
-             "mentions": [{"slug": "a", "brand": "A", "rank": 1}]},  # Joma absent
+             "mentions": [{"slug": "a", "brand": "A", "rank": 1}]},  # Katie Loxton absent
         ],
     }]}
     opps = events.compute_opportunities(caps, aio)
@@ -114,7 +114,7 @@ def test_events_reputation_rating_and_platform():
 
 def test_opportunities_reputation_gap_when_pack_rates_higher():
     caps = [
-        cap("joma", "2026-06-03", is_self=True, reputation={"rating": 4.2, "platforms": []}),
+        cap("katie-loxton", "2026-06-03", is_self=True, reputation={"rating": 4.2, "platforms": []}),
         cap("a", "2026-06-03", reputation={"rating": 4.8, "platforms": ["Trustpilot"]}),
         cap("b", "2026-06-03", reputation={"rating": 4.7, "platforms": ["Yotpo"]}),
         cap("c", "2026-06-03", reputation={"rating": 4.9, "platforms": ["Okendo"]}),
@@ -123,9 +123,9 @@ def test_opportunities_reputation_gap_when_pack_rates_higher():
     assert any(o["kind"] == "reputation" for o in opps)
 
 
-def test_opportunities_reputation_gap_when_joma_shows_none():
+def test_opportunities_reputation_gap_when_self_shows_none():
     caps = [
-        cap("joma", "2026-06-03", is_self=True, reputation={"rating": None, "platforms": []}),
+        cap("katie-loxton", "2026-06-03", is_self=True, reputation={"rating": None, "platforms": []}),
         cap("a", "2026-06-03", reputation={"rating": 4.8, "platforms": ["Trustpilot"]}),
         cap("b", "2026-06-03", reputation={"rating": 4.7, "platforms": ["Yotpo"]}),
     ]
@@ -151,20 +151,20 @@ def test_catalogue_events_skip_first_seen_and_subthreshold():
 
 def test_opportunities_assortment_shortfall():
     caps = [
-        cap("joma", "2026-06-03", is_self=True),
+        cap("katie-loxton", "2026-06-03", is_self=True),
         cap("a", "2026-06-03"),
         cap("b", "2026-06-03"),
     ]
     cat = {"runs": [{"date": "2026-06-03", "brands": {
-        "joma": {"ok": True, "product_count": 90},
+        "katie-loxton": {"ok": True, "product_count": 90},
         "a": {"ok": True, "product_count": 400},
         "b": {"ok": True, "product_count": 500},
     }}]}
     opps = events.compute_opportunities(caps, catalogue=cat)
     assert any(o["kind"] == "assortment" for o in opps)
-    # If Joma's range is healthy vs the pack, no assortment gap fires.
+    # If Katie Loxton's range is healthy vs the pack, no assortment gap fires.
     cat2 = {"runs": [{"date": "2026-06-03", "brands": {
-        "joma": {"ok": True, "product_count": 450},
+        "katie-loxton": {"ok": True, "product_count": 450},
         "a": {"ok": True, "product_count": 400},
         "b": {"ok": True, "product_count": 500},
     }}]}
@@ -174,22 +174,22 @@ def test_opportunities_assortment_shortfall():
 
 def test_opportunities_category_mix_gap():
     caps = [
-        cap("joma", "2026-06-03", is_self=True),
+        cap("katie-loxton", "2026-06-03", is_self=True),
         cap("a", "2026-06-03"),
         cap("b", "2026-06-03"),
     ]
-    # Pack's range is ~40% charms; Joma's is ~3% -> a clear mix gap.
+    # Pack's range is ~40% charms; Katie Loxton's is ~3% -> a clear mix gap.
     cat = {"runs": [{"date": "2026-06-03", "brands": {
-        "joma": {"ok": True, "product_count": 100, "categories": {"charms": 3, "necklaces": 50}},
+        "katie-loxton": {"ok": True, "product_count": 100, "categories": {"charms": 3, "necklaces": 50}},
         "a": {"ok": True, "product_count": 100, "categories": {"charms": 40, "necklaces": 30}},
         "b": {"ok": True, "product_count": 100, "categories": {"charms": 42, "necklaces": 28}},
     }}]}
     opps = events.compute_opportunities(caps, catalogue=cat)
     mix = [o for o in opps if o["kind"] == "assortment_mix"]
     assert mix and "charms" in mix[0]["title"]
-    # When Joma matches the pack, no mix gap fires.
+    # When Katie Loxton matches the pack, no mix gap fires.
     cat2 = {"runs": [{"date": "2026-06-03", "brands": {
-        "joma": {"ok": True, "product_count": 100, "categories": {"charms": 38, "necklaces": 40}},
+        "katie-loxton": {"ok": True, "product_count": 100, "categories": {"charms": 38, "necklaces": 40}},
         "a": {"ok": True, "product_count": 100, "categories": {"charms": 40, "necklaces": 30}},
         "b": {"ok": True, "product_count": 100, "categories": {"charms": 42, "necklaces": 28}},
     }}]}
@@ -233,7 +233,7 @@ def test_events_marketplace_channel_appears():
 def test_opportunities_marketplace_gap():
     def body():
         caps = [
-            cap("joma", "2026-06-03", is_self=True, marketplace=_mk(amazon="none", tiktok="none")),
+            cap("katie-loxton", "2026-06-03", is_self=True, marketplace=_mk(amazon="none", tiktok="none")),
             cap("a", "2026-06-03", marketplace=_mk(amazon="official", tiktok="shop")),
             cap("b", "2026-06-03", marketplace=_mk(amazon="linked", tiktok="shop")),
             cap("c", "2026-06-03", marketplace=_mk(amazon="official", tiktok="social")),
@@ -242,9 +242,9 @@ def test_opportunities_marketplace_gap():
         mk = [o for o in opps if o["kind"] == "marketplace"]
         assert any("Amazon" in o["title"] for o in mk)
         assert any("TikTok Shop" in o["title"] for o in mk)
-        # If Joma already runs the channels, no gap fires.
+        # If Katie Loxton already runs the channels, no gap fires.
         caps2 = [
-            cap("joma", "2026-06-03", is_self=True, marketplace=_mk(amazon="official", tiktok="shop")),
+            cap("katie-loxton", "2026-06-03", is_self=True, marketplace=_mk(amazon="official", tiktok="shop")),
             cap("a", "2026-06-03", marketplace=_mk(amazon="official", tiktok="shop")),
             cap("b", "2026-06-03", marketplace=_mk(amazon="linked", tiktok="shop")),
         ]
@@ -254,11 +254,11 @@ def test_opportunities_marketplace_gap():
 
 def test_marketplace_hidden_by_default():
     # With SHOW_MARKETPLACE off (the live default), the marketplace rules must
-    # produce nothing — so the dashboard never claims "Joma shows none" for a
+    # produce nothing — so the dashboard never claims "Katie Loxton shows none" for a
     # channel we know it runs (e.g. Amazon).
     assert events.SHOW_MARKETPLACE is False
     caps = [
-        cap("joma", "2026-06-02", is_self=True, marketplace=_mk(amazon="none", tiktok="none")),
+        cap("katie-loxton", "2026-06-02", is_self=True, marketplace=_mk(amazon="none", tiktok="none")),
         cap("a", "2026-06-01", marketplace=_mk(amazon="none", tiktok="none")),
         cap("a", "2026-06-02", marketplace=_mk(amazon="official", tiktok="shop")),
         cap("b", "2026-06-02", marketplace=_mk(amazon="official", tiktok="shop")),
@@ -269,7 +269,7 @@ def test_marketplace_hidden_by_default():
 
 def test_opportunities_empty_is_graceful():
     assert events.compute_opportunities([]) == []
-    # No Joma record -> nothing to compare.
+    # No Katie Loxton record -> nothing to compare.
     assert events.compute_opportunities([cap("a", "2026-06-03")]) == []
 
 

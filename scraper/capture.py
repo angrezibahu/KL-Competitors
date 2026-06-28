@@ -152,7 +152,7 @@ def load_config():
 def make_sitemap_getter(context):
     """A getter for sitemap XML that prefers the FULL BROWSER stack.
 
-    Many Shopify/Cloudflare-protected stores (Joma, Katie Loxton, Accessorize...)
+    Many Shopify/Cloudflare-protected stores (Katie Loxton, Charles & Keith, Oliver Bonas...)
     serve a 403/challenge to a header-light HTTP request but pass the real
     rendered browser -- exactly the path the homepage capture already clears. So
     we navigate to the sitemap with `page.goto` and read the raw *response body*

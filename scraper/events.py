@@ -8,10 +8,12 @@ Turn the accumulating capture history into two things you can act on:
      whole history so "when did everyone go on sale last summer?" is answerable.
 
   2. an OPPORTUNITIES list -- deterministic rules over the latest snapshot that
-     surface concrete, actionable gaps, framed Joma-vs-pack:
-     "3 competitors show Klarna, Joma doesn't", "the pack's avg discount is 28%
-     and Joma is flat", "competitors are named in AI answers for 'friendship
-     jewellery' and Joma isn't".
+     surface concrete, actionable gaps, framed owned-brand-vs-pack (the owned
+     brand is whichever capture is flagged `is_self`, so the copy uses its real
+     name, e.g. Katie Loxton):
+     "3 competitors show Klarna, Katie Loxton doesn't", "the pack's avg discount
+     is 28% and Katie Loxton is flat", "competitors are named in AI answers for a
+     buyer-intent query and Katie Loxton isn't".
 
 Both are PURE derivations of data we already have -- no new scraping. Everything
 here is (data in, data out) so it is unit-tested offline. Output is recomputed
@@ -37,10 +39,10 @@ MARKETPLACE_PRESENT = {"official", "linked", "mentioned", "shop", "social"}
 # The states that count as a brand-OWNED channel (vs a bare mention) per market.
 MARKETPLACE_OWNED = {"amazon": {"official", "linked"}, "tiktok": {"shop", "social"}}
 # Marketplace presence is homepage-DECLARED only, so it false-negatives a channel
-# a brand runs but doesn't link from its homepage (e.g. Joma on Amazon). Until the
+# a brand runs but doesn't link from its homepage (e.g. Katie Loxton on Amazon). Until
 # detection is accurate (config-declared known URLs + stockists-page scan), we keep
 # the rule/event code + tests but DON'T surface them on the live dashboard, so the
-# Opportunities tab never claims "Joma shows none" for a channel we know exists.
+# Opportunities tab never claims "Katie Loxton shows none" for a channel we know exists.
 SHOW_MARKETPLACE = False
 
 
@@ -183,7 +185,7 @@ def _latest_aio(aio):
 # ---------------------------------------------------------------------------
 
 CATALOGUE_NEW_MIN = 2          # only log a drop of >= 2 new products (cut noise)
-ASSORTMENT_SHORTFALL = 0.5     # flag Joma's range being <= half the pack median
+ASSORTMENT_SHORTFALL = 0.5     # flag the owned brand's range being <= half the pack median
 
 
 def compute_catalogue_events(catalogue, names=None):
@@ -233,114 +235,117 @@ def _cat_shares(run, slug):
 
 
 def compute_opportunities(captures, aio=None, catalogue=None):
-    """Deterministic, actionable gaps from the latest snapshot, Joma-vs-pack.
+    """Deterministic, actionable gaps from the latest snapshot, owned-brand-vs-pack.
 
+    The owned brand is whichever capture is flagged `is_self` in the config, so
+    every line below is phrased with that brand's real name (never hard-coded).
     Returns a list of {priority, kind, title, detail}, highest priority first.
     Each rule degrades gracefully when its inputs are missing."""
     latest = _latest_per_brand(captures)
     if not latest:
         return []
     recs = list(latest.values())
-    joma = next((r for r in recs if r.get("is_self")), None)
-    if not joma:
+    self_brand = next((r for r in recs if r.get("is_self")), None)
+    if not self_brand:
         return []
     others = [r for r in recs if not r.get("is_self")]
     if not others:
         return []
+    self_name = self_brand.get("brand") or "the brand"
 
     opps = []
 
     def add(priority, kind, title, detail):
         opps.append({"priority": priority, "kind": kind, "title": title, "detail": detail})
 
-    # 1. Promotional pressure: pack discounting, Joma not.
+    # 1. Promotional pressure: pack discounting, the owned brand not.
     on_sale = [r for r in others if r.get("headline_offer")]
     disc = [r.get("max_discount_pct") for r in others if r.get("max_discount_pct")]
     avg_disc = round(sum(disc) / len(disc)) if disc else 0
-    if not joma.get("headline_offer") and len(on_sale) >= max(2, len(others) // 3):
+    if not self_brand.get("headline_offer") and len(on_sale) >= max(2, len(others) // 3):
         add("high", "promo",
-            f"{len(on_sale)}/{len(others)} competitors are running an offer — Joma isn't",
+            f"{len(on_sale)}/{len(others)} competitors are running an offer — {self_name} isn't",
             f"Pack average headline discount is {avg_disc}%. Consider matching or a counter-message.")
-    elif joma.get("max_discount_pct") and avg_disc and joma["max_discount_pct"] < avg_disc - 10:
+    elif self_brand.get("max_discount_pct") and avg_disc and self_brand["max_discount_pct"] < avg_disc - 10:
         add("medium", "promo",
-            f"Joma's {joma['max_discount_pct']}% discount is well below the pack ({avg_disc}%)",
-            "Joma may be leaving promotional pressure on the table this week.")
+            f"{self_name}'s {self_brand['max_discount_pct']}% discount is well below the pack ({avg_disc}%)",
+            f"{self_name} may be leaving promotional pressure on the table this week.")
 
     # 2. BNPL gap.
-    joma_bnpl = _finance(joma) & BNPL
+    self_bnpl = _finance(self_brand) & BNPL
     pack_bnpl = [r for r in others if _finance(r) & BNPL]
-    if not joma_bnpl and len(pack_bnpl) >= max(2, len(others) // 3):
+    if not self_bnpl and len(pack_bnpl) >= max(2, len(others) // 3):
         names = sorted({f for r in pack_bnpl for f in (_finance(r) & BNPL)})
         add("high", "finance",
-            f"{len(pack_bnpl)}/{len(others)} competitors offer buy-now-pay-later — Joma's homepage shows none",
+            f"{len(pack_bnpl)}/{len(others)} competitors offer buy-now-pay-later — {self_name}'s homepage shows none",
             f"Seen across the pack: {', '.join(names)}. A strong conversion lever in this category.")
 
     # 3. Free-delivery threshold.
     def thr(r):
         return (r.get("trading") or {}).get("free_delivery_threshold")
-    joma_thr = thr(joma)
+    self_thr = thr(self_brand)
     pack_free = [r for r in others if thr(r) == 0]
-    if joma_thr not in (0,) and len(pack_free) >= max(2, len(others) // 3):
+    if self_thr not in (0,) and len(pack_free) >= max(2, len(others) // 3):
         add("medium", "delivery",
-            f"{len(pack_free)} competitors advertise free delivery with no threshold — Joma's is "
-            + (f"over £{joma_thr}" if joma_thr else "not advertised"),
+            f"{len(pack_free)} competitors advertise free delivery with no threshold — {self_name}'s is "
+            + (f"over £{self_thr}" if self_thr else "not advertised"),
             "Free-delivery messaging is a visible basket-conversion lever.")
 
     # 4. Sign-up / first-order offer.
     def signup(r):
         return (r.get("trading") or {}).get("email_capture_offer")
     pack_signup = [r for r in others if signup(r)]
-    if not signup(joma) and len(pack_signup) >= max(2, len(others) // 3):
+    if not signup(self_brand) and len(pack_signup) >= max(2, len(others) // 3):
         add("medium", "acquisition",
-            f"{len(pack_signup)} competitors dangle a first-order sign-up offer — Joma's isn't detected",
+            f"{len(pack_signup)} competitors dangle a first-order sign-up offer — {self_name}'s isn't detected",
             "An email/SMS-capture incentive is a cheap list-growth lever.")
 
     # 5. Accessibility gap vs market.
     def a11y(r):
         return (r.get("accessibility") or {}).get("score")
     pack_a = [a11y(r) for r in others if a11y(r) is not None]
-    ja = a11y(joma)
-    if ja is not None and pack_a:
+    self_a = a11y(self_brand)
+    if self_a is not None and pack_a:
         market_a = round(sum(pack_a) / len(pack_a))
-        if ja < market_a - 8:
+        if self_a < market_a - 8:
             add("low", "accessibility",
-                f"Joma's accessibility score ({ja}) is below the market average ({market_a})",
+                f"{self_name}'s accessibility score ({self_a}) is below the market average ({market_a})",
                 "Rules-based homepage check — a cheap directional signal, see the Accessibility tab.")
 
     # 6. Reputation / social proof gap vs the pack.
     pack_rated = [r for r in others if _rating(r)]
-    jr = _rating(joma)
-    if jr and len(pack_rated) >= 2:
+    self_rating = _rating(self_brand)
+    if self_rating and len(pack_rated) >= 2:
         pack_ratings = sorted(_rating(r) for r in pack_rated)
         med = pack_ratings[len(pack_ratings) // 2]
-        better = [r for r in pack_rated if _rating(r) > jr + 0.1]
-        if med - jr >= REPUTATION_SHIFT and len(better) >= 2:
+        better = [r for r in pack_rated if _rating(r) > self_rating + 0.1]
+        if med - self_rating >= REPUTATION_SHIFT and len(better) >= 2:
             add("medium", "reputation",
-                f"Joma's homepage rating ({jr}★) trails the pack (median {med}★)",
+                f"{self_name}'s homepage rating ({self_rating}★) trails the pack (median {med}★)",
                 f"{len(better)} competitors show a higher star rating — a visible trust/conversion lever.")
-    elif not jr and len(pack_rated) >= max(2, len(others) // 3):
+    elif not self_rating and len(pack_rated) >= max(2, len(others) // 3):
         add("medium", "reputation",
-            f"{len(pack_rated)} competitors surface a star rating on the homepage — Joma's isn't detected",
+            f"{len(pack_rated)} competitors surface a star rating on the homepage — {self_name}'s isn't detected",
             "A visible review rating is a cheap trust signal at the top of the funnel — see the Reputation tab.")
 
-    # 7. Assortment: Joma's range materially smaller than the pack.
+    # 7. Assortment: the owned brand's range materially smaller than the pack.
     crun = _latest_catalogue(catalogue)
     if crun:
-        jc = _catalogue_count(crun, joma.get("slug"))
+        self_count = _catalogue_count(crun, self_brand.get("slug"))
         pack_counts = sorted(c for c in
                              (_catalogue_count(crun, r.get("slug")) for r in others)
                              if c)
-        if jc and len(pack_counts) >= 2:
+        if self_count and len(pack_counts) >= 2:
             med = pack_counts[len(pack_counts) // 2]
-            if med and jc <= med * ASSORTMENT_SHORTFALL:
+            if med and self_count <= med * ASSORTMENT_SHORTFALL:
                 add("low", "assortment",
-                    f"Joma's catalogue ({jc} products) is well below the pack median ({med})",
+                    f"{self_name}'s catalogue ({self_count} products) is well below the pack median ({med})",
                     "A narrower range than the market — see the Assortment tab for who's expanding.")
 
-        # 7b. Category-mix gap: a jewellery category the pack stocks deeply and
-        #     Joma is thin on (share of each brand's own range).
-        jcats = _cat_shares(crun, joma.get("slug"))
-        if jcats is not None:
+        # 7b. Category-mix gap: a category the pack stocks deeply and the owned
+        #     brand is thin on (share of each brand's own range).
+        self_cats = _cat_shares(crun, self_brand.get("slug"))
+        if self_cats is not None:
             gaps = []
             all_cats = set()
             pack_shares = {}
@@ -356,52 +361,52 @@ def compute_opportunities(captures, aio=None, catalogue=None):
                 if len(shares) < 2:
                     continue
                 pack_mean = sum(shares) / len(shares)
-                joma_sh = jcats.get(cat, 0.0)
-                if pack_mean >= 0.12 and pack_mean - joma_sh >= 0.10:
-                    gaps.append((pack_mean - joma_sh, cat, pack_mean, joma_sh))
+                self_sh = self_cats.get(cat, 0.0)
+                if pack_mean >= 0.12 and pack_mean - self_sh >= 0.10:
+                    gaps.append((pack_mean - self_sh, cat, pack_mean, self_sh))
             if gaps:
                 gaps.sort(reverse=True)
-                _, cat, pack_mean, joma_sh = gaps[0]
+                _, cat, pack_mean, self_sh = gaps[0]
                 add("medium", "assortment_mix",
-                    f"Competitors stock {cat} far more deeply than Joma "
-                    f"({round(pack_mean * 100)}% of their range vs Joma's {round(joma_sh * 100)}%)",
+                    f"Competitors stock {cat} far more deeply than {self_name} "
+                    f"({round(pack_mean * 100)}% of their range vs {self_name}'s {round(self_sh * 100)}%)",
                     "A range-mix gap in a category buyers are shopping — see the Assortment tab's range mix.")
 
-    # 8. Marketplace presence — off-site channels the pack surfaces and Joma
-    #    doesn't. Homepage-declared (£0/public); the reseller/outlet case needs a
+    # 8. Marketplace presence — off-site channels the pack surfaces and the owned
+    #    brand doesn't. Homepage-declared (£0/public); the reseller/outlet case needs a
     #    live probe (roadmap), so this reads "owned channel" gaps, never "absent".
     #    Hidden from the live dashboard (SHOW_MARKETPLACE) until detection is
     #    accurate enough not to false-negative a channel we KNOW a brand runs.
-    def _mk(rec, name):
-        return ((rec.get("marketplace") or {}).get(name) or {}).get("state")
+    def _mk(rec, channel):
+        return ((rec.get("marketplace") or {}).get(channel) or {}).get("state")
 
     amazon_pack = [r for r in others if _mk(r, "amazon") in MARKETPLACE_OWNED["amazon"]]
-    if (SHOW_MARKETPLACE and _mk(joma, "amazon") not in MARKETPLACE_OWNED["amazon"]
+    if (SHOW_MARKETPLACE and _mk(self_brand, "amazon") not in MARKETPLACE_OWNED["amazon"]
             and len(amazon_pack) >= max(2, len(others) // 3)):
         official = sum(1 for r in amazon_pack if _mk(r, "amazon") == "official")
         add("medium", "marketplace",
-            f"{len(amazon_pack)}/{len(others)} competitors surface an Amazon presence — Joma's homepage shows none",
+            f"{len(amazon_pack)}/{len(others)} competitors surface an Amazon presence — {self_name}'s homepage shows none",
             (f"{official} run an official Amazon storefront. " if official else "")
             + "A second B2C shelf shoppers already search — see the Marketplace tab "
             "(homepage-declared; reseller/outlet detection needs a live probe).")
 
     tiktok_pack = [r for r in others if _mk(r, "tiktok") == "shop"]
-    if SHOW_MARKETPLACE and _mk(joma, "tiktok") != "shop" and len(tiktok_pack) >= max(2, len(others) // 3):
+    if SHOW_MARKETPLACE and _mk(self_brand, "tiktok") != "shop" and len(tiktok_pack) >= max(2, len(others) // 3):
         add("medium", "marketplace",
-            f"{len(tiktok_pack)}/{len(others)} competitors surface a TikTok Shop — Joma's isn't detected",
+            f"{len(tiktok_pack)}/{len(others)} competitors surface a TikTok Shop — {self_name}'s isn't detected",
             "TikTok Shop is the fast-growing social-commerce channel in this category — see the Marketplace tab.")
 
     # 9. AI visibility gaps (ties in the AIO pillar when present).
     run = _latest_aio(aio)
     if run:
-        joma_slug = joma.get("slug")
+        self_slug = self_brand.get("slug")
         absent = [q for q in run.get("queries", [])
-                  if q.get("mentions") and not any(m["slug"] == joma_slug for m in q["mentions"])]
+                  if q.get("mentions") and not any(m["slug"] == self_slug for m in q["mentions"])]
         if absent:
             sample = absent[0]["query"]
             add("high", "ai_visibility",
                 f"Competitors are named in AI answers for {len(absent)} buyer-intent quer"
-                + ("y" if len(absent) == 1 else "ies") + " where Joma is absent",
+                + ("y" if len(absent) == 1 else "ies") + f" where {self_name} is absent",
                 f"e.g. “{sample}”. Each is a content brief — see the AI Visibility tab.")
 
     order = {"high": 0, "medium": 1, "low": 2}

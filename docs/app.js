@@ -138,8 +138,8 @@ function viewOverview() {
   const deepest = fresh.filter(r => r.max_discount_pct != null && medDisc != null && r.max_discount_pct > medDisc);
   const isFast = s => /next[\s-]?day|express/i.test(s || "");
   const fastShippers = fresh.filter(r => (r.delivery || []).some(isFast));
-  const joma = brands.find(b => b.is_self);
-  const jomaRec = joma && state.latest[joma.slug];
+  const me = brands.find(b => b.is_self);
+  const meRec = me && state.latest[me.slug];
 
   // KPIs — only figures that read true at a glance (median, not a skewed mean).
   const kpis = el("div", "grid cols-3");
@@ -188,22 +188,22 @@ function viewOverview() {
 
   // Katie Loxton vs the pack — concrete levers, not a skewed average.
   const callout = el("div", "card");
-  if (jomaRec) {
-    const t = jomaRec.trading || {};
+  if (meRec) {
+    const t = meRec.trading || {};
     const bits = [];
-    if (jomaRec.headline_offer) {
-      const jd = jomaRec.max_discount_pct;
+    if (meRec.headline_offer) {
+      const jd = meRec.max_discount_pct;
       const stance = (jd != null && medDisc != null)
         ? (jd > medDisc ? "deeper than" : jd < medDisc ? "shallower than" : "in line with")
         : "in line with";
-      bits.push(`In the sale at <b>${esc(jomaRec.headline_offer)}</b> — ${stance} the pack median${medDisc != null ? ` (${medDisc}%)` : ""}.`);
+      bits.push(`In the sale at <b>${esc(meRec.headline_offer)}</b> — ${stance} the pack median${medDisc != null ? ` (${medDisc}%)` : ""}.`);
     } else if (onSale.length) {
       bits.push(`Not running a homepage offer while <b>${onSale.length}</b> competitors are.`);
     }
     if (t.free_delivery_threshold != null) bits.push(t.free_delivery_threshold === 0 ? "Free delivery, no minimum." : `Free delivery over £${t.free_delivery_threshold}.`);
     if (t.email_capture_offer) bits.push(`${esc(t.email_capture_offer)} for new sign-ups.`);
     if (t.has_bnpl) bits.push("Buy-now-pay-later available at checkout.");
-    callout.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint">Hero: “${esc(jomaRec.hero_message || "—")}”</p>`
+    callout.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint">Hero: “${esc(meRec.hero_message || "—")}”</p>`
       + (bits.length ? `<ul class="obs">${bits.map(b => `<li>${b}</li>`).join("")}</ul>` : "");
   } else {
     callout.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="muted">No Katie Loxton capture yet.</p>`;
@@ -694,8 +694,8 @@ function viewAssortment() {
   const counts = brands.map(b => lb[b.slug]).filter(e => e && e.ok && e.product_count != null).map(e => e.product_count);
   const total = counts.reduce((a, c) => a + c, 0);
   const med = counts.length ? counts.slice().sort((a, b) => a - b)[Math.floor(counts.length / 2)] : null;
-  const joma = brands.find(b => b.is_self);
-  const je = joma && lb[joma.slug];
+  const me = brands.find(b => b.is_self);
+  const je = me && lb[me.slug];
 
   const kpis = el("div", "grid cols-3");
   const kpi = (big, lbl) => { const c = el("div", "card kpi"); c.innerHTML = `<div class="big">${big}</div><div class="lbl">${lbl}</div>`; return c; };
@@ -863,16 +863,16 @@ function viewReputation() {
   const brands = brandsSorted();
   const verified = brands.map(b => state.latest[b.slug]).filter(r => isVerifiedRating(r && r.reputation));
   const avg = avgOf(verified.map(r => r.reputation.rating));
-  const joma = brands.find(b => b.is_self);
-  const jr = joma && state.latest[joma.slug];
+  const me = brands.find(b => b.is_self);
+  const jr = me && state.latest[me.slug];
   const jrep = jr && jr.reputation;
-  const jomaVerified = isVerifiedRating(jrep);
+  const meVerified = isVerifiedRating(jrep);
 
   const kpis = el("div", "grid cols-3");
   const kpi = (big, lbl) => { const c = el("div", "card kpi"); c.innerHTML = `<div class="big">${big}</div><div class="lbl">${lbl}</div>`; return c; };
   kpis.append(
     kpi(avg == null ? "—" : avg.toFixed(2) + "★", "market avg verified rating"),
-    kpi(jomaVerified ? jrep.rating + "★" : "—", "Katie Loxton's verified rating"),
+    kpi(meVerified ? jrep.rating + "★" : "—", "Katie Loxton's verified rating"),
     kpi(verified.length + "/" + brands.length, "brands with a verified rating"),
   );
   wrap.append(kpis);
@@ -919,7 +919,7 @@ function viewReputation() {
 
   // Katie Loxton-vs-pack one-liner — only meaningful when there's verified volume to compare.
   const vc = el("div", "card");
-  if (jomaVerified && verified.filter(r => !r.is_self).length) {
+  if (meVerified && verified.filter(r => !r.is_self).length) {
     const pack = verified.filter(r => !r.is_self).map(r => r.reputation.rating).sort((a, b) => a - b);
     const med = pack[Math.floor(pack.length / 2)];
     const verdict = jrep.rating >= med ? "at or above" : "below";
@@ -969,8 +969,8 @@ function viewMarketplace() {
 
   const amazonHas = rows.filter(x => AMAZON_OWNED.has(mkOf(x.r, "amazon").state));
   const tiktokShop = rows.filter(x => mkOf(x.r, "tiktok").state === "shop");
-  const joma = brands.find(b => b.is_self);
-  const jr = joma && state.latest[joma.slug];
+  const me = brands.find(b => b.is_self);
+  const jr = me && state.latest[me.slug];
   const ja = jr && mkOf(jr, "amazon"), jt = jr && mkOf(jr, "tiktok");
 
   const kpis = el("div", "grid cols-3");
@@ -1019,9 +1019,9 @@ function viewMarketplace() {
 
   // Katie Loxton-vs-pack one-liner.
   if (jr) {
-    const jomaOwned = ja.state === "official" || jt.state === "shop";
+    const meOwned = ja.state === "official" || jt.state === "shop";
     const vc = el("div", "card");
-    vc.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint" style="margin:0">${jomaOwned
+    vc.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint" style="margin:0">${meOwned
       ? `Katie Loxton surfaces an owned channel (Amazon: <b>${esc(ja.state)}</b>, TikTok: <b>${esc(jt.state)}</b>).`
       : `Katie Loxton surfaces <b>no owned marketplace channel</b> on its homepage, while <b>${amazonHas.length}</b> competitor(s) link an Amazon presence and <b>${tiktokShop.length}</b> a TikTok Shop.`}
       Channel gaps surface on the Opportunities tab. Reseller/outlet detection awaits the live-probe roadmap.</p>`;
@@ -1035,8 +1035,8 @@ function viewA11y() {
   const brands = brandsSorted();
   const scored = brands.map(b => state.latest[b.slug]).filter(r => r && r.accessibility);
   const avg = avgOf(scored.map(r => r.accessibility.score));
-  const joma = brands.find(b => b.is_self);
-  const jr = joma && state.latest[joma.slug];
+  const me = brands.find(b => b.is_self);
+  const jr = me && state.latest[me.slug];
 
   const kpis = el("div", "grid cols-3");
   const kpi = (big, lbl) => { const c = el("div", "card kpi"); c.innerHTML = `<div class="big">${big}</div><div class="lbl">${lbl}</div>`; return c; };
@@ -1257,14 +1257,14 @@ function viewAIO() {
   const sov = latest.share_of_voice || {};
   const rows = Object.entries(sov).sort((a, b) => b[1].sov - a[1].sov);
   const maxSov = Math.max(0.0001, ...rows.map(([, v]) => v.sov));
-  const jomaSlug = (brandsSorted().find(b => b.is_self) || {}).slug;
+  const meSlug = (brandsSorted().find(b => b.is_self) || {}).slug;
 
   // Leaderboard
   const lb = el("div", "card");
   lb.innerHTML = `<h3>Share of voice — week of ${esc(latest.date)}</h3>
     <p class="hint">${latest.queries_total} buyer-intent queries · ${esc(latest.market || "")}. ★ = Katie Loxton.</p>`;
   lb.append(el("div", "", rows.map(([slug, v]) => {
-    const self = slug === jomaSlug;
+    const self = slug === meSlug;
     return `<div class="row"><span class="name" style="flex:0 0 160px">
         <b class="${self ? "self" : ""}">${esc(v.brand)}${self ? " ★" : ""}</b></span>
       <span class="bar"><span style="width:${Math.round(v.sov / maxSov * 100)}%"></span></span>
@@ -1284,7 +1284,7 @@ function viewAIO() {
     let head = `<tr><th scope="col">Brand</th>${keys.map(k => `<th scope="col">${esc(k)}</th>`).join("")}</tr>`;
     let body = "";
     for (const slug of tracked) {
-      const self = slug === jomaSlug;
+      const self = slug === meSlug;
       const name = (sov[slug] || {}).brand || slug;
       let cells = "";
       for (const r of runs) {
@@ -1304,12 +1304,12 @@ function viewAIO() {
     <p class="hint">The opportunity is a query where competitors appear and Katie Loxton doesn't.</p>`;
   qc.append(el("div", "", (latest.queries || []).map(q => {
     const named = (q.mentions || []).map(m => {
-      const self = m.slug === jomaSlug;
+      const self = m.slug === meSlug;
       return `<span class="tag ${self ? "" : ""}"><b class="${self ? "self" : ""}">${esc(m.brand)}${self ? " ★" : ""}</b> #${m.rank}</span>`;
     }).join("") || '<span class="muted">none of our brands named</span>';
-    const jomaIn = (q.mentions || []).some(m => m.slug === jomaSlug);
+    const meIn = (q.mentions || []).some(m => m.slug === meSlug);
     return `<div style="padding:8px 0;border-top:1px solid #eee">
-      <div><b>${esc(q.query)}</b> ${jomaIn ? '<span class="pill good">Katie Loxton named</span>' : '<span class="pill bad">Katie Loxton absent</span>'}</div>
+      <div><b>${esc(q.query)}</b> ${meIn ? '<span class="pill good">Katie Loxton named</span>' : '<span class="pill bad">Katie Loxton absent</span>'}</div>
       <div style="margin-top:4px">${named}</div></div>`;
   }).join("")));
   wrap.append(qc);

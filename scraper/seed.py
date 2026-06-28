@@ -19,14 +19,13 @@ from .colours import dominant_colours
 random.seed(7)
 
 BRANDS = [
-    ("Joma Jewellery", "joma", (245, 222, 230), True),
-    ("Katie Loxton", "katie-loxton", (244, 214, 205), False),
-    ("Astrid & Miyu", "astrid-miyu", (30, 30, 34), False),
-    ("Estella Bartlett", "estella-bartlett", (210, 225, 215), False),
-    ("Abbott Lyon", "abbott-lyon", (235, 232, 228), False),
-    ("Missoma", "missoma", (212, 175, 55), False),
-    ("Accessorize", "accessorize", (230, 90, 150), False),
-    ("Monica Vinader", "monica-vinader", (40, 55, 95), False),
+    ("Katie Loxton", "katie-loxton", (244, 214, 205), True),
+    ("Strathberry", "strathberry", (30, 30, 34), False),
+    ("DeMellier", "demellier", (210, 225, 215), False),
+    ("Charles & Keith", "charles-keith", (235, 232, 228), False),
+    ("Polene", "polene", (212, 175, 55), False),
+    ("Oliver Bonas", "oliver-bonas", (230, 90, 150), False),
+    ("Mint Velvet", "mint-velvet", (40, 55, 95), False),
 ]
 
 HEROES = [
@@ -176,8 +175,8 @@ def build():
                               "platforms": [], "has_reviews": False, "source": None}
 
             # Sample marketplace presence (off-site channels, homepage-declared).
-            # Joma is deliberately given no owned channel so the demo shows the
-            # Marketplace opportunity; the pack varies.
+            # The owned brand is deliberately given no owned channel so the demo
+            # shows the Marketplace opportunity; the pack varies.
             if is_self:
                 amazon_state, tk_state = "none", "none"
             else:

@@ -184,8 +184,9 @@ _SALE_HINT = re.compile(
 def _url_offer_text(url):
     """Recover offer copy baked into a link `href` or image filename.
 
-    Joma's hero sale banner is an *alt-less* image wrapped in a link to a slug
-    like `/summer-sale-50-off` (with an img src like `.../summer-sale-50-off.jpg`).
+    Some homepages carry a hero sale banner that is an *alt-less* image wrapped
+    in a link to a slug like `/summer-sale-50-off` (with an img src like
+    `.../summer-sale-50-off.jpg`).
     The alt/aria recovery in _collect_banner_text can't see those, so we turn the
     slug into words. URLs are noisy, so we are deliberately strict: we only
     surface the text when a sale/season word is present, and only then read a
@@ -506,8 +507,8 @@ def extract_hero(html, provided_hero=None):
     to the first H1, then og:title, then <title>.
 
     Split-banner fix: when a site's primary panel is a *sale image* and the
-    secondary panel is live text (e.g. Joma's "Up to 50% Off Summer Sale" image
-    next to a "July Birthday Girl" text panel), the largest-visible-text rule
+    secondary panel is live text (e.g. an "Up to 50% Off Summer Sale" banner image
+    next to a smaller live-text promo panel), the largest-visible-text rule
     picks the text panel and misses the sale entirely. So if a *banner image's*
     alt/aria copy advertises a stronger offer than the baseline hero, we surface
     that instead. This is scoped to image-sourced text only -- H1/og:title were
@@ -773,8 +774,8 @@ def extract_reputation(html, visible_text, known_platforms=None):
     `known_platforms` is an optional list of review platforms a brand is KNOWN to
     use (declared per-brand in config). Many homepages inject their review widget
     client-side, so the platform name never appears in the server HTML and we'd
-    false-negative a signal we've confirmed elsewhere (e.g. Joma's homepage stars
-    are Feefo). When a competitor surfaces a platform, it's worth checking the
+    false-negative a signal we've confirmed elsewhere (e.g. a homepage whose star
+    rating is rendered by a client-side Feefo widget). When a competitor surfaces a platform, it's worth checking the
     others do too — so config-declared platforms are merged with detected ones."""
     low = (html or "").lower()
     platforms = [name for name, pat in _REVIEW_PLATFORMS.items() if re.search(pat, low)]

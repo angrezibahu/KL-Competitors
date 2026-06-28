@@ -1,1 +1,1 @@
-"""Joma competitor-tracking scraper package."""
+"""Katie Loxton competitor-tracking scraper package."""

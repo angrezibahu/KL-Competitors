@@ -325,7 +325,7 @@ flattering artefact.
 > **Why it's hidden, honestly:** this layer reads only what a brand *links on its own
 > site*, so it false-negatives a channel a brand runs but doesn't link. Katie Loxton's real
 > captures show exactly this — **Amazon `none`** (the homepage doesn't link the
-> storefront) but **TikTok `social` ✓** (`@jomajewellery` is detected). Showing
+> storefront) but **TikTok `social` ✓** (`@katieloxton` is detected). Showing
 > "none surfaced" for Katie Loxton's Amazon — a channel we *know* it runs — is misleading on
 > the brand we control, so the tab stays off until that's fixed.
 >
@@ -433,8 +433,8 @@ How the diff stays honest:
   sitemap, and that's shown plainly.
 - The sitemap is fetched through the **full rendered browser** (`page.goto` +
   the raw response body), the same path the homepage capture already clears — so
-  Shopify/Cloudflare stores that 403 a header-light HTTP request (Katie Loxton, Katie
-  Loxton, Accessorize…) are read correctly. We only accept a body that actually
+  Shopify/Cloudflare stores that 403 a header-light HTTP request (Katie Loxton,
+  Charles & Keith, Oliver Bonas…) are read correctly. We only accept a body that actually
   looks like a sitemap (`<urlset>`/`<sitemapindex>`), so a returned challenge
   page is rejected rather than mis-parsed; a plain HTTP request is the fallback
   for permissive hosts. (Genuinely Cloudflare-walled days can still miss — same

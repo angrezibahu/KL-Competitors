@@ -455,6 +455,173 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-06-29",
+   "captured_at": "2026-06-29T10:28:45Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "strathberry": {
+     "product_count": 455,
+     "new_count": 2,
+     "removed_count": 11,
+     "new_samples": [
+      "arkshell-tan-tophandle",
+      "nano-tote-gold-metallic-foil"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 122,
+      "scarves": 48,
+      "purses": 54,
+      "accessories": 7,
+      "gifting": 2,
+      "personalised": 5
+     }
+    },
+    "demellier": {
+     "product_count": 120,
+     "new_count": 13,
+     "removed_count": 6,
+     "new_samples": [
+      "the-capri-salt-pepper-canvas-black-smooth",
+      "the-hudson-deep-olive-suede-deep-olive-smooth",
+      "the-hudson-salt-pepper-canvas-mocha-smooth",
+      "the-large-tokyo-sand-smooth",
+      "the-miami-mocha-suede-mocha-smooth",
+      "the-midi-new-york-deep-khaki-perforated-suede",
+      "the-midi-new-york-salt-pepper-canvas-black-smooth",
+      "the-midi-stockholm-deep-khaki-perforated-suede"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 10,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 548,
+     "new_count": 0,
+     "removed_count": 1,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "oliver-bonas": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 1862,
+     "new_count": 2,
+     "removed_count": 0,
+     "new_samples": [
+      "gold-tone-clean-hair-cuff",
+      "silver-tone-clean-hair-cuff"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 69,
+      "scarves": 65,
+      "purses": 1,
+      "accessories": 31,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

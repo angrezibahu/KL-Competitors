@@ -1,6 +1,42 @@
 {
- "generated_at": "2026-06-28T13:04:04Z",
- "events": [],
+ "generated_at": "2026-06-29T10:28:46Z",
+ "events": [
+  {
+   "date": "2026-06-29",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 2 new products to its range"
+  },
+  {
+   "date": "2026-06-29",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 2 new products to its range"
+  },
+  {
+   "date": "2026-06-29",
+   "slug": "loewe",
+   "brand": "Loewe",
+   "type": "sale_ended",
+   "text": "Loewe ended its sale"
+  },
+  {
+   "date": "2026-06-29",
+   "slug": "loewe",
+   "brand": "Loewe",
+   "type": "hero_changed",
+   "text": "Loewe changed its hero to “New bags”"
+  },
+  {
+   "date": "2026-06-29",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "products_added",
+   "text": "DeMellier added 13 new products to its range"
+  }
+ ],
  "opportunities": [
   {
    "priority": "medium",

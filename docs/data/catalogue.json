@@ -622,6 +622,175 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-06-30",
+   "captured_at": "2026-06-30T08:15:29Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "strathberry": {
+     "product_count": 457,
+     "new_count": 2,
+     "removed_count": 0,
+     "new_samples": [
+      "halo-necklace-sterling-silver-24-carat-gold-gilded",
+      "music-bar-hoop-pendant-22-carat-gold-gilded"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 122,
+      "scarves": 48,
+      "purses": 54,
+      "accessories": 7,
+      "gifting": 2,
+      "personalised": 5
+     }
+    },
+    "demellier": {
+     "product_count": 104,
+     "new_count": 0,
+     "removed_count": 16,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 5,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 551,
+     "new_count": 4,
+     "removed_count": 1,
+     "new_samples": [
+      "swing-drilled-lab-grown-diamond-hoop-charm",
+      "tashi-drilled-lab-grown-diamond-bracelet",
+      "tashi-drilled-lab-grown-diamond-necklace",
+      "triple-set-lab-grown-diamond-hoop-charm"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "oliver-bonas": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2069,
+     "new_count": 207,
+     "removed_count": 0,
+     "new_samples": [
+      "abstract-cotton-mini-dress",
+      "animal-print-high-neck-top",
+      "astra-drawstring-clutch-bag",
+      "astra-drawstring-clutch-bag-1",
+      "avi-black-woven-clutch",
+      "bandeau-bikini-top",
+      "bandeau-pleated-jumpsuit",
+      "bandeau-shirred-maxi-dress-1"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 70,
+      "purses": 2,
+      "accessories": 32,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

@@ -791,6 +791,183 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-01",
+   "captured_at": "2026-07-01T10:52:23Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "strathberry": {
+     "product_count": 441,
+     "new_count": 8,
+     "removed_count": 24,
+     "new_samples": [
+      "crescent-moon-mini-tan-natural-raffia",
+      "kite-hobo-loch-blue-suede",
+      "mosaic-bag-loch-blue-suede",
+      "mosaic-nano-loch-blue",
+      "mosaic-shoulder-loch-blue",
+      "mosaic-trifold-wallet-loch-blue",
+      "multrees-sunglasses-case-loch-blue",
+      "silk-skinny-scarf-marble-grey-brulee"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 117,
+      "scarves": 44,
+      "purses": 53,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 134,
+     "new_count": 37,
+     "removed_count": 7,
+     "new_samples": [
+      "the-hudson-natural-raffia-black-smooth",
+      "the-hudson-tobacco-suede-black-smooth",
+      "the-large-capri-warm-raffia-tan-smooth-ecru-stitching",
+      "the-miami-leopard-effect-suede-black-smooth",
+      "the-midi-hudson-tobacco-suede-black-smooth",
+      "the-midi-london-black-croc-effect",
+      "the-midi-new-york-deep-khaki-perforated-suede",
+      "the-midi-new-york-leopard-effect-calf-hair-black-smooth"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 551,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "oliver-bonas": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2075,
+     "new_count": 6,
+     "removed_count": 0,
+     "new_samples": [
+      "black-relaxed-barrel-jean",
+      "black-ric-rac-trim-cotton-top",
+      "chocolate-scallop-knit-scarf",
+      "gold-tone-layered-necklace-15",
+      "mid-indigo-90s-straight-jeans",
+      "silver-tone-layered-necklace-11"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 71,
+      "purses": 2,
+      "accessories": 32,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

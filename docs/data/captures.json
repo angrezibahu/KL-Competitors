@@ -21521,5 +21521,4277 @@
    "new_in_mentions": 1,
    "url": "https://www.mintvelvet.com/collections/all-accessories"
   }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:49:25Z",
+  "brand": "Katie Loxton",
+  "slug": "katie-loxton",
+  "url": "https://www.katieloxton.com/",
+  "is_self": true,
+  "hero_message": "SUMMER SALE EXTRA 10% OFF SELECTED LINES*",
+  "menu": [
+   "Sale",
+   "Trending",
+   "Bags"
+  ],
+  "offers": [
+   "10% off",
+   "50% off",
+   "30% off",
+   "extra 10%",
+   "summer sale",
+   "sale",
+   "free gift"
+  ],
+  "headline_offer": "50% off",
+  "max_discount_pct": 50,
+  "delivery": [
+   "free standard delivery",
+   "free delivery"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 61,
+    "share": 0.4236
+   },
+   "gifting": {
+    "count": 49,
+    "share": 0.3403
+   },
+   "accessories": {
+    "count": 12,
+    "share": 0.0833
+   },
+   "personalised": {
+    "count": 10,
+    "share": 0.0694
+   },
+   "scarves": {
+    "count": 6,
+    "share": 0.0417
+   },
+   "sentiment": {
+    "count": 4,
+    "share": 0.0278
+   },
+   "purses": {
+    "count": 2,
+    "share": 0.0139
+   }
+  },
+  "keywords": [
+   [
+    "bags",
+    30
+   ],
+   [
+    "jewellery",
+    17
+   ],
+   [
+    "explore",
+    16
+   ],
+   [
+    "travel",
+    13
+   ],
+   [
+    "accessories",
+    11
+   ],
+   [
+    "personalised",
+    10
+   ],
+   [
+    "category",
+    7
+   ],
+   [
+    "sale",
+    6
+   ],
+   [
+    "bridal",
+    6
+   ],
+   [
+    "weekend",
+    6
+   ],
+   [
+    "sets",
+    6
+   ],
+   [
+    "makeup",
+    6
+   ],
+   [
+    "wash",
+    6
+   ],
+   [
+    "sunglasses",
+    6
+   ],
+   [
+    "cognac",
+    6
+   ],
+   [
+    "black",
+    6
+   ],
+   [
+    "trending",
+    5
+   ],
+   [
+    "birthday",
+    5
+   ],
+   [
+    "discover",
+    5
+   ],
+   [
+    "cookies",
+    4
+   ]
+  ],
+  "prices": {
+   "count": 35,
+   "currency": "GBP",
+   "min": 10.0,
+   "median": 40.0,
+   "max": 109.99,
+   "sample": [
+    10.0,
+    20.0,
+    20.0,
+    20.0,
+    20.0,
+    20.99,
+    20.99,
+    21.5,
+    24.99,
+    24.99,
+    29.99,
+    29.99,
+    32.99,
+    34.99,
+    36.99,
+    39.99,
+    39.99,
+    40.0,
+    40.0,
+    40.0,
+    42.99,
+    48.99,
+    49.99,
+    49.99,
+    50.0,
+    55.0,
+    60.0,
+    69.99,
+    69.99,
+    69.99
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "PayPal",
+    "Apple Pay",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": "10% off",
+   "free_delivery_threshold": 40,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [
+    "Feefo"
+   ],
+   "has_reviews": true,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@katie.loxton",
+    "url": "https://www.tiktok.com/@katie.loxton"
+   }
+  },
+  "seo": {
+   "title": "Katie Loxton™ | Up to 50% Off Summer Sale*",
+   "title_length": 42,
+   "meta_description": "Shop Personalised Bags & Gifts. Free Personalised Gift Bag* + Free Delivery over £40.",
+   "meta_description_length": 85,
+   "og_title": "Katie Loxton™ | Up to 50% Off Summer Sale*",
+   "og_image": null,
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 10,
+   "canonical": "https://katieloxton.com",
+   "structured_data_types": [
+    "WebSite",
+    "SearchAction",
+    "Organization",
+    "PostalAddress",
+    "WebPage",
+    "SpeakableSpecification"
+   ],
+   "word_count": 2012,
+   "image_count": 47,
+   "internal_link_count": 570
+  },
+  "accessibility": {
+   "score": 88,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Katie Loxton™ | Up to 50% Off Summer Sale*"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 0.851,
+     "passed": false,
+     "applicable": true,
+     "detail": "40/47 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.932,
+     "passed": true,
+     "applicable": true,
+     "detail": "521/559 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 0.966,
+     "passed": true,
+     "applicable": true,
+     "detail": "86/89 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.714,
+     "passed": false,
+     "applicable": true,
+     "detail": "5/7 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "0 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 47,
+   "images_with_alt": 40,
+   "links_total": 559,
+   "links_with_text": 521
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.5242
+   },
+   {
+    "hex": "#d7d7d7",
+    "name": "blush",
+    "share": 0.1866
+   },
+   {
+    "hex": "#685f47",
+    "name": "brown",
+    "share": 0.1495
+   },
+   {
+    "hex": "#f8f7f3",
+    "name": "white",
+    "share": 0.091
+   },
+   {
+    "hex": "#fffffe",
+    "name": "white",
+    "share": 0.0374
+   },
+   {
+    "hex": "#feffff",
+    "name": "white",
+    "share": 0.0112
+   }
+  ],
+  "screenshot": "screenshots/katie-loxton/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 35,
+   "prices": {
+    "count": 35,
+    "currency": "GBP",
+    "min": 10.0,
+    "p25": 24.99,
+    "median": 40.0,
+    "p75": 57.5,
+    "max": 109.99,
+    "sample": [
+     10.0,
+     20.0,
+     20.0,
+     20.0,
+     20.0,
+     20.99,
+     20.99,
+     21.5,
+     24.99,
+     24.99,
+     29.99,
+     29.99,
+     32.99,
+     34.99,
+     36.99,
+     39.99,
+     39.99,
+     40.0,
+     40.0,
+     40.0,
+     42.99,
+     48.99,
+     49.99,
+     49.99,
+     50.0,
+     55.0,
+     60.0,
+     69.99,
+     69.99,
+     69.99,
+     76.99,
+     84.99,
+     100.0,
+     109.99,
+     109.99
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 0,
+   "url": "https://www.katieloxton.com/collections/bags"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:49:40Z",
+  "brand": "Strathberry",
+  "slug": "strathberry",
+  "url": "https://www.strathberry.com/",
+  "is_self": false,
+  "hero_message": "SALE\nBAGS\nACCESSORIES\nNEW\nGIFTS\nDISCOVER\nShip to:  GB\nAccount",
+  "menu": [
+   "Sale",
+   "Bags",
+   "Accessories"
+  ],
+  "offers": [
+   "up to 25% off",
+   "15% off",
+   "20%off",
+   "25%off",
+   "15%off",
+   "35% off",
+   "25% off",
+   "10% off",
+   "summer sale",
+   "sale"
+  ],
+  "headline_offer": "up to 25% off",
+  "max_discount_pct": 35,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 14,
+    "share": 0.7778
+   },
+   "accessories": {
+    "count": 1,
+    "share": 0.0556
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.0556
+   },
+   "personalised": {
+    "count": 1,
+    "share": 0.0556
+   },
+   "new_in": {
+    "count": 1,
+    "share": 0.0556
+   }
+  },
+  "keywords": [
+   [
+    "strathberry",
+    9
+   ],
+   [
+    "further",
+    7
+   ],
+   [
+    "reduction",
+    7
+   ],
+   [
+    "discover",
+    5
+   ],
+   [
+    "sale",
+    3
+   ],
+   [
+    "spain",
+    3
+   ],
+   [
+    "mosaic",
+    3
+   ],
+   [
+    "tote",
+    3
+   ],
+   [
+    "kite",
+    3
+   ],
+   [
+    "order",
+    3
+   ],
+   [
+    "newsletter",
+    3
+   ],
+   [
+    "beautifully",
+    2
+   ],
+   [
+    "handcrafted",
+    2
+   ],
+   [
+    "vanilla",
+    2
+   ],
+   [
+    "hobo",
+    2
+   ],
+   [
+    "latest",
+    2
+   ],
+   [
+    "collection",
+    2
+   ],
+   [
+    "enjoy",
+    2
+   ],
+   [
+    "year",
+    2
+   ],
+   [
+    "product",
+    2
+   ]
+  ],
+  "prices": {
+   "count": 18,
+   "currency": "GBP",
+   "min": 263.0,
+   "median": 395.0,
+   "max": 545.0,
+   "sample": [
+    263.0,
+    277.0,
+    296.0,
+    319.0,
+    325.0,
+    340.0,
+    350.0,
+    362.0,
+    394.0,
+    396.0,
+    425.0,
+    425.0,
+    425.0,
+    436.0,
+    455.0,
+    495.0,
+    525.0,
+    545.0
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "Clearpay",
+    "Afterpay",
+    "PayPal",
+    "Apple Pay",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": "10% off",
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [
+    "Trustpilot",
+    "Yotpo"
+   ],
+   "has_reviews": true,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@strathberry",
+    "url": "https://www.tiktok.com/@strathberry"
+   }
+  },
+  "seo": {
+   "title": "Luxury designer handbags | Strathberry",
+   "title_length": 38,
+   "meta_description": "Shop the Strathberry collection. Discover luxury handbags, leather tote bags and designer purses. Designed in Scotland, UK and handcrafted in Spain.",
+   "meta_description_length": 148,
+   "og_title": "Luxury designer handbags | Strathberry",
+   "og_image": null,
+   "h1": [
+    "Strathberry | Our homepage",
+    "Bestsellers",
+    "New Arrivals",
+    "Summer Sale",
+    "As Seen On"
+   ],
+   "h1_count": 6,
+   "h2_count": 1,
+   "canonical": "https://www.strathberry.com",
+   "structured_data_types": [],
+   "word_count": 433,
+   "image_count": 161,
+   "internal_link_count": 104
+  },
+  "accessibility": {
+   "score": 94,
+   "grade": "A",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en-GB\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Luxury designer handbags | Strathberry"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "161/161 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.952,
+     "passed": true,
+     "applicable": true,
+     "detail": "99/104 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "40/40 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "1/1 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "6 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 161,
+   "images_with_alt": 161,
+   "links_total": 104,
+   "links_with_text": 99
+  },
+  "colours": [
+   {
+    "hex": "#343025",
+    "name": "black",
+    "share": 0.2075
+   },
+   {
+    "hex": "#fdfdfb",
+    "name": "white",
+    "share": 0.2024
+   },
+   {
+    "hex": "#78796d",
+    "name": "grey",
+    "share": 0.1789
+   },
+   {
+    "hex": "#f7f7f5",
+    "name": "white",
+    "share": 0.1578
+   },
+   {
+    "hex": "#a2927e",
+    "name": "grey",
+    "share": 0.1309
+   },
+   {
+    "hex": "#d9d4cb",
+    "name": "beige",
+    "share": 0.1225
+   }
+  ],
+  "screenshot": "screenshots/strathberry/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 20,
+   "prices": {
+    "count": 20,
+    "currency": "GBP",
+    "min": 395.0,
+    "p25": 425.0,
+    "median": 495.0,
+    "p75": 595.0,
+    "max": 595.0,
+    "sample": [
+     395.0,
+     425.0,
+     425.0,
+     425.0,
+     425.0,
+     425.0,
+     495.0,
+     495.0,
+     495.0,
+     495.0,
+     495.0,
+     495.0,
+     495.0,
+     525.0,
+     595.0,
+     595.0,
+     595.0,
+     595.0,
+     595.0,
+     595.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 0,
+   "url": "https://www.strathberry.com/collections/all"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:49:50Z",
+  "brand": "DeMellier",
+  "slug": "demellier",
+  "url": "https://demellierlondon.com/",
+  "is_self": false,
+  "hero_message": "SALE: ENDS SOON. Limited Availability.\nShop Now",
+  "menu": [
+   "New Arrivals",
+   "Bags",
+   "About"
+  ],
+  "offers": [
+   "sale"
+  ],
+  "headline_offer": "sale",
+  "max_discount_pct": null,
+  "delivery": [
+   "free shipping"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "new_in": {
+    "count": 4,
+    "share": 0.4
+   },
+   "bags": {
+    "count": 3,
+    "share": 0.3
+   },
+   "personalised": {
+    "count": 2,
+    "share": 0.2
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.1
+   }
+  },
+  "keywords": [
+   [
+    "summer",
+    3
+   ],
+   [
+    "arrivals",
+    2
+   ],
+   [
+    "collection",
+    2
+   ],
+   [
+    "demellier",
+    2
+   ],
+   [
+    "lifesaving",
+    2
+   ],
+   [
+    "vaccines",
+    2
+   ],
+   [
+    "giving",
+    2
+   ],
+   [
+    "values",
+    2
+   ],
+   [
+    "help",
+    2
+   ],
+   [
+    "shipping",
+    2
+   ],
+   [
+    "returns",
+    2
+   ],
+   [
+    "monogramming",
+    2
+   ],
+   [
+    "terms",
+    2
+   ],
+   [
+    "conditions",
+    2
+   ],
+   [
+    "policy",
+    2
+   ],
+   [
+    "skip",
+    1
+   ],
+   [
+    "content",
+    1
+   ],
+   [
+    "sale",
+    1
+   ],
+   [
+    "ends",
+    1
+   ],
+   [
+    "soon",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 0,
+   "currency": "GBP",
+   "min": null,
+   "median": null,
+   "max": null,
+   "sample": []
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "Clearpay",
+    "Afterpay",
+    "PayPal",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": null,
+   "free_delivery_threshold": 0,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "none",
+    "handle": null,
+    "url": null
+   }
+  },
+  "seo": {
+   "title": "DeMellier",
+   "title_length": 9,
+   "meta_description": "Award-Winning British Handbags. Timeless styles with unique designs and signature details produced in limited quantities. Designed in London, handcrafted in Spain.",
+   "meta_description_length": 163,
+   "og_title": "DeMellier",
+   "og_image": "http://demellierlondon.com/cdn/shop/files/demellier-logo-social-sharing.jpg?v=1640077583",
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 7,
+   "canonical": "https://demellierlondon.com/",
+   "structured_data_types": [
+    "Organization",
+    "ImageObject",
+    "Person",
+    "ContactPoint",
+    "BreadcrumbList",
+    "ListItem"
+   ],
+   "word_count": 1046,
+   "image_count": 21,
+   "internal_link_count": 295
+  },
+  "accessibility": {
+   "score": 91,
+   "grade": "A",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "DeMellier"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "21/21 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.956,
+     "passed": true,
+     "applicable": true,
+     "detail": "282/295 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "21/21 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.667,
+     "passed": false,
+     "applicable": true,
+     "detail": "2/3 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "0 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 21,
+   "images_with_alt": 21,
+   "links_total": 295,
+   "links_with_text": 282
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.6885
+   },
+   {
+    "hex": "#e6e6e4",
+    "name": "cream",
+    "share": 0.1017
+   },
+   {
+    "hex": "#726353",
+    "name": "brown",
+    "share": 0.0697
+   },
+   {
+    "hex": "#c2beb9",
+    "name": "beige",
+    "share": 0.0679
+   },
+   {
+    "hex": "#f4f4f4",
+    "name": "white",
+    "share": 0.0451
+   },
+   {
+    "hex": "#fffffe",
+    "name": "white",
+    "share": 0.0269
+   }
+  ],
+  "screenshot": "screenshots/demellier/2026-07-01.jpg",
+  "status": "success",
+  "error": null
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:50:04Z",
+  "brand": "Charles & Keith",
+  "slug": "charles-keith",
+  "url": "https://www.charleskeith.co.uk/gb",
+  "is_self": false,
+  "hero_message": "Just Dropped: Bags",
+  "menu": [
+   "New In",
+   "Sale",
+   "Shoes"
+  ],
+  "offers": [
+   "up to 50% off",
+   "15% off",
+   "50% off",
+   "10% off",
+   "sale"
+  ],
+  "headline_offer": "up to 50% off",
+  "max_discount_pct": 50,
+  "delivery": [
+   "free delivery",
+   "free standard delivery"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 63,
+    "share": 0.6238
+   },
+   "purses": {
+    "count": 13,
+    "share": 0.1287
+   },
+   "accessories": {
+    "count": 12,
+    "share": 0.1188
+   },
+   "gifting": {
+    "count": 6,
+    "share": 0.0594
+   },
+   "new_in": {
+    "count": 6,
+    "share": 0.0594
+   },
+   "personalised": {
+    "count": 1,
+    "share": 0.0099
+   }
+  },
+  "keywords": [
+   [
+    "bags",
+    27
+   ],
+   [
+    "shoes",
+    19
+   ],
+   [
+    "wallets",
+    10
+   ],
+   [
+    "tote",
+    9
+   ],
+   [
+    "sale",
+    8
+   ],
+   [
+    "category",
+    8
+   ],
+   [
+    "seen",
+    7
+   ],
+   [
+    "black",
+    7
+   ],
+   [
+    "accessories",
+    6
+   ],
+   [
+    "top",
+    6
+   ],
+   [
+    "handle",
+    6
+   ],
+   [
+    "collection",
+    6
+   ],
+   [
+    "calla",
+    6
+   ],
+   [
+    "slingback",
+    5
+   ],
+   [
+    "most",
+    5
+   ],
+   [
+    "wanted",
+    5
+   ],
+   [
+    "charles",
+    5
+   ],
+   [
+    "subscribe",
+    4
+   ],
+   [
+    "highlights",
+    4
+   ],
+   [
+    "heels",
+    4
+   ]
+  ],
+  "prices": {
+   "count": 3,
+   "currency": "GBP",
+   "min": 75.0,
+   "median": 75.0,
+   "max": 150.0,
+   "sample": [
+    75.0,
+    75.0,
+    150.0
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Clearpay",
+    "Afterpay",
+    "PayPal",
+    "Apple Pay",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": "50% off",
+   "free_delivery_threshold": 0,
+   "scarcity": [
+    "back in stock"
+   ]
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@charleskeithofficial",
+    "url": "https://www.tiktok.com/@charleskeithofficial"
+   }
+  },
+  "seo": {
+   "title": "CHARLES & KEITH - Shop the official site",
+   "title_length": 40,
+   "meta_description": "Shop the official CHARLES & KEITH website for the latest in women's and kids' fashion, including bags, shoes and accessories. Check out the new arrivals today.",
+   "meta_description_length": 159,
+   "og_title": "CHARLES & KEITH - Shop Shoes, Bags & Accessories",
+   "og_image": "https://www.charleskeith.com/on/demandware.static/-/Library-Sites-CharlesKeith/default/dwa45cb8ad/images/facebook-sharing/charles-keith-home-social-share-generic-1200x639.jpg",
+   "h1": [
+    "Just Dropped: Bags",
+    "Up to 50% off",
+    "Up to 50% off",
+    "Up to 50% off"
+   ],
+   "h1_count": 4,
+   "h2_count": 8,
+   "canonical": "https://www.charleskeith.co.uk/gb",
+   "structured_data_types": [
+    "WebSite",
+    "Organization",
+    "ContactPoint"
+   ],
+   "word_count": 1517,
+   "image_count": 234,
+   "internal_link_count": 687
+  },
+  "accessibility": {
+   "score": 88,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "CHARLES & KEITH - Shop the official site"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 0.983,
+     "passed": true,
+     "applicable": true,
+     "detail": "230/234 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.853,
+     "passed": false,
+     "applicable": true,
+     "detail": "585/686 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 0.947,
+     "passed": true,
+     "applicable": true,
+     "detail": "90/95 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.571,
+     "passed": false,
+     "applicable": true,
+     "detail": "4/7 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "4 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 234,
+   "images_with_alt": 230,
+   "links_total": 686,
+   "links_with_text": 585
+  },
+  "colours": [
+   {
+    "hex": "#cab9ae",
+    "name": "beige",
+    "share": 0.2674
+   },
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.1976
+   },
+   {
+    "hex": "#735f55",
+    "name": "brown",
+    "share": 0.1874
+   },
+   {
+    "hex": "#efefef",
+    "name": "white",
+    "share": 0.1503
+   },
+   {
+    "hex": "#e2e0de",
+    "name": "cream",
+    "share": 0.1253
+   },
+   {
+    "hex": "#fcfcfc",
+    "name": "white",
+    "share": 0.0721
+   }
+  ],
+  "screenshot": "screenshots/charles-keith/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 24,
+   "prices": {
+    "count": 24,
+    "currency": "GBP",
+    "min": 75.0,
+    "p25": 79.0,
+    "median": 79.0,
+    "p75": 99.0,
+    "max": 150.0,
+    "sample": [
+     75.0,
+     75.0,
+     75.0,
+     75.0,
+     75.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     79.0,
+     99.0,
+     99.0,
+     99.0,
+     99.0,
+     99.0,
+     129.0,
+     129.0,
+     150.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 3,
+   "url": "https://www.charleskeith.co.uk/gb/bags"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:50:20Z",
+  "brand": "Polene",
+  "slug": "polene",
+  "url": "https://uk.polene-paris.com/",
+  "is_self": false,
+  "hero_message": "BESTSELLERS\nBAGS\nJEWELLERY\nACCESSORIES\nSAVOIR-FAIRE\nGB\nSTORES\nACCOUNT\nSEARCH\n0\n0\nSHOPPING CART WITH 0 ITEMS",
+  "menu": [
+   "Bestsellers",
+   "Bags",
+   "Jewellery"
+  ],
+  "offers": [
+   "sale"
+  ],
+  "headline_offer": "sale",
+  "max_discount_pct": null,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 3,
+    "share": 0.75
+   },
+   "accessories": {
+    "count": 1,
+    "share": 0.25
+   }
+  },
+  "keywords": [
+   [
+    "jewellery",
+    2
+   ],
+   [
+    "stores",
+    2
+   ],
+   [
+    "lif",
+    2
+   ],
+   [
+    "leather",
+    2
+   ],
+   [
+    "pol",
+    2
+   ],
+   [
+    "discover",
+    2
+   ],
+   [
+    "instagram",
+    2
+   ],
+   [
+    "privacy",
+    2
+   ],
+   [
+    "policy",
+    2
+   ],
+   [
+    "bestsellers",
+    1
+   ],
+   [
+    "bags",
+    1
+   ],
+   [
+    "accessories",
+    1
+   ],
+   [
+    "savoir",
+    1
+   ],
+   [
+    "faire",
+    1
+   ],
+   [
+    "shopping",
+    1
+   ],
+   [
+    "items",
+    1
+   ],
+   [
+    "handbags",
+    1
+   ],
+   [
+    "small",
+    1
+   ],
+   [
+    "goods",
+    1
+   ],
+   [
+    "adorned",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 1,
+   "currency": "GBP",
+   "min": 750.0,
+   "median": 750.0,
+   "max": 750.0,
+   "sample": [
+    750.0
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "PayPal",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@polene_paris",
+    "url": "https://www.tiktok.com/@polene_paris"
+   }
+  },
+  "seo": {
+   "title": "Polène - Parisian Leather Goods Brand - E-shop\n\n\t\t\t\t\n– Polène UK",
+   "title_length": 64,
+   "meta_description": "Dive into the heart of Polène Paris and discover the subtle forms and exquisite craftsmanship of our latest handbag designs.",
+   "meta_description_length": 124,
+   "og_title": "Polène - Parisian Leather Goods Brand - E-shop",
+   "og_image": "http://uk.polene-paris.com/cdn/shop/files/logo_polene.png?height=628&pad_color=fff&v=1684140568&width=1200",
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 3,
+   "canonical": "https://uk.polene-paris.com/",
+   "structured_data_types": [
+    "Organization",
+    "WebSite",
+    "SearchAction"
+   ],
+   "word_count": 672,
+   "image_count": 280,
+   "internal_link_count": 203
+  },
+  "accessibility": {
+   "score": 87,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Polène - Parisian Leather Goods Brand - E-shop\n\n\t\t\t\t\n– Polène UK"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 0.925,
+     "passed": true,
+     "applicable": true,
+     "detail": "259/280 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "203/203 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 0.792,
+     "passed": false,
+     "applicable": true,
+     "detail": "19/24 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.857,
+     "passed": false,
+     "applicable": true,
+     "detail": "6/7 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "0 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "none found"
+    }
+   ],
+   "images_total": 280,
+   "images_with_alt": 259,
+   "links_total": 203,
+   "links_with_text": 203
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.4482
+   },
+   {
+    "hex": "#cdcfd0",
+    "name": "beige",
+    "share": 0.2461
+   },
+   {
+    "hex": "#565f63",
+    "name": "brown",
+    "share": 0.2194
+   },
+   {
+    "hex": "#fafaf9",
+    "name": "white",
+    "share": 0.0626
+   },
+   {
+    "hex": "#fefffd",
+    "name": "white",
+    "share": 0.022
+   },
+   {
+    "hex": "#feffff",
+    "name": "white",
+    "share": 0.0016
+   }
+  ],
+  "screenshot": "screenshots/polene/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 48,
+   "prices": {
+    "count": 20,
+    "currency": "GBP",
+    "min": 160.0,
+    "p25": 347.5,
+    "median": 405.0,
+    "p75": 442.5,
+    "max": 540.0,
+    "sample": [
+     160.0,
+     180.0,
+     180.0,
+     260.0,
+     340.0,
+     350.0,
+     370.0,
+     380.0,
+     390.0,
+     390.0,
+     420.0,
+     420.0,
+     440.0,
+     440.0,
+     440.0,
+     450.0,
+     460.0,
+     480.0,
+     480.0,
+     540.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 0,
+   "url": "https://uk.polene-paris.com/collections/handbags"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:50:32Z",
+  "brand": "Loewe",
+  "slug": "loewe",
+  "url": "https://www.loewe.com/eur/en/home",
+  "is_self": false,
+  "hero_message": "Summer Baskets",
+  "menu": [
+   "Women",
+   "Men",
+   "Gifts"
+  ],
+  "offers": [],
+  "headline_offer": null,
+  "max_discount_pct": null,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 3,
+    "share": 0.4286
+   },
+   "accessories": {
+    "count": 3,
+    "share": 0.4286
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.1429
+   }
+  },
+  "keywords": [
+   [
+    "baskets",
+    5
+   ],
+   [
+    "shoes",
+    4
+   ],
+   [
+    "skip",
+    3
+   ],
+   [
+    "bags",
+    3
+   ],
+   [
+    "accessories",
+    3
+   ],
+   [
+    "summer",
+    2
+   ],
+   [
+    "leather",
+    2
+   ],
+   [
+    "flats",
+    2
+   ],
+   [
+    "motif",
+    2
+   ],
+   [
+    "wardrobe",
+    2
+   ],
+   [
+    "staples",
+    2
+   ],
+   [
+    "womenswear",
+    2
+   ],
+   [
+    "sunglasses",
+    2
+   ],
+   [
+    "collection",
+    2
+   ],
+   [
+    "main",
+    1
+   ],
+   [
+    "content",
+    1
+   ],
+   [
+    "footer",
+    1
+   ],
+   [
+    "women",
+    1
+   ],
+   [
+    "men",
+    1
+   ],
+   [
+    "art",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 6,
+   "currency": "GBP",
+   "min": 490.0,
+   "median": 890.0,
+   "max": 1990.0,
+   "sample": [
+    490.0,
+    750.0,
+    890.0,
+    890.0,
+    1350.0,
+    1990.0
+   ]
+  },
+  "trading": {
+   "finance": [],
+   "has_bnpl": false,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@loewe",
+    "url": "https://www.tiktok.com/@loewe"
+   }
+  },
+  "seo": {
+   "title": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website",
+   "title_length": 89,
+   "meta_description": "Explore all the latest collections: bags, leather goods, ready to wear, clothing, shoes, jewellery and sunglasses for men and women on the Loewe online store",
+   "meta_description_length": 157,
+   "og_title": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website",
+   "og_image": "https://www.loewe.com/mobify/bundle/2259/static/img/anagram.svg",
+   "h1": [
+    "LOEWE USA Official Website"
+   ],
+   "h1_count": 1,
+   "h2_count": 10,
+   "canonical": "https://www.loewe.com/usa/en/home",
+   "structured_data_types": [
+    "Corporation",
+    "WebSite",
+    "SearchAction"
+   ],
+   "word_count": 1198,
+   "image_count": 24,
+   "internal_link_count": 81
+  },
+  "accessibility": {
+   "score": 100,
+   "grade": "A",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en-US\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "24/24 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.988,
+     "passed": true,
+     "applicable": true,
+     "detail": "80/81 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "105/105 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "73/73 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "exactly one <h1>"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 24,
+   "images_with_alt": 24,
+   "links_total": 81,
+   "links_with_text": 80
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.2292
+   },
+   {
+    "hex": "#2d171a",
+    "name": "black",
+    "share": 0.2292
+   },
+   {
+    "hex": "#cb9689",
+    "name": "tan",
+    "share": 0.1812
+   },
+   {
+    "hex": "#fdfdfd",
+    "name": "white",
+    "share": 0.133
+   },
+   {
+    "hex": "#83776b",
+    "name": "grey",
+    "share": 0.1234
+   },
+   {
+    "hex": "#e8e4df",
+    "name": "cream",
+    "share": 0.104
+   }
+  ],
+  "screenshot": "screenshots/loewe/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 61,
+   "prices": {
+    "count": 6,
+    "currency": "GBP",
+    "min": 1500.0,
+    "p25": 1650.0,
+    "median": 1875.0,
+    "p75": 1980.0,
+    "max": 1990.0,
+    "sample": [
+     1500.0,
+     1600.0,
+     1800.0,
+     1950.0,
+     1990.0,
+     1990.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 16,
+   "url": "https://www.loewe.com/eur/en/women/bags"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:50:44Z",
+  "brand": "The White Company",
+  "slug": "white-company",
+  "url": "https://www.thewhitecompany.com/uk/",
+  "is_self": false,
+  "hero_message": "We're sorry. The White Company is not currently able to ship orders to the United States of America",
+  "menu": [],
+  "offers": [],
+  "headline_offer": null,
+  "max_discount_pct": null,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {},
+  "keywords": [
+   [
+    "order",
+    3
+   ],
+   [
+    "please",
+    2
+   ],
+   [
+    "site",
+    2
+   ],
+   [
+    "we're",
+    1
+   ],
+   [
+    "sorry",
+    1
+   ],
+   [
+    "white",
+    1
+   ],
+   [
+    "company",
+    1
+   ],
+   [
+    "not",
+    1
+   ],
+   [
+    "currently",
+    1
+   ],
+   [
+    "able",
+    1
+   ],
+   [
+    "ship",
+    1
+   ],
+   [
+    "orders",
+    1
+   ],
+   [
+    "united",
+    1
+   ],
+   [
+    "states",
+    1
+   ],
+   [
+    "america",
+    1
+   ],
+   [
+    "recently",
+    1
+   ],
+   [
+    "placed",
+    1
+   ],
+   [
+    "tracking",
+    1
+   ],
+   [
+    "returns",
+    1
+   ],
+   [
+    "options",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 0,
+   "currency": "GBP",
+   "min": null,
+   "median": null,
+   "max": null,
+   "sample": []
+  },
+  "trading": {
+   "finance": [],
+   "has_bnpl": false,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "none",
+    "handle": null,
+    "url": null
+   }
+  },
+  "seo": {
+   "title": "The White Company - US",
+   "title_length": 22,
+   "meta_description": null,
+   "meta_description_length": 0,
+   "og_title": null,
+   "og_image": null,
+   "h1": [
+    "We're sorry. The White Company is not currently able to ship orders to the United States of America"
+   ],
+   "h1_count": 1,
+   "h2_count": 0,
+   "canonical": null,
+   "structured_data_types": [],
+   "word_count": 63,
+   "image_count": 2,
+   "internal_link_count": 3
+  },
+  "accessibility": {
+   "score": 93,
+   "grade": "A",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "The White Company - US"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "2/2 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "3/3 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no form fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "exactly one <h1>"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "main"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "none found"
+    }
+   ],
+   "images_total": 2,
+   "images_with_alt": 2,
+   "links_total": 3,
+   "links_with_text": 3
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.5563
+   },
+   {
+    "hex": "#665340",
+    "name": "brown",
+    "share": 0.191
+   },
+   {
+    "hex": "#a49484",
+    "name": "grey",
+    "share": 0.1452
+   },
+   {
+    "hex": "#dddbd9",
+    "name": "blush",
+    "share": 0.0725
+   },
+   {
+    "hex": "#fefffe",
+    "name": "white",
+    "share": 0.0345
+   },
+   {
+    "hex": "#fffffe",
+    "name": "white",
+    "share": 0.0005
+   }
+  ],
+  "screenshot": "screenshots/white-company/2026-07-01.jpg",
+  "status": "success",
+  "error": null
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:50:53Z",
+  "brand": "Mejuri",
+  "slug": "mejuri",
+  "url": "https://mejuri.com/gb/en/",
+  "is_self": false,
+  "hero_message": "STEEL THE SHOW",
+  "menu": [
+   "All Jewelry",
+   "Gifts",
+   "New In"
+  ],
+  "offers": [],
+  "headline_offer": null,
+  "max_discount_pct": null,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {
+   "bags": {
+    "count": 2,
+    "share": 0.4
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.2
+   },
+   "sentiment": {
+    "count": 1,
+    "share": 0.2
+   },
+   "new_in": {
+    "count": 1,
+    "share": 0.2
+   }
+  },
+  "keywords": [
+   [
+    "gold",
+    9
+   ],
+   [
+    "vermeil",
+    8
+   ],
+   [
+    "jewelry",
+    7
+   ],
+   [
+    "hoops",
+    7
+   ],
+   [
+    "lab",
+    7
+   ],
+   [
+    "grown",
+    7
+   ],
+   [
+    "sapphire",
+    7
+   ],
+   [
+    "stores",
+    7
+   ],
+   [
+    "mejuri",
+    5
+   ],
+   [
+    "huggie",
+    5
+   ],
+   [
+    "piercing",
+    4
+   ],
+   [
+    "summer",
+    3
+   ],
+   [
+    "store",
+    3
+   ],
+   [
+    "change",
+    3
+   ],
+   [
+    "tube",
+    3
+   ],
+   [
+    "services",
+    3
+   ],
+   [
+    "sustainability",
+    3
+   ],
+   [
+    "guide",
+    2
+   ],
+   [
+    "steel",
+    2
+   ],
+   [
+    "fine",
+    2
+   ]
+  ],
+  "prices": {
+   "count": 10,
+   "currency": "GBP",
+   "min": 68.0,
+   "median": 93.0,
+   "max": 148.0,
+   "sample": [
+    68.0,
+    78.0,
+    78.0,
+    88.0,
+    88.0,
+    98.0,
+    98.0,
+    128.0,
+    148.0,
+    148.0
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "Apple Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [
+    "Yotpo"
+   ],
+   "has_reviews": true,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "none",
+    "handle": null,
+    "url": null
+   }
+  },
+  "seo": {
+   "title": "Fine Jewelry For Every Day | Mejuri",
+   "title_length": 35,
+   "meta_description": "Mejuri is the new luxury of online jewelry shops. Discover handcrafted, everyday fine jewelry inspired by you.",
+   "meta_description_length": 110,
+   "og_title": "Fine Jewelry For Every Day | Mejuri",
+   "og_image": "https://cdn.sanity.io/images/lb60gqpm/production/d5f0ab7099f6a2e3ab932e623318722db6d3a39f-508x762.png",
+   "h1": [
+    "OUR SUSTAINABILITY PROGRESS",
+    "Our Certifications and Partnerships",
+    "Update Your Location"
+   ],
+   "h1_count": 3,
+   "h2_count": 5,
+   "canonical": "https://mejuri.com/gb/en/",
+   "structured_data_types": [
+    "Article",
+    "Organization",
+    "ImageObject",
+    "Person"
+   ],
+   "word_count": 537,
+   "image_count": 30,
+   "internal_link_count": 72
+  },
+  "accessibility": {
+   "score": 86,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Fine Jewelry For Every Day | Mejuri"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "30/30 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "72/72 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 0.931,
+     "passed": true,
+     "applicable": true,
+     "detail": "54/58 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "0/410 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "3 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 30,
+   "images_with_alt": 30,
+   "links_total": 72,
+   "links_with_text": 72
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.221
+   },
+   {
+    "hex": "#48332d",
+    "name": "navy",
+    "share": 0.1986
+   },
+   {
+    "hex": "#a88b76",
+    "name": "grey",
+    "share": 0.1684
+   },
+   {
+    "hex": "#fdfdfd",
+    "name": "white",
+    "share": 0.1476
+   },
+   {
+    "hex": "#f0efee",
+    "name": "white",
+    "share": 0.1347
+   },
+   {
+    "hex": "#c1bab1",
+    "name": "sage",
+    "share": 0.1297
+   }
+  ],
+  "screenshot": "screenshots/mejuri/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 53,
+   "prices": {
+    "count": 53,
+    "currency": "GBP",
+    "min": 25.0,
+    "p25": 88.0,
+    "median": 128.0,
+    "p75": 148.0,
+    "max": 628.0,
+    "sample": [
+     25.0,
+     48.0,
+     58.0,
+     68.0,
+     68.0,
+     68.0,
+     76.8,
+     78.0,
+     78.0,
+     88.0,
+     88.0,
+     88.0,
+     88.0,
+     88.0,
+     88.0,
+     88.0,
+     89.6,
+     98.0,
+     98.0,
+     98.0,
+     98.0,
+     118.0,
+     118.0,
+     118.0,
+     118.4,
+     118.8,
+     128.0,
+     128.0,
+     128.0,
+     128.0,
+     128.0,
+     128.0,
+     138.0,
+     138.0,
+     148.0,
+     148.0,
+     148.0,
+     148.0,
+     148.0,
+     148.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 1,
+   "url": "https://mejuri.com/gb/en/collections/shop-all"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:51:06Z",
+  "brand": "Sezane",
+  "slug": "sezane",
+  "url": "https://www.sezane.com/en-en",
+  "is_self": false,
+  "hero_message": "sezane.com",
+  "menu": [],
+  "offers": [],
+  "headline_offer": null,
+  "max_discount_pct": null,
+  "delivery": [],
+  "discount_codes": [],
+  "product_mix": {},
+  "keywords": [],
+  "prices": {
+   "count": 0,
+   "currency": "GBP",
+   "min": null,
+   "median": null,
+   "max": null,
+   "sample": []
+  },
+  "trading": {
+   "finance": [],
+   "has_bnpl": false,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "none",
+    "handle": null,
+    "url": null
+   }
+  },
+  "seo": {
+   "title": "sezane.com",
+   "title_length": 10,
+   "meta_description": null,
+   "meta_description_length": 0,
+   "og_title": null,
+   "og_image": null,
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 0,
+   "canonical": null,
+   "structured_data_types": [],
+   "word_count": 1,
+   "image_count": 0,
+   "internal_link_count": 0
+  },
+  "accessibility": {
+   "score": 78,
+   "grade": "C",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "sezane.com"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no images on page"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": false,
+     "detail": "no form fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "no headings found"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "no landmarks"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "none found"
+    }
+   ],
+   "images_total": 0,
+   "images_with_alt": 0,
+   "links_total": 0,
+   "links_with_text": 0
+  },
+  "colours": [
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.9581
+   },
+   {
+    "hex": "#bcbdbc",
+    "name": "lilac",
+    "share": 0.0167
+   },
+   {
+    "hex": "#dbdcdb",
+    "name": "cream",
+    "share": 0.0142
+   },
+   {
+    "hex": "#f7f7f7",
+    "name": "white",
+    "share": 0.0058
+   },
+   {
+    "hex": "#fefffe",
+    "name": "white",
+    "share": 0.0044
+   },
+   {
+    "hex": "#fffffe",
+    "name": "white",
+    "share": 0.0008
+   }
+  ],
+  "screenshot": "screenshots/sezane/2026-07-01.jpg",
+  "status": "success",
+  "error": null
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:51:13Z",
+  "brand": "Coach",
+  "slug": "coach",
+  "url": "https://uk.coach.com/",
+  "is_self": false,
+  "status": "failed",
+  "error": "blocked: bot-challenge page (title: 'access denied')",
+  "screenshot": null
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:51:16Z",
+  "brand": "Oliver Bonas",
+  "slug": "oliver-bonas",
+  "url": "https://www.oliverbonas.com/",
+  "is_self": false,
+  "hero_message": "All about\nthe dress",
+  "menu": [
+   "New In",
+   "Sale",
+   "Clothing"
+  ],
+  "offers": [
+   "up to 50% off",
+   "50% off",
+   "10% off",
+   "summer sale",
+   "clearance",
+   "sale"
+  ],
+  "headline_offer": "up to 50% off",
+  "max_discount_pct": 50,
+  "delivery": [
+   "free delivery over £60",
+   "click & collect"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "gifting": {
+    "count": 41,
+    "share": 0.3868
+   },
+   "bags": {
+    "count": 26,
+    "share": 0.2453
+   },
+   "new_in": {
+    "count": 20,
+    "share": 0.1887
+   },
+   "accessories": {
+    "count": 15,
+    "share": 0.1415
+   },
+   "scarves": {
+    "count": 2,
+    "share": 0.0189
+   },
+   "purses": {
+    "count": 2,
+    "share": 0.0189
+   }
+  },
+  "keywords": [
+   [
+    "sale",
+    45
+   ],
+   [
+    "furniture",
+    30
+   ],
+   [
+    "jewellery",
+    23
+   ],
+   [
+    "summer",
+    17
+   ],
+   [
+    "bags",
+    15
+   ],
+   [
+    "accessories",
+    13
+   ],
+   [
+    "returns",
+    12
+   ],
+   [
+    "delivery",
+    12
+   ],
+   [
+    "beauty",
+    10
+   ],
+   [
+    "click",
+    10
+   ],
+   [
+    "collect",
+    10
+   ],
+   [
+    "exc",
+    10
+   ],
+   [
+    "cms",
+    10
+   ],
+   [
+    "media",
+    10
+   ],
+   [
+    "jpg",
+    10
+   ],
+   [
+    "homeware",
+    9
+   ],
+   [
+    "dresses",
+    9
+   ],
+   [
+    "guides",
+    8
+   ],
+   [
+    "bestsellers",
+    7
+   ],
+   [
+    "clothing",
+    7
+   ]
+  ],
+  "prices": {
+   "count": 29,
+   "currency": "GBP",
+   "min": 10.0,
+   "median": 30.0,
+   "max": 750.0,
+   "sample": [
+    10.0,
+    10.0,
+    20.0,
+    20.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    30.0,
+    50.0,
+    50.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    750.0
+   ]
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "PayPal",
+    "Apple Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": "10% off",
+   "free_delivery_threshold": 60,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": 538820,
+   "platforms": [
+    "Reviews.io"
+   ],
+   "has_reviews": true,
+   "source": "text",
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@oliverbonas",
+    "url": "https://www.tiktok.com/@oliverbonas?_t=8gCh17GEjGT&amp;_r=1"
+   }
+  },
+  "seo": {
+   "title": "Oliver Bonas | Fashion, Jewellery, Homeware & Gifts",
+   "title_length": 51,
+   "meta_description": "Oliver Bonas is an independent lifestyle brand for distinctive Clothing, Accessories, Jewellery, Homeware & Gifts. Shop home delivery or collect in store.",
+   "meta_description_length": 154,
+   "og_title": "Oliver Bonas | Fashion, Jewellery, Homeware & Gifts",
+   "og_image": "",
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 1,
+   "canonical": "https://www.oliverbonas.com/",
+   "structured_data_types": [
+    "BreadcrumbList",
+    "ListItem"
+   ],
+   "word_count": 1277,
+   "image_count": 61,
+   "internal_link_count": 423
+  },
+  "accessibility": {
+   "score": 82,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en-gb\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Oliver Bonas | Fashion, Jewellery, Homeware & Gifts"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "61/61 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.988,
+     "passed": true,
+     "applicable": true,
+     "detail": "415/420 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "13/13 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.333,
+     "passed": false,
+     "applicable": true,
+     "detail": "2/6 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "0 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "none found"
+    }
+   ],
+   "images_total": 61,
+   "images_with_alt": 61,
+   "links_total": 420,
+   "links_with_text": 415
+  },
+  "colours": [
+   {
+    "hex": "#eeedec",
+    "name": "white",
+    "share": 0.2443
+   },
+   {
+    "hex": "#744e34",
+    "name": "brown",
+    "share": 0.2376
+   },
+   {
+    "hex": "#fcfbf9",
+    "name": "white",
+    "share": 0.176
+   },
+   {
+    "hex": "#fef9de",
+    "name": "cream",
+    "share": 0.1305
+   },
+   {
+    "hex": "#bcb48d",
+    "name": "tan",
+    "share": 0.1292
+   },
+   {
+    "hex": "#e6caa2",
+    "name": "beige",
+    "share": 0.0824
+   }
+  ],
+  "screenshot": "screenshots/oliver-bonas/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 47,
+   "prices": {
+    "count": 47,
+    "currency": "GBP",
+    "min": 10.0,
+    "p25": 26.0,
+    "median": 30.0,
+    "p75": 50.0,
+    "max": 750.0,
+    "sample": [
+     10.0,
+     10.0,
+     12.5,
+     16.0,
+     16.0,
+     20.0,
+     20.0,
+     20.0,
+     20.0,
+     26.0,
+     26.0,
+     26.0,
+     26.0,
+     26.0,
+     28.0,
+     28.0,
+     28.0,
+     28.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     30.0,
+     32.0,
+     32.0,
+     46.0,
+     48.0,
+     50.0,
+     50.0,
+     60.0,
+     60.0,
+     60.0,
+     60.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 18,
+   "url": "https://www.oliverbonas.com/accessories/bags"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:51:30Z",
+  "brand": "Leo et Violette",
+  "slug": "leo-et-violette",
+  "url": "https://www.leoetviolette.com/en-uk",
+  "is_self": false,
+  "hero_message": "Léo et Violette",
+  "menu": [
+   "France",
+   "Europe (EUR)",
+   "International (USD)"
+  ],
+  "offers": [],
+  "headline_offer": null,
+  "max_discount_pct": null,
+  "delivery": [
+   "free delivery"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "new_in": {
+    "count": 2,
+    "share": 0.5
+   },
+   "bags": {
+    "count": 1,
+    "share": 0.25
+   },
+   "personalised": {
+    "count": 1,
+    "share": 0.25
+   }
+  },
+  "keywords": [
+   [
+    "open",
+    3
+   ],
+   [
+    "usa",
+    2
+   ],
+   [
+    "canada",
+    2
+   ],
+   [
+    "story",
+    2
+   ],
+   [
+    "paris",
+    2
+   ],
+   [
+    "store",
+    2
+   ],
+   [
+    "discover",
+    2
+   ],
+   [
+    "payment",
+    2
+   ],
+   [
+    "legal",
+    2
+   ],
+   [
+    "skip",
+    1
+   ],
+   [
+    "content",
+    1
+   ],
+   [
+    "violette",
+    1
+   ],
+   [
+    "bags",
+    1
+   ],
+   [
+    "small",
+    1
+   ],
+   [
+    "leather",
+    1
+   ],
+   [
+    "goods",
+    1
+   ],
+   [
+    "archives",
+    1
+   ],
+   [
+    "usd",
+    1
+   ],
+   [
+    "english",
+    1
+   ],
+   [
+    "page",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 0,
+   "currency": "GBP",
+   "min": null,
+   "median": null,
+   "max": null,
+   "sample": []
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "PayPal",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": null,
+   "free_delivery_threshold": 0,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [
+    "Trustpilot"
+   ],
+   "has_reviews": true,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "none",
+    "handle": null,
+    "url": null
+   }
+  },
+  "seo": {
+   "title": "Léo et Violette - Elegant and accessible leather goods",
+   "title_length": 54,
+   "meta_description": "Minimalist &amp; elegant accessories. Designed for your daily life. Made in Italy",
+   "meta_description_length": 81,
+   "og_title": "Léo et Violette - Elegant and accessible leather goods",
+   "og_image": "http://www.leoetviolette.com/cdn/shop/files/master_8226962f-88ad-489b-834b-22ec948ce037.png?v=1695370953&width=2048",
+   "h1": [
+    "Léo et Violette"
+   ],
+   "h1_count": 1,
+   "h2_count": 0,
+   "canonical": "https://www.leoetviolette.com/en-us",
+   "structured_data_types": [
+    "BreadcrumbList",
+    "ListItem",
+    "WebSite",
+    "SearchAction",
+    "Organization"
+   ],
+   "word_count": 349,
+   "image_count": 28,
+   "internal_link_count": 99
+  },
+  "accessibility": {
+   "score": 98,
+   "grade": "A",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Léo et Violette - Elegant and accessible leather goods"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "28/28 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.889,
+     "passed": false,
+     "applicable": true,
+     "detail": "88/99 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "26/26 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "2/2 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "exactly one <h1>"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 28,
+   "images_with_alt": 28,
+   "links_total": 99,
+   "links_with_text": 88
+  },
+  "colours": [
+   {
+    "hex": "#28221d",
+    "name": "black",
+    "share": 0.236
+   },
+   {
+    "hex": "#ffffff",
+    "name": "white",
+    "share": 0.2051
+   },
+   {
+    "hex": "#c1bcb4",
+    "name": "sage",
+    "share": 0.1927
+   },
+   {
+    "hex": "#92887a",
+    "name": "grey",
+    "share": 0.1611
+   },
+   {
+    "hex": "#675a4b",
+    "name": "brown",
+    "share": 0.1248
+   },
+   {
+    "hex": "#f5f5f5",
+    "name": "white",
+    "share": 0.0803
+   }
+  ],
+  "screenshot": "screenshots/leo-et-violette/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 165,
+   "prices": {
+    "count": 84,
+    "currency": "GBP",
+    "min": 48.33,
+    "p25": 377.0,
+    "median": 471.5,
+    "p75": 498.0,
+    "max": 532.0,
+    "sample": [
+     48.33,
+     145.0,
+     145.0,
+     189.0,
+     189.0,
+     189.0,
+     189.0,
+     189.0,
+     189.0,
+     203.0,
+     203.0,
+     223.0,
+     223.0,
+     223.0,
+     223.0,
+     223.0,
+     223.0,
+     223.0,
+     223.0,
+     377.0,
+     377.0,
+     377.0,
+     382.0,
+     382.0,
+     416.0,
+     416.0,
+     416.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     435.0,
+     455.0,
+     455.0,
+     464.0
+    ]
+   },
+   "on_sale_count": 7,
+   "discounted_share": 0.042,
+   "sale_pairs": [
+    [
+     20300.0,
+     14500.0
+    ],
+    [
+     20300.0,
+     14500.0
+    ],
+    [
+     45500.0,
+     38200.0
+    ],
+    [
+     45500.0,
+     38200.0
+    ],
+    [
+     43500.0,
+     37700.0
+    ],
+    [
+     43500.0,
+     37700.0
+    ],
+    [
+     43500.0,
+     37700.0
+    ]
+   ],
+   "new_in_mentions": 0,
+   "url": "https://www.leoetviolette.com/en-uk/collections/all"
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "captured_at": "2026-07-01T10:51:43Z",
+  "brand": "Mint Velvet",
+  "slug": "mint-velvet",
+  "url": "https://www.mintvelvet.com/",
+  "is_self": false,
+  "hero_message": "SALE\nNEW IN\nCLOTHING\nSHOES\nACCESSORIES",
+  "menu": [
+   "Our Story",
+   "Careers",
+   "The Summer 2026 Lookbook"
+  ],
+  "offers": [
+   "up to 50% off",
+   "50% off",
+   "sale"
+  ],
+  "headline_offer": "up to 50% off",
+  "max_discount_pct": 50,
+  "delivery": [
+   "click & collect"
+  ],
+  "discount_codes": [],
+  "product_mix": {
+   "new_in": {
+    "count": 2,
+    "share": 0.5
+   },
+   "accessories": {
+    "count": 1,
+    "share": 0.25
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.25
+   }
+  },
+  "keywords": [
+   [
+    "skip",
+    2
+   ],
+   [
+    "content",
+    2
+   ],
+   [
+    "sale",
+    2
+   ],
+   [
+    "fashion",
+    2
+   ],
+   [
+    "read",
+    2
+   ],
+   [
+    "styling",
+    2
+   ],
+   [
+    "style",
+    2
+   ],
+   [
+    "guide",
+    2
+   ],
+   [
+    "clothing",
+    1
+   ],
+   [
+    "shoes",
+    1
+   ],
+   [
+    "accessories",
+    1
+   ],
+   [
+    "trending",
+    1
+   ],
+   [
+    "tops",
+    1
+   ],
+   [
+    "trousers",
+    1
+   ],
+   [
+    "shorts",
+    1
+   ],
+   [
+    "dresses",
+    1
+   ],
+   [
+    "making",
+    1
+   ],
+   [
+    "sense",
+    1
+   ],
+   [
+    "pieces",
+    1
+   ],
+   [
+    "you’ll",
+    1
+   ]
+  ],
+  "prices": {
+   "count": 0,
+   "currency": "GBP",
+   "min": null,
+   "median": null,
+   "max": null,
+   "sample": []
+  },
+  "trading": {
+   "finance": [
+    "Klarna",
+    "Clearpay",
+    "PayPal",
+    "Google Pay"
+   ],
+   "has_bnpl": true,
+   "email_capture_offer": null,
+   "free_delivery_threshold": null,
+   "scarcity": []
+  },
+  "reputation": {
+   "rating": null,
+   "review_count": null,
+   "platforms": [],
+   "has_reviews": false,
+   "source": null,
+   "confidence": null
+  },
+  "marketplace": {
+   "amazon": {
+    "state": "none",
+    "url": null
+   },
+   "tiktok": {
+    "state": "social",
+    "handle": "@mintvelvet",
+    "url": "https://www.tiktok.com/@mintvelvet"
+   }
+  },
+  "seo": {
+   "title": "Mint Velvet | Women's Clothing & Accessories",
+   "title_length": 44,
+   "meta_description": "There's something for everyone in our SALE. Get up to 50% off on all your style must-haves, from statement looks to perfected wardrobe essentials.",
+   "meta_description_length": 146,
+   "og_title": "Mint Velvet | Women's Clothing & Accessories",
+   "og_image": "http://mintvelvet.com/cdn/shop/files/MV_Logo_2_59f51b52-d196-4d93-8eae-6f15948bd14d.png?height=628&pad_color=fff&v=1633001801&width=1200",
+   "h1": [],
+   "h1_count": 0,
+   "h2_count": 2,
+   "canonical": "https://mintvelvet.com/",
+   "structured_data_types": [
+    "Organization",
+    "ImageObject",
+    "WebSite",
+    "SearchAction"
+   ],
+   "word_count": 575,
+   "image_count": 22,
+   "internal_link_count": 163
+  },
+  "accessibility": {
+   "score": 86,
+   "grade": "B",
+   "checks": [
+    {
+     "id": "html_lang",
+     "label": "Page language declared (<html lang>)",
+     "weight": 10,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "lang=\"en\""
+    },
+    {
+     "id": "doc_title",
+     "label": "Document has a <title>",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "Mint Velvet | Women's Clothing & Accessories"
+    },
+    {
+     "id": "viewport",
+     "label": "Responsive viewport meta tag",
+     "weight": 6,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    },
+    {
+     "id": "img_alt",
+     "label": "Images have alt attributes",
+     "weight": 20,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "22/22 images"
+    },
+    {
+     "id": "link_text",
+     "label": "Links have discernible text",
+     "weight": 15,
+     "ratio": 0.969,
+     "passed": true,
+     "applicable": true,
+     "detail": "158/163 links"
+    },
+    {
+     "id": "button_name",
+     "label": "Buttons have accessible names",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "29/29 buttons"
+    },
+    {
+     "id": "form_labels",
+     "label": "Form fields have labels",
+     "weight": 8,
+     "ratio": 0.0,
+     "passed": false,
+     "applicable": true,
+     "detail": "0/3 fields"
+    },
+    {
+     "id": "headings",
+     "label": "Clear heading structure (single H1)",
+     "weight": 10,
+     "ratio": 0.5,
+     "passed": false,
+     "applicable": true,
+     "detail": "0 <h1> tags"
+    },
+    {
+     "id": "landmarks",
+     "label": "Landmark regions (main, nav)",
+     "weight": 8,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "main + nav"
+    },
+    {
+     "id": "skip_link",
+     "label": "Skip-to-content link",
+     "weight": 3,
+     "ratio": 1.0,
+     "passed": true,
+     "applicable": true,
+     "detail": "present"
+    }
+   ],
+   "images_total": 22,
+   "images_with_alt": 22,
+   "links_total": 163,
+   "links_with_text": 158
+  },
+  "colours": [
+   {
+    "hex": "#554e4a",
+    "name": "brown",
+    "share": 0.209
+   },
+   {
+    "hex": "#ac988a",
+    "name": "tan",
+    "share": 0.2015
+   },
+   {
+    "hex": "#ddbeac",
+    "name": "beige",
+    "share": 0.1734
+   },
+   {
+    "hex": "#3e2a24",
+    "name": "black",
+    "share": 0.1574
+   },
+   {
+    "hex": "#886655",
+    "name": "brown",
+    "share": 0.146
+   },
+   {
+    "hex": "#eeebea",
+    "name": "white",
+    "share": 0.1126
+   }
+  ],
+  "screenshot": "screenshots/mint-velvet/2026-07-01.jpg",
+  "status": "success",
+  "error": null,
+  "listing": {
+   "products_seen": 51,
+   "prices": {
+    "count": 17,
+    "currency": "GBP",
+    "min": 29.0,
+    "p25": 32.0,
+    "median": 59.0,
+    "p75": 120.0,
+    "max": 1500.0,
+    "sample": [
+     29.0,
+     29.0,
+     29.0,
+     32.0,
+     32.0,
+     35.0,
+     35.0,
+     45.0,
+     59.0,
+     69.0,
+     79.0,
+     120.0,
+     120.0,
+     135.0,
+     250.0,
+     1500.0,
+     1500.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 1,
+   "url": "https://www.mintvelvet.com/collections/all-accessories"
+  }
  }
 ]

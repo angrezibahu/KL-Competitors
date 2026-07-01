@@ -1,6 +1,41 @@
 {
- "generated_at": "2026-06-30T13:29:48Z",
+ "generated_at": "2026-07-01T10:52:24Z",
  "events": [
+  {
+   "date": "2026-07-01",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 8 new products to its range"
+  },
+  {
+   "date": "2026-07-01",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 6 new products to its range"
+  },
+  {
+   "date": "2026-07-01",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "hero_changed",
+   "text": "Katie Loxton changed its hero to “SUMMER SALE EXTRA 10% OFF SELECTED LINES*”"
+  },
+  {
+   "date": "2026-07-01",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "products_added",
+   "text": "DeMellier added 37 new products to its range"
+  },
+  {
+   "date": "2026-07-01",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "hero_changed",
+   "text": "Charles & Keith changed its hero to “Just Dropped: Bags”"
+  },
   {
    "date": "2026-06-30",
    "slug": "strathberry",

@@ -1,6 +1,48 @@
 {
- "generated_at": "2026-07-01T13:54:01Z",
+ "generated_at": "2026-07-02T10:18:25Z",
  "events": [
+  {
+   "date": "2026-07-02",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 9 new products to its range"
+  },
+  {
+   "date": "2026-07-02",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "price_shift",
+   "text": "Mint Velvet median price moved up £59.0 → £69.0 (+17%)"
+  },
+  {
+   "date": "2026-07-02",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 25 new products to its range"
+  },
+  {
+   "date": "2026-07-02",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "discount_changed",
+   "text": "DeMellier discount deepened 0% → 10%"
+  },
+  {
+   "date": "2026-07-02",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "hero_changed",
+   "text": "DeMellier changed its hero to “Enjoy 10% Off”"
+  },
+  {
+   "date": "2026-07-02",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "products_added",
+   "text": "DeMellier added 12 new products to its range"
+  },
   {
    "date": "2026-07-01",
    "slug": "strathberry",

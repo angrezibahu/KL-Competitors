@@ -1,6 +1,34 @@
 {
- "generated_at": "2026-07-02T13:21:16Z",
+ "generated_at": "2026-07-03T10:14:35Z",
  "events": [
+  {
+   "date": "2026-07-03",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "hero_changed",
+   "text": "Oliver Bonas changed its hero to “Shop All New In”"
+  },
+  {
+   "date": "2026-07-03",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 3 new products to its range"
+  },
+  {
+   "date": "2026-07-03",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_started",
+   "text": "Mejuri started a sale: up to 40% off"
+  },
+  {
+   "date": "2026-07-03",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "products_added",
+   "text": "DeMellier added 4 new products to its range"
+  },
   {
    "date": "2026-07-02",
    "slug": "strathberry",
@@ -195,7 +223,7 @@
   {
    "priority": "medium",
    "kind": "delivery",
-   "title": "3 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
+   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
    "detail": "Free-delivery messaging is a visible basket-conversion lever."
   }
  ]

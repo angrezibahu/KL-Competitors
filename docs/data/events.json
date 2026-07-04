@@ -1,6 +1,27 @@
 {
- "generated_at": "2026-07-03T13:23:21Z",
+ "generated_at": "2026-07-04T09:34:22Z",
  "events": [
+  {
+   "date": "2026-07-04",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 11 new products to its range"
+  },
+  {
+   "date": "2026-07-04",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 4 new products to its range"
+  },
+  {
+   "date": "2026-07-04",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 104 new products to its range"
+  },
   {
    "date": "2026-07-03",
    "slug": "oliver-bonas",

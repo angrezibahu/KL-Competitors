@@ -1310,6 +1310,182 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-04",
+   "captured_at": "2026-07-04T09:34:13Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "strathberry": {
+     "product_count": 454,
+     "new_count": 11,
+     "removed_count": 0,
+     "new_samples": [
+      "charlotte-drawstring-oat",
+      "melody-tote-black",
+      "melville-street-wallet-croc-embossed-leather-oxblood",
+      "mosaic-nano-raspberry-with-burgundy-stitch",
+      "mosaic-trifold-wallet-dusky-blue",
+      "multrees-hobo-khaki",
+      "multrees-hobo-tan",
+      "osette-raffia-black"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 118,
+      "scarves": 45,
+      "purses": 55,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 109,
+     "new_count": 0,
+     "removed_count": 8,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 12,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 637,
+     "new_count": 104,
+     "removed_count": 15,
+     "new_samples": [
+      "13mm-dome-cuff-bracelet-silver",
+      "20mm-dome-cuff-bracelet-silver",
+      "anya-turquoise-beaded-bracelet",
+      "anya-turquoise-beaded-necklace",
+      "aurora-radiant-eternity-ring",
+      "ava-eternity-band",
+      "barrel-link-chain-necklace",
+      "base-chain-bracelet"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 16,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "oliver-bonas": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2107,
+     "new_count": 4,
+     "removed_count": 0,
+     "new_samples": [
+      "brown-extreme-balloon-trouser",
+      "brown-suede-military-jacket-1",
+      "check-print-midi-skirt",
+      "red-stripe-batwing-t-shirt"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 75,
+      "purses": 2,
+      "accessories": 32,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

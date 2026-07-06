@@ -1641,6 +1641,180 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-06",
+   "captured_at": "2026-07-06T11:47:16Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "strathberry": {
+     "product_count": 441,
+     "new_count": 5,
+     "removed_count": 18,
+     "new_samples": [
+      "mosaic-trifold-wallet-croc-embossed-leather-oxblood",
+      "nano-tote-gold-metallic-foil",
+      "osette-midi-pouch-oxblood",
+      "stylist-black-ombre-studded-leather",
+      "stylist-embossed-leather-oat"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 119,
+      "scarves": 42,
+      "purses": 54,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 111,
+     "new_count": 10,
+     "removed_count": 8,
+     "new_samples": [
+      "the-hudson-burgundy-small-grain",
+      "the-hudson-salt-pepper-canvas-mocha-smooth",
+      "the-miami-burgundy-suede-burgundy-smooth",
+      "the-miami-leopard-effect-suede-black-smooth",
+      "the-midi-new-york-deep-tan-suede-tan-smooth",
+      "the-midi-new-york-mocha-shearling-smooth",
+      "the-midi-new-york-salt-pepper-canvas-black-smooth",
+      "the-santorini-natural-basket-black-smooth"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 10,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 617,
+     "new_count": 1,
+     "removed_count": 5,
+     "new_samples": [
+      "nameplate-necklace"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 16,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "oliver-bonas": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2110,
+     "new_count": 3,
+     "removed_count": 0,
+     "new_samples": [
+      "blue-stripe-balloon-sweat",
+      "cream-spot-slip-skirt",
+      "red-cotton-bomber-jacket"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 75,
+      "purses": 2,
+      "accessories": 32,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

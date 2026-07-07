@@ -1,6 +1,41 @@
 {
- "generated_at": "2026-07-06T14:45:03Z",
+ "generated_at": "2026-07-07T10:35:39Z",
  "events": [
+  {
+   "date": "2026-07-07",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "hero_changed",
+   "text": "Mint Velvet changed its hero to “collections sale”"
+  },
+  {
+   "date": "2026-07-07",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "price_shift",
+   "text": "Mint Velvet median price moved up £59.0 → £69.0 (+17%)"
+  },
+  {
+   "date": "2026-07-07",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 5 new products to its range"
+  },
+  {
+   "date": "2026-07-07",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "hero_changed",
+   "text": "Katie Loxton changed its hero to “SALE UNDER £20”"
+  },
+  {
+   "date": "2026-07-07",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "price_shift",
+   "text": "Katie Loxton median price moved down £40.0 → £29.99 (-25%)"
+  },
   {
    "date": "2026-07-06",
    "slug": "strathberry",
@@ -279,7 +314,7 @@
   {
    "priority": "medium",
    "kind": "delivery",
-   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
+   "title": "3 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
    "detail": "Free-delivery messaging is a visible basket-conversion lever."
   }
  ]

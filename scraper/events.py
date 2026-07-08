@@ -34,17 +34,6 @@ EVENTS_PATH = os.path.join(storage.DATA_DIR, "events.json")
 PRICE_SHIFT_PCT = 0.15        # flag a median price move of >= 15%
 BNPL = {"Klarna", "Clearpay", "Laybuy", "Afterpay"}
 
-# Marketplace states that count as "a channel is surfaced on the homepage".
-MARKETPLACE_PRESENT = {"official", "linked", "mentioned", "shop", "social"}
-# The states that count as a brand-OWNED channel (vs a bare mention) per market.
-MARKETPLACE_OWNED = {"amazon": {"official", "linked"}, "tiktok": {"shop", "social"}}
-# Marketplace presence is homepage-DECLARED only, so it false-negatives a channel
-# a brand runs but doesn't link from its homepage (e.g. Katie Loxton on Amazon). Until
-# detection is accurate (config-declared known URLs + stockists-page scan), we keep
-# the rule/event code + tests but DON'T surface them on the live dashboard, so the
-# Opportunities tab never claims "Katie Loxton shows none" for a channel we know exists.
-SHOW_MARKETPLACE = False
-
 
 # ---------------------------------------------------------------------------
 # Helpers (pure)
@@ -144,19 +133,6 @@ def compute_events(captures):
             cur_plat = set((cur.get("reputation") or {}).get("platforms") or [])
             for p in sorted(cur_plat - prev_plat):
                 add("reviews_added", f"{brand} added a {p} review widget to its homepage")
-
-            # Marketplace presence: an off-site channel (Amazon / TikTok)
-            # appearing on, or vanishing from, the homepage. Hidden from the live
-            # dashboard (SHOW_MARKETPLACE) until detection is accurate.
-            for mk, label in (("amazon", "Amazon"), ("tiktok", "TikTok")) if SHOW_MARKETPLACE else ():
-                ps = ((prev.get("marketplace") or {}).get(mk) or {}).get("state")
-                cs = ((cur.get("marketplace") or {}).get(mk) or {}).get("state")
-                if cs in MARKETPLACE_PRESENT and ps not in MARKETPLACE_PRESENT:
-                    add("marketplace_added",
-                        f"{brand} surfaced a {label} channel on its homepage ({cs})")
-                elif ps in MARKETPLACE_PRESENT and cs not in MARKETPLACE_PRESENT:
-                    add("marketplace_removed",
-                        f"{brand} no longer surfaces a {label} channel")
 
             # Price-band shift (uses real listing median when present).
             pm, cm = _median(prev), _median(cur)
@@ -372,31 +348,7 @@ def compute_opportunities(captures, aio=None, catalogue=None):
                     f"({round(pack_mean * 100)}% of their range vs {self_name}'s {round(self_sh * 100)}%)",
                     "A range-mix gap in a category buyers are shopping — see the Assortment tab's range mix.")
 
-    # 8. Marketplace presence — off-site channels the pack surfaces and the owned
-    #    brand doesn't. Homepage-declared (£0/public); the reseller/outlet case needs a
-    #    live probe (roadmap), so this reads "owned channel" gaps, never "absent".
-    #    Hidden from the live dashboard (SHOW_MARKETPLACE) until detection is
-    #    accurate enough not to false-negative a channel we KNOW a brand runs.
-    def _mk(rec, channel):
-        return ((rec.get("marketplace") or {}).get(channel) or {}).get("state")
-
-    amazon_pack = [r for r in others if _mk(r, "amazon") in MARKETPLACE_OWNED["amazon"]]
-    if (SHOW_MARKETPLACE and _mk(self_brand, "amazon") not in MARKETPLACE_OWNED["amazon"]
-            and len(amazon_pack) >= max(2, len(others) // 3)):
-        official = sum(1 for r in amazon_pack if _mk(r, "amazon") == "official")
-        add("medium", "marketplace",
-            f"{len(amazon_pack)}/{len(others)} competitors surface an Amazon presence — {self_name}'s homepage shows none",
-            (f"{official} run an official Amazon storefront. " if official else "")
-            + "A second B2C shelf shoppers already search — see the Marketplace tab "
-            "(homepage-declared; reseller/outlet detection needs a live probe).")
-
-    tiktok_pack = [r for r in others if _mk(r, "tiktok") == "shop"]
-    if SHOW_MARKETPLACE and _mk(self_brand, "tiktok") != "shop" and len(tiktok_pack) >= max(2, len(others) // 3):
-        add("medium", "marketplace",
-            f"{len(tiktok_pack)}/{len(others)} competitors surface a TikTok Shop — {self_name}'s isn't detected",
-            "TikTok Shop is the fast-growing social-commerce channel in this category — see the Marketplace tab.")
-
-    # 9. AI visibility gaps (ties in the AIO pillar when present).
+    # 8. AI visibility gaps (ties in the AIO pillar when present).
     run = _latest_aio(aio)
     if run:
         self_slug = self_brand.get("slug")
@@ -407,7 +359,7 @@ def compute_opportunities(captures, aio=None, catalogue=None):
             add("high", "ai_visibility",
                 f"Competitors are named in AI answers for {len(absent)} buyer-intent quer"
                 + ("y" if len(absent) == 1 else "ies") + f" where {self_name} is absent",
-                f"e.g. “{sample}”. Each is a content brief — see the AI Visibility tab.")
+                f"e.g. “{sample}”. Each is a content brief — ask the Ask Me tab for the detail.")
 
     order = {"high": 0, "medium": 1, "low": 2}
     opps.sort(key=lambda o: order.get(o["priority"], 3))

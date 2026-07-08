@@ -1,23 +1,37 @@
 /* Katie Loxton Competitor Radar — vanilla JS, no build step, no CDN (works offline). */
 
-const TABS = [
-  ["overview",   "Overview"],
-  ["opportunities", "Opportunities"],
-  ["market",     "Market Map"],
-  ["periods",    "W/M/Q overview"],
-  ["competitors","By competitor"],
-  ["offers",     "Offer trends"],
-  ["trading",    "Trading"],
-  ["reputation", "Reputation"],
-  ["assortment", "Assortment"],
-  ["pricing",    "Pricing"],
-  ["colours",    "Colour trends"],
-  ["keywords",   "Keyword trends"],
-  ["seo",        "SEO"],
-  ["aio",        "AI Visibility"],
-  ["a11y",       "Accessibility"],
-  ["screens",    "Screenshots"],
+// Side-nav sections: logical groups rather than one flat row of 16 tabs.
+const NAV_GROUPS = [
+  ["Overview", [
+    ["overview",      "Overview"],
+    ["opportunities", "Opportunities"],
+  ]],
+  ["Daily trading", [
+    ["offers",  "Offer trends"],
+    ["trading", "Trading"],
+    ["pricing", "Pricing"],
+  ]],
+  ["Market & range", [
+    ["market",     "Market map"],
+    ["assortment", "Assortment"],
+    ["periods",    "W/M/Q overview"],
+  ]],
+  ["Brand & creative", [
+    ["competitors", "By competitor"],
+    ["colours",     "Colour trends"],
+    ["reputation",  "Reputation"],
+  ]],
+  ["Search & visibility", [
+    ["keywords", "Keyword trends"],
+    ["seo",      "SEO"],
+    ["ask",      "Ask Me"],
+    ["a11y",     "Accessibility"],
+  ]],
+  ["Screenshots", [
+    ["screens", "Screenshots"],
+  ]],
 ];
+const TABS = NAV_GROUPS.flatMap(([, items]) => items);
 
 const state = { captures: [], byBrand: {}, dates: [], latest: {}, aio: { runs: [] }, events: { events: [], opportunities: [] }, catalogue: { runs: [] }, active: "overview" };
 
@@ -125,6 +139,35 @@ function viewOverview() {
   const wrap = el("div");
   const brands = brandsSorted();
   const today = latestDate();
+
+  // Lead with the storefronts themselves — the latest (mobile-first) capture
+  // per brand; tapping one jumps into that brand's screenshot history.
+  const shots = brands.map(b => {
+    const recs = (state.byBrand[b.slug] || {}).recs || [];
+    const latest = [...recs].reverse().find(r => r.screenshot);
+    return latest ? { b, latest } : null;
+  }).filter(Boolean);
+  if (shots.length) {
+    const heroCard = el("div", "card");
+    heroCard.innerHTML = `<h3>Today's storefronts</h3>
+      <p class="hint">The latest homepage capture per brand (phone view where captured). Tap a storefront to open its screenshot history.</p>`;
+    const grid = el("div", "storefronts");
+    for (const { b, latest } of shots) {
+      const mobile = !!latest.screenshot_mobile;
+      const src = latest.screenshot_mobile || latest.screenshot;
+      const btn = el("button", "storefront");
+      btn.setAttribute("aria-label", `${b.brand} storefront, captured ${latest.date} — open screenshot history`);
+      btn.innerHTML = `<span class="shot"><img src="${esc(src)}" alt="" loading="lazy"></span>
+        <span class="lbl">${esc(b.brand)}${b.is_self ? " ★" : ""}<span class="date">${esc(latest.date)}</span></span>`;
+      btn.onclick = () => {
+        shotState = { slug: b.slug, device: mobile ? "mobile" : "desktop", bucket: "all", lightbox: null };
+        selectTab("screens");
+      };
+      grid.append(btn);
+    }
+    heroCard.append(grid);
+    wrap.append(heroCard);
+  }
   // Sale/discount/shipping figures read from brands actually captured TODAY, so
   // the denominator is honest — a brand that fell to a block today isn't counted
   // as "on sale" off a stale capture. Coverage is shown explicitly below.
@@ -378,53 +421,175 @@ function viewSeo() {
   return wrap;
 }
 
-let shotState = { slug: null, idx: 0 };
+// ---------- screenshots: filterable gallery + accessible lightbox ----------
+let shotState = { slug: "all", device: "desktop", bucket: "week", lightbox: null };
+
+// Which date bucket does a capture fall in, relative to the newest capture?
+function inBucket(dateStr, bucket) {
+  if (bucket === "all") return true;
+  const latest = latestDate();
+  if (latest === "—") return true;
+  if (bucket.startsWith("month:")) return dateStr.slice(0, 7) === bucket.slice(6);
+  const [ly, lw] = isoWeekParts(new Date(latest + "T00:00:00Z"));
+  const [y, w] = isoWeekParts(new Date(dateStr + "T00:00:00Z"));
+  if (bucket === "week") return y === ly && w === lw;
+  if (bucket === "lastweek") {
+    // Previous ISO week, handling the year boundary.
+    const prev = new Date(latest + "T00:00:00Z");
+    prev.setUTCDate(prev.getUTCDate() - 7);
+    const [py, pw] = isoWeekParts(prev);
+    return y === py && w === pw;
+  }
+  return true;
+}
+
+function galleryItems() {
+  const brands = shotState.slug === "all"
+    ? brandsSorted()
+    : brandsSorted().filter(b => b.slug === shotState.slug);
+  const items = [];
+  for (const b of brands) {
+    for (const r of (state.byBrand[b.slug] || {}).recs || []) {
+      const src = shotState.device === "mobile" ? r.screenshot_mobile : r.screenshot;
+      if (!src || !inBucket(r.date, shotState.bucket)) continue;
+      items.push({ b, r, src });
+    }
+  }
+  // Newest first, then brand order for same-day shots.
+  items.sort((a, c) => c.r.date.localeCompare(a.r.date));
+  return items;
+}
+
 function viewScreens() {
   const wrap = el("div");
   const brands = brandsSorted();
-  if (!shotState.slug) shotState.slug = (brands.find(b => b.is_self) || brands[0] || {}).slug;
 
-  const pick = el("div", "brandpick");
-  pick.setAttribute("role", "group");
-  pick.setAttribute("aria-label", "Choose a brand");
-  for (const b of brands) {
-    const btn = el("button", b.slug === shotState.slug ? "active" : "", esc(b.brand) + (b.is_self ? " ★" : ""));
-    btn.setAttribute("aria-pressed", b.slug === shotState.slug ? "true" : "false");
-    btn.onclick = () => { shotState.slug = b.slug; shotState.idx = 0; render(); };
-    pick.append(btn);
+  // --- filters: brand, device, date bucket ---
+  const ctrl = el("div", "card");
+  ctrl.innerHTML = `<h3>Screenshot gallery</h3>
+    <p class="hint">Every capture, filterable by brand, device and date. Newest first; select a shot to view it full-size.</p>`;
+
+  const brandRow = el("div", "brandpick");
+  brandRow.setAttribute("role", "group");
+  brandRow.setAttribute("aria-label", "Filter by brand");
+  const brandBtn = (slug, label) => {
+    const on = shotState.slug === slug;
+    const btn = el("button", on ? "active" : "", label);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.slug = slug; shotState.lightbox = null; render(); };
+    return btn;
+  };
+  brandRow.append(brandBtn("all", "All brands"));
+  for (const b of brands) brandRow.append(brandBtn(b.slug, esc(b.brand) + (b.is_self ? " ★" : "")));
+
+  const deviceRow = el("div", "brandpick");
+  deviceRow.setAttribute("role", "group");
+  deviceRow.setAttribute("aria-label", "Device");
+  for (const [dev, label] of [["desktop", "🖥 Desktop"], ["mobile", "📱 Mobile"]]) {
+    const on = shotState.device === dev;
+    const btn = el("button", on ? "active" : "", label);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.device = dev; shotState.lightbox = null; render(); };
+    deviceRow.append(btn);
   }
-  wrap.append(pick);
 
-  // Newest first: recs are stored oldest→newest, so reverse for the slider.
-  const recs = (state.byBrand[shotState.slug]?.recs || []).filter(r => r.screenshot).reverse();
+  const bucketRow = el("div", "brandpick");
+  bucketRow.setAttribute("role", "group");
+  bucketRow.setAttribute("aria-label", "Date range");
+  const months = [...new Set(state.dates.map(d => d.slice(0, 7)))].sort().reverse();
+  const buckets = [["week", "This week"], ["lastweek", "Last week"],
+    ...months.map(m => ["month:" + m, m]), ["all", "All"]];
+  for (const [bk, label] of buckets) {
+    const on = shotState.bucket === bk;
+    const btn = el("button", on ? "active" : "", esc(label));
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.bucket = bk; shotState.lightbox = null; render(); };
+    bucketRow.append(btn);
+  }
+  ctrl.append(el("p", "hint", "Brand"), brandRow,
+              el("p", "hint", "Device"), deviceRow,
+              el("p", "hint", "Date"), bucketRow);
+  wrap.append(ctrl);
+
+  // --- the gallery grid ---
+  const items = galleryItems();
+  // An evidence link (Ask Me) can ask for a specific date's shot: open the
+  // lightbox straight onto it, once.
+  if (shotState.focusDate) {
+    const i = items.findIndex(it => it.r.date === shotState.focusDate);
+    if (i >= 0) shotState.lightbox = i;
+    shotState.focusDate = null;
+  }
   const card = el("div", "card");
-  if (!recs.length) { card.innerHTML = `<p class="muted">No screenshots yet for this brand.</p>`; wrap.append(card); return wrap; }
-  shotState.idx = Math.min(shotState.idx, recs.length - 1);
-  const cur = recs[shotState.idx];
-
-  const main = el("div", "shotmain");
-  const brandName = state.byBrand[shotState.slug].brand;
-  main.innerHTML = `<div class="shotctrl">
-      <button class="btn" id="prevShot" aria-label="Newer screenshot">‹ Newer</button>
-      <label class="sr-only" for="shotRange">Screenshot date (${shotState.idx + 1} of ${recs.length}, newest first)</label>
-      <input type="range" min="0" max="${recs.length - 1}" value="${shotState.idx}" id="shotRange"
-        aria-label="Screenshot date (newest first)" aria-valuetext="${esc(cur.date)}, ${shotState.idx + 1} of ${recs.length}">
-      <button class="btn" id="nextShot" aria-label="Older screenshot">Older ›</button>
-    </div>
-    <p class="hint"><b>${esc(brandName)}</b> — ${esc(cur.date)} (${shotState.idx + 1}/${recs.length})
-      ${cur.headline_offer ? ` · <span class="pill warn">${esc(cur.headline_offer)}</span>` : ""}</p>
-    <img src="${esc(cur.screenshot)}" alt="${esc(brandName)} homepage captured ${esc(cur.date)}" loading="lazy">`;
-  card.append(main);
+  if (!items.length) {
+    card.innerHTML = `<p class="muted">No ${esc(shotState.device)} screenshots in this date range yet`
+      + (shotState.device === "mobile" ? " — mobile capture starts with the next daily run." : ".") + `</p>`;
+    wrap.append(card);
+    return wrap;
+  }
+  const grid = el("div", "gallery");
+  items.forEach((it, i) => {
+    const cell = el("button", "galleryitem");
+    cell.setAttribute("aria-label",
+      `${it.b.brand} ${shotState.device} screenshot, ${it.r.date} — open full size`);
+    cell.innerHTML = `<span class="shot"><img src="${esc(it.src)}" alt="" loading="lazy"></span>
+      <span class="lbl">${esc(it.b.brand)}${it.b.is_self ? " ★" : ""}<span class="date">${esc(it.r.date)}</span>
+      ${it.r.headline_offer ? `<span class="pill warn">${esc(it.r.headline_offer)}</span>` : ""}</span>`;
+    cell.onclick = () => { shotState.lightbox = i; render(); };
+    grid.append(cell);
+  });
+  card.append(grid);
   wrap.append(card);
 
-  setTimeout(() => {
-    const range = document.getElementById("shotRange");
-    const go = i => { shotState.idx = Math.max(0, Math.min(recs.length - 1, i)); render(); };
-    range.oninput = e => go(+e.target.value);
-    document.getElementById("prevShot").onclick = () => go(shotState.idx - 1);
-    document.getElementById("nextShot").onclick = () => go(shotState.idx + 1);
-  }, 0);
+  // --- lightbox (modal dialog: focus trap, Escape, ‹ Newer / Older ›) ---
+  if (shotState.lightbox != null && items[shotState.lightbox]) {
+    wrap.append(buildLightbox(items, shotState.lightbox));
+  }
   return wrap;
+}
+
+function buildLightbox(items, idx) {
+  const it = items[idx];
+  const box = el("div", "lightbox");
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-modal", "true");
+  box.setAttribute("aria-label",
+    `${it.b.brand} screenshot, ${it.r.date} (${idx + 1} of ${items.length})`);
+  box.innerHTML = `
+    <div class="lightbox-bar">
+      <span><b>${esc(it.b.brand)}</b> — ${esc(it.r.date)} (${idx + 1}/${items.length})
+        ${it.r.headline_offer ? `<span class="pill warn">${esc(it.r.headline_offer)}</span>` : ""}</span>
+      <span class="lightbox-ctl">
+        <button class="btn" id="lbPrev" ${idx === 0 ? "disabled" : ""} aria-label="Newer screenshot">‹ Newer</button>
+        <button class="btn" id="lbNext" ${idx === items.length - 1 ? "disabled" : ""} aria-label="Older screenshot">Older ›</button>
+        <button class="btn" id="lbClose" aria-label="Close">✕ Close</button>
+      </span>
+    </div>
+    <div class="lightbox-body"><img src="${esc(it.src)}"
+      alt="${esc(it.b.brand)} homepage captured ${esc(it.r.date)}"></div>`;
+  const close = () => { shotState.lightbox = null; render(); };
+  const go = i => { shotState.lightbox = Math.max(0, Math.min(items.length - 1, i)); render(); };
+  setTimeout(() => {
+    const prev = document.getElementById("lbPrev"), next = document.getElementById("lbNext");
+    document.getElementById("lbClose").onclick = close;
+    prev.onclick = () => go(idx - 1);
+    next.onclick = () => go(idx + 1);
+    (idx > 0 ? prev : next).focus();
+    box.onkeydown = e => {
+      if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (e.key === "ArrowLeft" && idx > 0) go(idx - 1);
+      else if (e.key === "ArrowRight" && idx < items.length - 1) go(idx + 1);
+      else if (e.key === "Tab") {
+        // Focus trap inside the dialog.
+        const f = [...box.querySelectorAll("button:not([disabled])")];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+  }, 0);
+  return box;
 }
 
 function viewPricing() {
@@ -513,6 +678,70 @@ function viewTrading() {
   tw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">BNPL</th><th scope="col">Finance / wallets</th><th scope="col">Sign-up offer</th><th scope="col">Free delivery</th><th scope="col">Scarcity</th></tr></thead><tbody>${frows}</tbody></table>`;
   fc.append(tw);
   wrap.append(fc);
+
+  // --- urgency & conversion levers (homepage) ---
+  const uc = el("div", "card");
+  uc.innerHTML = `<h3>Urgency &amp; conversion levers</h3>
+    <p class="hint">Countdown/urgency copy, bundle offers, gift-with-purchase, loyalty prompts, personalisation upsells,
+    SMS capture and live chat — read from each homepage. Empty cells mean the signal wasn't detected, not proven absent.</p>`;
+  const utw = el("div", "tablewrap");
+  const tag = s => `<span class="tag">${esc(s)}</span>`;
+  const dash = '<span class="muted">—</span>';
+  let urows = "";
+  for (const { b, r } of rows) {
+    const t = r.trading || {};
+    urows += `<tr>
+      <td>${nameCell(b)}</td>
+      <td>${(t.urgency || []).length ? t.urgency.slice(0, 2).map(tag).join("") : dash}</td>
+      <td>${(t.multibuy || []).length ? t.multibuy.slice(0, 2).map(tag).join("") : dash}</td>
+      <td>${t.gift_with_purchase ? tag(t.gift_with_purchase) : dash}</td>
+      <td>${t.loyalty ? tag(t.loyalty) : dash}</td>
+      <td>${t.personalisation_upsell ? tag(t.personalisation_upsell) : dash}</td>
+      <td>${t.sms_capture ? '<span class="pill good">✓</span>' : dash}</td>
+      <td>${t.live_chat ? `<span class="pill good">✓${t.live_chat !== "copy" ? " " + esc(t.live_chat) : ""}</span>` : dash}</td>
+    </tr>`;
+  }
+  utw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">Urgency</th><th scope="col">Multi-buy</th><th scope="col">Gift w/ purchase</th><th scope="col">Loyalty</th><th scope="col">Personalisation</th><th scope="col">SMS</th><th scope="col">Live chat</th></tr></thead><tbody>${urows}</tbody></table>`;
+  uc.append(utw);
+  wrap.append(uc);
+
+  // --- delivery & returns (dedicated policy-page captures) ---
+  const withPolicy = rows.filter(x => x.r.delivery_info || x.r.returns_info);
+  const dc = el("div", "card");
+  dc.innerHTML = `<h3>Delivery &amp; returns</h3>
+    <p class="hint">The service proposition from each brand's own delivery and returns pages: priced options,
+    free-delivery threshold, express + order cutoff, returns window and whether returns cost the shopper money.</p>`;
+  if (withPolicy.length) {
+    const dtw = el("div", "tablewrap");
+    let drows = "";
+    for (const { b, r } of withPolicy) {
+      const d = r.delivery_info || {};
+      const ret = r.returns_info || {};
+      const opts = (d.options || []).slice(0, 3)
+        .map(o => tag(`${o.name} ${o.price}`)).join("") || dash;
+      const express = d.express
+        ? `<span class="pill good">✓${d.express_cutoff ? " by " + esc(d.express_cutoff) : ""}</span>`
+          + (d.express_source === "config" ? ' <span class="tag" title="Confirmed express service; the page wording didn\'t match the detection patterns today">confirmed</span>' : "")
+        : dash;
+      const freeRet = ret.free_returns === true ? '<span class="pill good">free</span>'
+        : ret.free_returns === false ? '<span class="pill warn">paid</span>'
+        : dash;
+      drows += `<tr>
+        <td>${nameCell(b)}</td>
+        <td>${opts}</td>
+        <td class="num">${d.free_threshold == null ? dash : (d.free_threshold === 0 ? '<span class="pill good">free</span>' : `<span class="pill">over £${d.free_threshold}</span>`)}</td>
+        <td>${express}</td>
+        <td class="num">${ret.window_days != null ? `<span class="pill">${ret.window_days} days</span>` : dash}</td>
+        <td>${freeRet}</td>
+        <td>${ret.exchanges ? '<span class="pill good">✓</span>' : dash}</td>
+      </tr>`;
+    }
+    dtw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">Delivery options</th><th scope="col">Free over</th><th scope="col">Express</th><th scope="col">Returns window</th><th scope="col">Return cost</th><th scope="col">Exchanges</th></tr></thead><tbody>${drows}</tbody></table>`;
+    dc.append(dtw);
+  } else {
+    dc.append(el("p", "muted", "No delivery/returns pages captured yet — this fills in as the daily job runs (URLs are auto-discovered from each homepage, or set delivery_url / returns_url per brand in config)."));
+  }
+  wrap.append(dc);
   return wrap;
 }
 
@@ -543,37 +772,60 @@ function viewMarketMap() {
   const latestCat = runs.length ? runs[runs.length - 1].brands || {} : {};
   const brands = brandsSorted();
 
-  // Join: each brand needs a reliable median price AND a catalogue range size.
-  const pts = [];
-  const noisy = [];          // detectably-unreliable price -> shown, not plotted
-  for (const b of brands) {
+  // Join price signal + catalogue range size for EVERY tracked brand. Where a
+  // coordinate is missing or detectably unreliable we estimate it at the pack
+  // median and render the point visibly differently (hollow, dashed) with a
+  // caveat below — a brand with a noisy signal still exists in the market, so
+  // dropping it from the map would misdescribe the field.
+  const joined = brands.map(b => {
     const r = state.latest[b.slug];
     const ce = latestCat[b.slug];
-    const size = ce && ce.ok ? ce.product_count : null;
-    const sig = brandPriceSignal(r);
-    if (sig.noisy && size != null) { noisy.push({ b, lm: sig.lm, hm: sig.hm }); continue; }
-    if (sig.price != null && size != null) pts.push({ b, price: sig.price, size });
-  }
+    const size = ce && ce.ok && ce.product_count != null ? ce.product_count : null;
+    return { b, size, sig: brandPriceSignal(r) };
+  });
+  const knownPrices = joined.filter(j => !j.sig.noisy && j.sig.price != null).map(j => j.sig.price).sort((a, b) => a - b);
+  const knownSizes = joined.filter(j => j.size != null).map(j => j.size).sort((a, b) => a - b);
 
   const intro = el("div", "card");
   intro.innerHTML = `<h3>Market map — positioning</h3>
     <p class="hint">Where each brand sits on <b>price</b> (median, from real listing pages where available, else the homepage band)
-    against <b>range size</b> (catalogue products from sitemaps), splitting the market into value/premium × niche/broad.</p>`;
+    against <b>range size</b> (catalogue products from sitemaps), splitting the market into value/premium × niche/broad.
+    Every tracked brand is plotted; estimated positions are hollow dashed dots (see the caveats below the map).</p>`;
   wrap.append(intro);
 
-  if (pts.length < 3) {
+  if (knownPrices.length < 3 || knownSizes.length < 3) {
     const c = el("div", "card");
-    c.innerHTML = `<p class="muted">Not enough overlapping price + catalogue data yet to map positions
-      (need at least 3 brands with both). This fills in as the daily capture and the catalogue step run.</p>`;
+    c.innerHTML = `<p class="muted">Not enough measured price + catalogue data yet to map positions
+      (need at least 3 brands measured on each axis). This fills in as the daily capture and the catalogue step run.</p>`;
     wrap.append(c);
     return wrap;
   }
 
-  // Pack medians = the quadrant dividers.
-  const sortedP = pts.map(p => p.price).sort((a, b) => a - b);
-  const sortedS = pts.map(p => p.size).sort((a, b) => a - b);
-  const medP = sortedP[Math.floor(sortedP.length / 2)];
-  const medS = sortedS[Math.floor(sortedS.length / 2)];
+  // Pack medians of MEASURED brands = the quadrant dividers and the fallback
+  // position for brands whose own signal is missing/noisy.
+  const medP = knownPrices[Math.floor(knownPrices.length / 2)];
+  const medS = knownSizes[Math.floor(knownSizes.length / 2)];
+
+  const pts = [];
+  const caveats = [];
+  for (const { b, size, sig } of joined) {
+    let price = sig.price, estimated = false;
+    const why = [];
+    if (sig.noisy) {
+      price = medP; estimated = true;
+      why.push(`listing £${Math.round(sig.lm)} vs homepage £${Math.round(sig.hm)} disagree by more than 4× (usually a stray "spend over £X", bundle or "was" price) — plotted at the pack-median price`);
+    } else if (price == null) {
+      price = medP; estimated = true;
+      why.push("no price captured — plotted at the pack-median price");
+    }
+    let s = size;
+    if (s == null) {
+      s = medS; estimated = true;
+      why.push("no readable product sitemap — plotted at the pack-median range size");
+    }
+    if (why.length) caveats.push({ b, why: why.join("; ") });
+    pts.push({ b, price, size: s, estimated });
+  }
 
   // SVG scale with padding so points don't sit on the frame.
   const W = 760, H = 470, mL = 58, mR = 128, mT = 28, mB = 46;
@@ -613,17 +865,20 @@ function viewMarketMap() {
   svg += ql(mL + pW - 8, mT + 16, "end", "Broad & premium");
   svg += ql(mL + 8, mT + pH - 8, "start", "Niche & value");
   svg += ql(mL + pW - 8, mT + pH - 8, "end", "Niche & premium");
-  // Points.
+  // Points. Estimated positions render hollow with a dashed ring so they can
+  // never be mistaken for a measurement.
   for (const p of pts) {
     const cx = X(p.price), cy = Y(p.size), self = p.b.is_self;
     const rad = self ? 8 : 6;
-    const fill = self ? "var(--accent)" : "#fff";
-    const stroke = self ? "var(--accent)" : "var(--accent2)";
+    const fill = p.estimated ? "none" : (self ? "var(--accent)" : "#fff");
+    const stroke = p.estimated ? (self ? "var(--accent)" : "var(--muted)")
+      : (self ? "var(--accent)" : "var(--accent2)");
+    const dash = p.estimated ? ' stroke-dasharray="3 3"' : "";
     const labelRight = cx < mL + pW * 0.72;
     const lx = labelRight ? cx + rad + 5 : cx - rad - 5;
     const anchor = labelRight ? "start" : "end";
-    svg += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2">`
-         + `<title>${esc(p.b.brand)} — £${Math.round(p.price)} median, ${p.size} products</title></circle>`;
+    svg += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2"${dash}>`
+         + `<title>${esc(p.b.brand)} — £${Math.round(p.price)} median, ${p.size} products${p.estimated ? " (position estimated)" : ""}</title></circle>`;
     svg += `<text x="${lx}" y="${cy + 4}" font-size="11.5" text-anchor="${anchor}" `
          + `fill="${self ? "var(--accent)" : "var(--ink)"}" font-weight="${self ? 700 : 500}">${esc(p.b.brand)}${self ? " ★" : ""}</text>`;
   }
@@ -636,7 +891,7 @@ function viewMarketMap() {
 
   // Where does Katie Loxton sit?
   const jp = pts.find(p => p.b.is_self);
-  if (jp) {
+  if (jp && !jp.estimated) {
     const quad = (jp.size >= medS ? "broad" : "niche") + " & " + (jp.price >= medP ? "premium" : "value");
     const vc = el("div", "card");
     vc.innerHTML = `<h3>Where Katie Loxton sits</h3><p class="hint" style="margin:0">Katie Loxton maps to the <b>${esc(quad)}</b> quadrant
@@ -645,12 +900,11 @@ function viewMarketMap() {
     wrap.append(vc);
   }
 
-  if (noisy.length) {
+  if (caveats.length) {
     const nc = el("div", "card");
-    nc.innerHTML = `<h3>Not placed — price signal too noisy</h3>
-      <p class="hint">Their listing-page and homepage medians disagree by more than 4× (usually a stray "spend over £X", bundle or "was" price), so
-      placing them would mislabel their position. Shown here rather than guessed:</p>
-      <div>${noisy.map(n => `<span class="tag" title="listing £${Math.round(n.lm)} vs homepage £${Math.round(n.hm)}">${esc(n.b.brand)} — listing £${Math.round(n.lm)} vs homepage £${Math.round(n.hm)}</span>`).join("")}</div>`;
+    nc.innerHTML = `<h3>Plotted with a caveat</h3>
+      <p class="hint">Every tracked brand is on the map, but these positions are <b>estimated</b> (hollow dashed dots), not measured:</p>
+      <div>${caveats.map(n => `<span class="tag">${esc(n.b.brand)} — ${esc(n.why)}</span>`).join("")}</div>`;
     wrap.append(nc);
   }
 
@@ -933,103 +1187,6 @@ function viewReputation() {
   return wrap;
 }
 
-// ---------- marketplace presence (off-site channels) ----------
-const mkOf = (r, name) => (r && r.marketplace && r.marketplace[name]) || { state: "none" };
-const AMAZON_OWNED = new Set(["official", "linked"]);
-
-// Render the Amazon cell as a pill that encodes the *kind* of presence.
-function amazonCell(a) {
-  const url = a.url ? ` <a href="${esc(a.url)}" target="_blank" rel="noopener">open ↗</a>` : "";
-  if (a.state === "official") return `<span class="pill good">official store</span>${url}`;
-  if (a.state === "linked") return `<span class="pill warn">linked</span>${url}`;
-  if (a.state === "mentioned") return `<span class="tag">mentioned</span>`;
-  return '<span class="muted">none surfaced</span>';
-}
-function tiktokCell(t) {
-  const tag = t.handle ? ` <span class="tag">${esc(t.handle)}</span>` : "";
-  if (t.state === "shop") return `<span class="pill good">TikTok Shop</span>${tag}`;
-  if (t.state === "social") return `<span class="pill warn">profile</span>${tag}`;
-  return '<span class="muted">none surfaced</span>';
-}
-// The B2C-vs-outlet read, from what the homepage declares.
-function channelRead(a, t) {
-  if (a.state === "official" || t.state === "shop")
-    return '<span class="pill good">brand-run channel</span> <span class="hint">B2C-aligned</span>';
-  if (a.state === "linked" || a.state === "mentioned")
-    return '<span class="hint">promoted · storefront unconfirmed</span>';
-  if (t.state === "social")
-    return '<span class="hint">social presence · no shop</span>';
-  return '<span class="muted">no owned channel surfaced</span>';
-}
-
-function viewMarketplace() {
-  const wrap = el("div");
-  const brands = brandsSorted();
-  const rows = brands.map(b => ({ b, r: state.latest[b.slug] })).filter(x => x.r);
-
-  const amazonHas = rows.filter(x => AMAZON_OWNED.has(mkOf(x.r, "amazon").state));
-  const tiktokShop = rows.filter(x => mkOf(x.r, "tiktok").state === "shop");
-  const me = brands.find(b => b.is_self);
-  const jr = me && state.latest[me.slug];
-  const ja = jr && mkOf(jr, "amazon"), jt = jr && mkOf(jr, "tiktok");
-
-  const kpis = el("div", "grid cols-3");
-  const kpi = (big, lbl) => { const c = el("div", "card kpi"); c.innerHTML = `<div class="big">${big}</div><div class="lbl">${lbl}</div>`; return c; };
-  kpis.append(
-    kpi(`${amazonHas.length}/${rows.length}`, "surface an Amazon channel"),
-    kpi(`${tiktokShop.length}/${rows.length}`, "surface a TikTok Shop"),
-    kpi(jr ? (ja.state === "none" && jt.state === "none" ? "none" : `${ja.state}/${jt.state}`) : "—", "Katie Loxton's channels (Amazon/TikTok)"),
-  );
-  wrap.append(kpis);
-
-  const note = el("div", "card");
-  note.innerHTML = `<h3>What this is</h3><p class="hint" style="margin:0">Where each brand shows up <b>off-site</b> — read from the
-    homepage HTML we already fetch (the same no-extra-request design as Reputation and BNPL). The signal is what a brand
-    <b>links to itself</b>: an <b>official Amazon storefront</b> or a <b>TikTok Shop</b> is a deliberate, brand-run B2C shelf;
-    a bare profile link is presence, not a shop. <b>Honesty note:</b> “none surfaced” is <u>not</u> “not on the marketplace” —
-    a third-party reseller or outlet a brand never links can't be seen from its own homepage. Catching that (the true
-    grey-market/outlet probe, and a marketplace-vs-RRP price read) needs a live Amazon/TikTok fetch, which only becomes reliable
-    behind a paid scraping proxy — on the roadmap, like the Meta Ad Library pillar.</p>`;
-  wrap.append(note);
-
-  const card = el("div", "card");
-  card.innerHTML = `<h3>Off-site presence — ${latestDate()}</h3>
-    <p class="hint">Homepage-declared channels per brand. <b>Channel read</b> infers B2C-aligned vs promoted-only from the kind of link. ★ = Katie Loxton.</p>`;
-  const tw = el("div", "tablewrap");
-  // Order: brand-run channels first (most relevant), then promoted, then none.
-  const score = x => {
-    const a = mkOf(x.r, "amazon").state, t = mkOf(x.r, "tiktok").state;
-    return (a === "official" ? 4 : a === "linked" ? 2 : a === "mentioned" ? 1 : 0)
-      + (t === "shop" ? 4 : t === "social" ? 2 : 0);
-  };
-  const ordered = rows.slice().sort((x, y) => (y.b.is_self - x.b.is_self) || (score(y) - score(x)));
-  let body = "";
-  for (const { b, r } of ordered) {
-    const a = mkOf(r, "amazon"), t = mkOf(r, "tiktok");
-    body += `<tr>
-      <td>${nameCell(b)}</td>
-      <td>${amazonCell(a)}</td>
-      <td>${tiktokCell(t)}</td>
-      <td>${channelRead(a, t)}</td>
-    </tr>`;
-  }
-  tw.innerHTML = `<table><thead><tr><th>Brand</th><th>Amazon</th><th>TikTok</th><th>Channel read</th></tr></thead><tbody>${body}</tbody></table>`;
-  card.append(tw);
-  wrap.append(card);
-
-  // Katie Loxton-vs-pack one-liner.
-  if (jr) {
-    const meOwned = ja.state === "official" || jt.state === "shop";
-    const vc = el("div", "card");
-    vc.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint" style="margin:0">${meOwned
-      ? `Katie Loxton surfaces an owned channel (Amazon: <b>${esc(ja.state)}</b>, TikTok: <b>${esc(jt.state)}</b>).`
-      : `Katie Loxton surfaces <b>no owned marketplace channel</b> on its homepage, while <b>${amazonHas.length}</b> competitor(s) link an Amazon presence and <b>${tiktokShop.length}</b> a TikTok Shop.`}
-      Channel gaps surface on the Opportunities tab. Reseller/outlet detection awaits the live-probe roadmap.</p>`;
-    wrap.append(vc);
-  }
-  return wrap;
-}
-
 function viewA11y() {
   const wrap = el("div");
   const brands = brandsSorted();
@@ -1175,6 +1332,110 @@ function viewPeriods() {
   return wrap;
 }
 
+// ---------- opportunity infographics (inline SVG, theme-aware) ----------
+// Each opportunity kind renders as the diagram matching its actual mechanism —
+// a self-reinforcing flywheel, a funnel with the leak stage highlighted, or a
+// cause→effect chain. Kinds without an obvious diagram shape fall back to
+// plain text — no forced metaphors. All SVGs carry <title>/<desc> for screen
+// readers and use theme CSS custom properties.
+
+let _svgId = 0;
+function _svgOpen(w, h, title, desc) {
+  const id = "oppsvg" + (++_svgId);
+  return [`<svg viewBox="0 0 ${w} ${h}" class="oppsvg" role="img" aria-labelledby="${id}t ${id}d">`
+    + `<title id="${id}t">${esc(title)}</title><desc id="${id}d">${esc(desc)}</desc>`, id];
+}
+
+// Wrap a short label into <tspan> lines that fit a box.
+function _tspans(label, x, y, maxChars) {
+  const words = label.split(" ");
+  const lines = [""];
+  for (const w of words) {
+    const cur = lines[lines.length - 1];
+    if (cur && (cur + " " + w).length > maxChars) lines.push(w);
+    else lines[lines.length - 1] = cur ? cur + " " + w : w;
+  }
+  const y0 = y - (lines.length - 1) * 6.5;
+  return lines.map((l, i) =>
+    `<tspan x="${x}" y="${y0 + i * 13}">${esc(l)}</tspan>`).join("");
+}
+
+function svgChain(steps, title) {
+  const n = steps.length, W = 640, H = 84, gap = 26;
+  const bw = (W - gap * (n - 1) - 8) / n, bh = 64;
+  const [open] = _svgOpen(W, H, title, "Cause and effect chain: " + steps.join(", then "));
+  let s = open;
+  steps.forEach((step, i) => {
+    const x = 4 + i * (bw + gap);
+    const last = i === n - 1;
+    s += `<rect x="${x}" y="10" width="${bw}" height="${bh}" rx="10" fill="${last ? "var(--bad-bg,#f7e4e4)" : "var(--card,#fff)"}" stroke="${last ? "var(--bad)" : "var(--line)"}"/>`;
+    s += `<text x="${x + bw / 2}" y="${10 + bh / 2 + 4}" font-size="11.5" text-anchor="middle" fill="${last ? "var(--bad)" : "var(--ink)"}">${_tspans(step, x + bw / 2, 10 + bh / 2 + 4, Math.round(bw / 6.2))}</text>`;
+    if (!last) {
+      const ax = x + bw;
+      s += `<path d="M${ax + 4} ${10 + bh / 2} h${gap - 14} m-6 -5 l6 5 l-6 5" fill="none" stroke="var(--muted)" stroke-width="1.8"/>`;
+    }
+  });
+  return s + "</svg>";
+}
+
+function svgFunnel(stages, leak, note, title) {
+  const n = stages.length, W = 640, H = 46 * n + 30;
+  const [open] = _svgOpen(W, H, title,
+    `Funnel: ${stages.join(" → ")}. Leak at the ${stages[leak]} stage: ${note}`);
+  let s = open;
+  const cx = 210, top = 10, rh = 38, vgap = 8;
+  stages.forEach((st, i) => {
+    const wTop = 340 - i * 64, wBot = 340 - (i + 1) * 64;
+    const y = top + i * (rh + vgap);
+    const isLeak = i === leak;
+    s += `<path d="M${cx - wTop / 2} ${y} h${wTop} l${(wBot - wTop) / 2} ${rh} h${-wBot} z"
+      fill="${isLeak ? "var(--bad-bg,#f7e4e4)" : "var(--accent-bg,#f0e5ea)"}"
+      stroke="${isLeak ? "var(--bad)" : "var(--line)"}"${isLeak ? ' stroke-width="2"' : ""}/>`;
+    s += `<text x="${cx}" y="${y + rh / 2 + 4}" font-size="12" text-anchor="middle" fill="${isLeak ? "var(--bad)" : "var(--ink)"}">${esc(st)}</text>`;
+    if (isLeak) {
+      s += `<path d="M${cx + wTop / 2 + 6} ${y + rh / 2} h30 m-6 -5 l6 5 l-6 5" fill="none" stroke="var(--bad)" stroke-width="1.8"/>`;
+      s += `<text x="${cx + wTop / 2 + 44}" y="${y + rh / 2 + 4}" font-size="11.5" fill="var(--bad)">${_tspans(note, cx + wTop / 2 + 44, y + rh / 2 + 4, 34)}</text>`;
+    }
+  });
+  return s + "</svg>";
+}
+
+function svgFlywheel(steps, title) {
+  const W = 640, H = 240, cx = 180, cy = 120, r = 78;
+  const [open] = _svgOpen(W, H, title,
+    "Self-reinforcing loop: " + steps.join(" leads to ") + ", which feeds back to the start.");
+  let s = open;
+  // Four arc arrows around the circle.
+  const arc = (a1, a2) => {
+    const p = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    const [x1, y1] = p(a1), [x2, y2] = p(a2);
+    return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#flyarrow)"/>`;
+  };
+  s += `<defs><marker id="flyarrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="var(--accent)"/></marker></defs>`;
+  const seg = Math.PI / 2, pad = 0.34;
+  for (let i = 0; i < 4; i++) s += arc(-Math.PI / 2 + i * seg + pad, -Math.PI / 2 + (i + 1) * seg - pad);
+  // Labels at N / E / S / W.
+  const pos = [[cx, cy - r - 18], [cx + r + 16, cy], [cx, cy + r + 22], [cx - r - 16, cy]];
+  const anchors = ["middle", "start", "middle", "end"];
+  steps.slice(0, 4).forEach((st, i) => {
+    s += `<text x="${pos[i][0]}" y="${pos[i][1] + 4}" font-size="12" text-anchor="${anchors[i]}" fill="var(--ink)" font-weight="600">${_tspans(st, pos[i][0], pos[i][1] + 4, 20)}</text>`;
+  });
+  s += `<text x="${cx}" y="${cy + 4}" font-size="11.5" text-anchor="middle" fill="var(--muted)">reinforces</text>`;
+  return s + "</svg>";
+}
+
+// kind → mechanism diagram. Anything not listed falls back to plain text.
+const OPP_DIAGRAMS = {
+  promo: o => svgChain(["Pack discounts deepen", "Shoppers price-compare", "Full-price offer loses"], o.title),
+  finance: o => svgFunnel(["Browse", "Basket", "Checkout", "Order"], 2, "no BNPL at the payment step", o.title),
+  delivery: o => svgFunnel(["Browse", "Basket", "Delivery", "Order"], 2, "threshold friction", o.title),
+  acquisition: o => svgFlywheel(["Sign-up offer", "List grows", "Owned traffic", "Repeat sales"], o.title),
+  reputation: o => svgFlywheel(["Visible rating", "Shopper trust", "More conversions", "More reviews"], o.title),
+  ai_visibility: o => svgFunnel(["AI answer", "Shortlist", "Site visit", "Sale"], 0, "absent from the answer", o.title),
+  assortment: o => svgChain(["Narrower range", "Fewer entry points", "Less discovery"], o.title),
+  assortment_mix: o => svgChain(["Category gap", "Buyers shop it elsewhere", "Basket lost"], o.title),
+};
+
 // ---------- opportunities + change timeline ----------
 const EVENT_LABEL = {
   sale_started: "Sale started", sale_ended: "Sale ended", discount_changed: "Discount moved",
@@ -1182,7 +1443,6 @@ const EVENT_LABEL = {
   bnpl_removed: "BNPL dropped", price_shift: "Price shift",
   rating_changed: "Rating moved", reviews_added: "Reviews added",
   products_added: "New products",
-  marketplace_added: "Marketplace channel", marketplace_removed: "Channel dropped",
 };
 function viewOpportunities() {
   const wrap = el("div");
@@ -1202,10 +1462,14 @@ function viewOpportunities() {
     const rank = { high: 0, medium: 1, low: 2 };
     const pillCls = { high: "bad", medium: "warn", low: "" };
     oc.append(el("div", "", opps.slice().sort((a, b) => (rank[a.priority] ?? 3) - (rank[b.priority] ?? 3))
-      .map(o => `<div style="padding:10px 0;border-top:1px solid #eee">
+      .map(o => {
+        const diagram = OPP_DIAGRAMS[o.kind];
+        return `<div class="opp">
         <div><span class="pill ${pillCls[o.priority] || ""}">${esc(o.priority)}</span>
           <b style="margin-left:6px">${esc(o.title)}</b></div>
-        <div class="hint" style="margin-top:4px">${esc(o.detail)}</div></div>`).join("")));
+        <div class="hint" style="margin-top:4px">${esc(o.detail)}</div>
+        ${diagram ? `<div class="oppdiagram">${diagram(o)}</div>` : ""}</div>`;
+      }).join("")));
   } else {
     oc.append(el("p", "muted", "No standout gaps in the latest snapshot — or not enough data yet. "
       + "This fills in as the daily capture runs (and the AI Visibility job, if enabled)."));
@@ -1231,96 +1495,95 @@ function viewOpportunities() {
   return wrap;
 }
 
-// ---------- AI visibility (AIO) ----------
-function viewAIO() {
+// ---------- Ask Me: deterministic Q&A over the captured record ----------
+// The engine (docs/ask.js, window.AskEngine) is pure and offline — it quotes
+// recorded fields with dated-screenshot evidence rather than narrating. It
+// also surfaces the weekly AI-visibility share-of-voice data when present,
+// replacing the old AI Visibility placeholder tab.
+let askState = { q: "", result: null };
+
+const ASK_EXAMPLES = [
+  "Who has the deepest discount?",
+  "Was Mint Velvet on sale at the end of June?",
+  "When did Katie Loxton's sale start?",
+  "Who's on sale today?",
+  "What are Strathberry's prices?",
+  "When did Sezane last change their hero?",
+];
+
+function runAsk(q) {
+  askState.q = q;
+  askState.result = (typeof AskEngine !== "undefined")
+    ? AskEngine.ask(q, { captures: state.captures, aio: state.aio })
+    : { ok: false, text: "Ask engine failed to load — refresh the page.", evidence: [], note: null };
+  render();
+}
+
+function viewAsk() {
   const wrap = el("div");
-  const runs = (state.aio && state.aio.runs) || [];
 
   const intro = el("div", "card");
-  intro.innerHTML = `<h3>AI visibility — share of voice in AI answers</h3>
-    <p class="hint">When a shopper asks an AI assistant a buyer-intent question (e.g. “best personalised
-    birthday jewellery UK”), which brands get named, and how often? <b>Share of voice</b> rewards being
-    named, and named <i>first</i>.</p>`;
+  intro.innerHTML = `<h3>Ask Me</h3>
+    <p class="hint">Ask a buyer-intent question about the tracked brands. Answers quote the recorded captures —
+    no AI narration — and every answer cites the capture date and links the dated screenshot.</p>
+    <form class="askform" id="askForm">
+      <label class="sr-only" for="askInput">Your question</label>
+      <input id="askInput" type="text" autocomplete="off" placeholder="e.g. was Mint Velvet on sale at the end of June?"
+        value="${esc(askState.q)}">
+      <button class="btn" type="submit">Ask</button>
+    </form>`;
+  const chips = el("div", "brandpick");
+  chips.setAttribute("aria-label", "Example questions");
+  for (const ex of ASK_EXAMPLES) {
+    const b = el("button", "", esc(ex));
+    b.type = "button";
+    b.onclick = () => runAsk(ex);
+    chips.append(b);
+  }
+  intro.append(el("p", "hint", "Try one of these:"), chips);
   wrap.append(intro);
 
-  if (!runs.length) {
-    const c = el("div", "card");
-    c.innerHTML = `<h3>Coming soon</h3>
-      <p class="hint" style="margin:0">This pillar measures how often each brand is named in AI-assistant
-      answers to buyer-intent questions. It's <b>dependent on investment</b> — running it needs a paid model
-      budget — so it sits on the roadmap and will populate here once that's in place.</p>`;
-    wrap.append(c);
-    return wrap;
-  }
-
-  const latest = runs[runs.length - 1];
-  const sov = latest.share_of_voice || {};
-  const rows = Object.entries(sov).sort((a, b) => b[1].sov - a[1].sov);
-  const maxSov = Math.max(0.0001, ...rows.map(([, v]) => v.sov));
-  const meSlug = (brandsSorted().find(b => b.is_self) || {}).slug;
-
-  // Leaderboard
-  const lb = el("div", "card");
-  lb.innerHTML = `<h3>Share of voice — week of ${esc(latest.date)}</h3>
-    <p class="hint">${latest.queries_total} buyer-intent queries · ${esc(latest.market || "")}. ★ = Katie Loxton.</p>`;
-  lb.append(el("div", "", rows.map(([slug, v]) => {
-    const self = slug === meSlug;
-    return `<div class="row"><span class="name" style="flex:0 0 160px">
-        <b class="${self ? "self" : ""}">${esc(v.brand)}${self ? " ★" : ""}</b></span>
-      <span class="bar"><span style="width:${Math.round(v.sov / maxSov * 100)}%"></span></span>
-      <span class="pill ${v.sov >= maxSov * 0.66 ? "warn" : ""}">${Math.round(v.sov * 100)}% SoV</span>
-      <span class="pill">${Math.round(v.visibility * 100)}% of queries</span>
-      <span class="pill">${v.avg_rank == null ? "—" : "avg #" + v.avg_rank}</span></div>`;
-  }).join("")));
-  wrap.append(lb);
-
-  // SoV trend over time (if more than one run)
-  if (runs.length > 1) {
-    const keys = runs.map(r => r.date);
-    const tracked = rows.map(([slug]) => slug).slice(0, 8);
-    const tc = el("div", "card");
-    tc.innerHTML = `<h3>Share-of-voice trend</h3><p class="hint">% SoV per weekly run.</p>`;
-    const tw = el("div", "tablewrap");
-    let head = `<tr><th scope="col">Brand</th>${keys.map(k => `<th scope="col">${esc(k)}</th>`).join("")}</tr>`;
-    let body = "";
-    for (const slug of tracked) {
-      const self = slug === meSlug;
-      const name = (sov[slug] || {}).brand || slug;
-      let cells = "";
-      for (const r of runs) {
-        const v = (r.share_of_voice || {})[slug];
-        cells += `<td class="num">${v ? `<span class="pill ${v.sov >= 0.2 ? "warn" : ""}">${Math.round(v.sov * 100)}%</span>` : '<span class="muted">—</span>'}</td>`;
+  if (askState.result) {
+    const res = askState.result;
+    const card = el("div", "card");
+    card.innerHTML = `<h3>${res.ok ? "Answer" : "No answer"}</h3>
+      <p class="hint">“${esc(askState.q)}”</p>
+      <p class="asktext">${esc(res.text)}</p>
+      ${res.note ? `<p class="hint">${esc(res.note)}</p>` : ""}`;
+    if (res.evidence && res.evidence.length) {
+      const evWrap = el("div");
+      evWrap.innerHTML = `<p class="hint" style="margin-top:10px">Evidence — recorded fields, one click from the screenshot:</p>`;
+      for (const e of res.evidence) {
+        const row = el("div", "row");
+        const open = e.screenshot
+          ? `<button class="btn askev" data-slug="${esc(e.slug)}" data-date="${esc(e.date)}">View screenshot ↗</button>`
+          : '<span class="muted">no screenshot</span>';
+        row.innerHTML = `<span class="name"><b>${esc(e.brand)}</b></span>
+          <span class="tag">${esc(e.date)}</span>
+          <span class="tag">${esc(e.field)}: <b>${esc(String(e.value))}</b></span>
+          ${open}`;
+        evWrap.append(row);
       }
-      body += `<tr><td><b class="${self ? "self" : ""}">${esc(name)}${self ? " ★" : ""}</b></td>${cells}</tr>`;
+      card.append(evWrap);
     }
-    tw.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
-    tc.append(tw);
-    wrap.append(tc);
+    wrap.append(card);
   }
 
-  // Per-query breakdown — the actionable bit: where is Katie Loxton named vs not?
-  const qc = el("div", "card");
-  qc.innerHTML = `<h3>By query — who gets named</h3>
-    <p class="hint">The opportunity is a query where competitors appear and Katie Loxton doesn't.</p>`;
-  qc.append(el("div", "", (latest.queries || []).map(q => {
-    const named = (q.mentions || []).map(m => {
-      const self = m.slug === meSlug;
-      return `<span class="tag ${self ? "" : ""}"><b class="${self ? "self" : ""}">${esc(m.brand)}${self ? " ★" : ""}</b> #${m.rank}</span>`;
-    }).join("") || '<span class="muted">none of our brands named</span>';
-    const meIn = (q.mentions || []).some(m => m.slug === meSlug);
-    return `<div style="padding:8px 0;border-top:1px solid #eee">
-      <div><b>${esc(q.query)}</b> ${meIn ? '<span class="pill good">Katie Loxton named</span>' : '<span class="pill bad">Katie Loxton absent</span>'}</div>
-      <div style="margin-top:4px">${named}</div></div>`;
-  }).join("")));
-  wrap.append(qc);
+  setTimeout(() => {
+    const form = document.getElementById("askForm");
+    if (form) form.onsubmit = e => { e.preventDefault(); runAsk(document.getElementById("askInput").value); };
+    for (const b of document.querySelectorAll(".askev")) {
+      b.onclick = () => {
+        shotState = { slug: b.dataset.slug, device: "desktop", bucket: "all",
+                      lightbox: null, focusDate: b.dataset.date };
+        selectTab("screens");
+      };
+    }
+  }, 0);
   return wrap;
 }
 
-// NOTE: `marketplace` (viewMarketplace, defined above) is intentionally NOT
-// registered here — the tab is hidden from the live dashboard until detection is
-// accurate enough not to false-negative a channel we KNOW a brand runs (e.g.
-// Katie Loxton on Amazon). Re-enabled by the config-declared + stockists-scan work.
-const VIEWS = { overview: viewOverview, opportunities: viewOpportunities, periods: viewPeriods, competitors: viewCompetitors, offers: viewOffers, market: viewMarketMap, trading: viewTrading, reputation: viewReputation, assortment: viewAssortment, pricing: viewPricing, colours: viewColours, keywords: viewKeywords, seo: viewSeo, aio: viewAIO, a11y: viewA11y, screens: viewScreens };
+const VIEWS = { overview: viewOverview, opportunities: viewOpportunities, periods: viewPeriods, competitors: viewCompetitors, offers: viewOffers, market: viewMarketMap, trading: viewTrading, reputation: viewReputation, assortment: viewAssortment, pricing: viewPricing, colours: viewColours, keywords: viewKeywords, seo: viewSeo, ask: viewAsk, a11y: viewA11y, screens: viewScreens };
 
 // ---------- shell ----------
 function render() {
@@ -1340,40 +1603,61 @@ function render() {
     `${Object.keys(state.byBrand).length} brands · ${state.dates.length} days of history`;
 }
 
-function buildTabs() {
-  const nav = document.getElementById("tabs");
+// Build the grouped side nav: collapsible sections, each holding a vertical
+// WAI-ARIA tablist entry (role=tab, roving tabindex, Up/Down/Home/End keys).
+function buildNav() {
+  const nav = document.getElementById("sidenav");
+  nav.innerHTML = "";
   nav.setAttribute("role", "tablist");
-  TABS.forEach(([id, label], i) => {
-    const b = el("button", id === state.active ? "active" : "", label);
-    b.id = "tab-" + id;
-    b.dataset.tab = id;
-    b.setAttribute("role", "tab");
-    b.setAttribute("aria-controls", "view");
-    b.setAttribute("aria-selected", id === state.active ? "true" : "false");
-    b.tabIndex = id === state.active ? 0 : -1;   // roving tabindex
-    b.onclick = () => selectTab(id);
-    b.onkeydown = e => onTabKey(e, i);
-    nav.append(b);
-  });
+  nav.setAttribute("aria-orientation", "vertical");
+  let flat = 0;
+  for (const [group, items] of NAV_GROUPS) {
+    const sec = el("div", "navgroup");
+    const head = el("button", "navhead", `<span>${esc(group)}</span><span class="chev" aria-hidden="true">▾</span>`);
+    head.setAttribute("aria-expanded", "true");
+    head.onclick = () => {
+      const open = head.getAttribute("aria-expanded") === "true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      sec.classList.toggle("collapsed", open);
+    };
+    sec.append(head);
+    const list = el("div", "navitems");
+    for (const [id, label] of items) {
+      const i = flat++;
+      const b = el("button", "navitem" + (id === state.active ? " active" : ""), label);
+      b.id = "tab-" + id;
+      b.dataset.tab = id;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-controls", "view");
+      b.setAttribute("aria-selected", id === state.active ? "true" : "false");
+      b.tabIndex = id === state.active ? 0 : -1;   // roving tabindex
+      b.onclick = () => selectTab(id);
+      b.onkeydown = e => onTabKey(e, i);
+      list.append(b);
+    }
+    sec.append(list);
+    nav.append(sec);
+  }
 }
 
-// Switch tab, keeping ARIA state and roving tabindex in sync.
+// Switch tab, keeping ARIA state and roving tabindex in sync; on mobile the
+// off-canvas drawer closes so the chosen view is immediately visible.
 function selectTab(id, focusTab) {
   state.active = id;
-  const nav = document.getElementById("tabs");
-  for (const b of nav.children) {
+  for (const b of document.querySelectorAll("#sidenav [role=tab]")) {
     const on = b.dataset.tab === id;
     b.classList.toggle("active", on);
     b.setAttribute("aria-selected", on ? "true" : "false");
     b.tabIndex = on ? 0 : -1;
     if (on && focusTab) b.focus();
   }
+  closeNav();
   render();
 }
 
-// Arrow / Home / End keyboard navigation for the tablist (WAI-ARIA pattern).
+// Up/Down (vertical list) + Home/End keyboard navigation (WAI-ARIA pattern).
 function onTabKey(e, i) {
-  const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+  const dir = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
   const n = TABS.length;
   let j = null;
   if (e.key in dir) j = (i + dir[e.key] + n) % n;
@@ -1384,7 +1668,48 @@ function onTabKey(e, i) {
   selectTab(TABS[j][0], true);
 }
 
-// The tab bar sticks directly under the header; the header height isn't fixed
+// ---------- mobile off-canvas drawer ----------
+const isDrawerMode = () => window.matchMedia("(max-width: 900px)").matches;
+
+function openNav() {
+  document.body.classList.add("nav-open");
+  document.getElementById("backdrop").hidden = false;
+  document.getElementById("navToggle").setAttribute("aria-expanded", "true");
+  const active = document.querySelector("#sidenav [role=tab][tabindex='0']");
+  if (active) active.focus();
+}
+
+function closeNav() {
+  if (!document.body.classList.contains("nav-open")) return;
+  document.body.classList.remove("nav-open");
+  document.getElementById("backdrop").hidden = true;
+  const toggle = document.getElementById("navToggle");
+  toggle.setAttribute("aria-expanded", "false");
+  if (isDrawerMode()) toggle.focus();
+}
+
+// Keep keyboard focus inside the open drawer (focus trap), Escape to close.
+function navKeydown(e) {
+  if (!document.body.classList.contains("nav-open") || !isDrawerMode()) return;
+  if (e.key === "Escape") { e.preventDefault(); closeNav(); return; }
+  if (e.key !== "Tab") return;
+  const focusables = [document.getElementById("navToggle"),
+    ...document.querySelectorAll("#sidenav button")].filter(b => b.offsetParent !== null || b.id === "navToggle");
+  if (!focusables.length) return;
+  const first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+function wireDrawer() {
+  const toggle = document.getElementById("navToggle");
+  toggle.onclick = () => document.body.classList.contains("nav-open") ? closeNav() : openNav();
+  document.getElementById("backdrop").onclick = closeNav;
+  document.addEventListener("keydown", navKeydown);
+  window.matchMedia("(max-width: 900px)").addEventListener("change", m => { if (!m.matches) closeNav(); });
+}
+
+// The side nav sticks directly under the header; the header height isn't fixed
 // (it wraps on small screens), so measure it into a CSS variable.
 function syncStickyOffsets() {
   const topbar = document.querySelector(".topbar");
@@ -1392,7 +1717,8 @@ function syncStickyOffsets() {
 }
 
 async function boot() {
-  buildTabs();
+  buildNav();
+  wireDrawer();
   syncStickyOffsets();
   window.addEventListener("resize", syncStickyOffsets);
   try { await loadData(); }

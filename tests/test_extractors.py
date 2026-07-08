@@ -458,88 +458,110 @@ def test_extract_all_includes_reputation():
     fields = extractors.extract_all(SAMPLE_HTML, VISIBLE, SAMPLE_HTML, CATEGORIES)
     assert "reputation" in fields and "rating" in fields["reputation"]
 
-
-def test_marketplace_amazon_official_storefront():
-    html = ('<footer><a href="https://www.amazon.co.uk/stores/page/ABC123">'
-            'Shop us on Amazon</a></footer>')
-    mk = extractors.extract_marketplace_presence(html, "")
-    assert mk["amazon"]["state"] == "official"
-    assert "amazon.co.uk/stores" in mk["amazon"]["url"]
-
-
-def test_marketplace_amazon_linked_but_not_storefront():
-    # A plain product/affiliate link is "linked", not a confirmed storefront.
-    html = '<a href="https://amzn.to/3xYz">Find our bestseller</a>'
-    mk = extractors.extract_marketplace_presence(html, "")
-    assert mk["amazon"]["state"] == "linked"
-
-
-def test_marketplace_amazon_pay_is_not_presence():
-    # "Amazon Pay" is a wallet, not a marketplace channel — must not count.
-    html = '<img alt="Pay with Amazon Pay"><a href="https://pay.amazon.com/x">Amazon Pay</a>'
-    mk = extractors.extract_marketplace_presence(html, "We accept Amazon Pay at checkout.")
-    assert mk["amazon"]["state"] == "none"
+def test_trading_signals_urgency_and_levers():
+    visible = ("SALE ENDS MIDNIGHT — last chance! 3 for 2 on all charms. "
+               "Free gift with purchase over £60. Join our rewards club to earn points. "
+               "Add a monogram for free. Sign up for SMS offers.")
+    html = '<script src="https://cdn.gorgias.chat/x.js"></script>'
+    t = extractors.extract_trading_signals(html, visible)
+    assert any("ends midnight" in u for u in t["urgency"])
+    assert any("last chance" in u for u in t["urgency"])
+    assert any("3 for 2" in m for m in t["multibuy"])
+    assert t["gift_with_purchase"] is not None
+    assert t["loyalty"] is not None
+    assert t["personalisation_upsell"] is not None
+    assert t["sms_capture"] is True
+    assert t["live_chat"] == "Gorgias"
 
 
-def test_marketplace_amazon_asset_host_is_not_presence():
-    # An image served off an Amazon CDN must not be read as a storefront link.
-    html = '<img src="https://m.media-amazon.com/images/x.jpg">'
-    mk = extractors.extract_marketplace_presence(html, "")
-    assert mk["amazon"]["state"] == "none"
+def test_trading_signals_levers_absent_degrade():
+    t = extractors.extract_trading_signals("<html></html>", "Plain homepage copy.")
+    assert t["urgency"] == [] and t["multibuy"] == []
+    assert t["gift_with_purchase"] is None and t["loyalty"] is None
+    assert t["personalisation_upsell"] is None
+    assert t["sms_capture"] is False and t["live_chat"] is None
 
 
-def test_marketplace_amazon_text_mention():
-    mk = extractors.extract_marketplace_presence(
-        "<body>Now available on Amazon</body>", "Now available on Amazon")
-    assert mk["amazon"]["state"] == "mentioned"
+def test_find_policy_links_from_footer():
+    html = """<html><body><footer>
+      <a href="/pages/delivery-information">Delivery Information</a>
+      <a href="/pages/returns-and-refunds">Returns &amp; Refunds</a>
+      <a href="/pages/contact">Contact us</a>
+    </footer></body></html>"""
+    links = extractors.find_policy_links(html, "https://shop.example/")
+    assert links["delivery"] == "https://shop.example/pages/delivery-information"
+    assert links["returns"] == "https://shop.example/pages/returns-and-refunds"
 
 
-def test_marketplace_tiktok_shop():
-    html = ('<a href="https://www.tiktok.com/@katieloxton/shop">Shop on TikTok</a>')
-    mk = extractors.extract_marketplace_presence(html, "")
-    assert mk["tiktok"]["state"] == "shop"
-    assert mk["tiktok"]["handle"] == "@katieloxton"
+def test_find_policy_links_absent_is_graceful():
+    links = extractors.find_policy_links("<html><body>nothing</body></html>", "https://x.example/")
+    assert links == {"delivery": None, "returns": None}
 
 
-def test_marketplace_tiktok_social_only():
-    html = '<a href="https://www.tiktok.com/@katieloxton" aria-label="TikTok">tt</a>'
-    mk = extractors.extract_marketplace_presence(html, "")
-    assert mk["tiktok"]["state"] == "social"
-    assert mk["tiktok"]["handle"] == "@katieloxton"
+def test_extract_delivery_page():
+    text = ("UK Standard Delivery 3-5 working days £3.95\n"
+            "Express Delivery next working day £5.95 — order by 8pm\n"
+            "Free UK standard delivery on orders over £60.\n"
+            "Click and collect available in store.")
+    d = extractors.extract_delivery_page(text)
+    assert d["free_threshold"] == 60
+    assert d["express"] is True
+    assert d["express_cutoff"] == "8pm"
+    assert d["click_collect"] is True
+    assert any("Standard Delivery" in o["name"] and o["price"] == "£3.95" for o in d["options"])
+    assert any("Express Delivery" in o["name"] for o in d["options"])
 
 
-def test_marketplace_absent_is_graceful():
-    mk = extractors.extract_marketplace_presence(
-        "<body><a href='https://instagram.com/x'>Insta</a></body>", "no channels")
-    assert mk["amazon"]["state"] == "none"
-    assert mk["tiktok"]["state"] == "none"
+def test_extract_returns_page():
+    text = ("You have 30 days to return your order. Free UK returns via our portal. "
+            "We are happy to offer exchanges on unworn items.")
+    r = extractors.extract_returns_page(text)
+    assert r["window_days"] == 30
+    assert r["free_returns"] is True
+    assert r["exchanges"] is True
 
 
-def test_extract_all_includes_marketplace():
-    fields = extractors.extract_all(SAMPLE_HTML, VISIBLE, SAMPLE_HTML, CATEGORIES)
-    assert "marketplace" in fields and "amazon" in fields["marketplace"]
+def test_extract_returns_page_paid_and_silent():
+    paid = extractors.extract_returns_page(
+        "Returns accepted within 14 days. Return postage is the responsibility of the customer.")
+    assert paid["window_days"] == 14 and paid["free_returns"] is False
+    silent = extractors.extract_returns_page("Our products are lovely.")
+    assert silent["window_days"] is None and silent["free_returns"] is None
 
 
-def test_merge_marketplace_stronger_state_wins():
-    # A stockists-page 'official' Amazon upgrades a homepage 'none'...
-    home = {"amazon": {"state": "none", "url": None},
-            "tiktok": {"state": "social", "handle": "@x", "url": "u"}}
-    stockists = {"amazon": {"state": "official", "url": "store"},
-                 "tiktok": {"state": "none", "handle": None, "url": None}}
-    m = extractors.merge_marketplace(home, stockists)
-    assert m["amazon"]["state"] == "official" and m["amazon"]["url"] == "store"
-    # ...but the weaker TikTok 'none' must NOT overwrite the homepage 'social'.
-    assert m["tiktok"]["state"] == "social" and m["tiktok"]["handle"] == "@x"
+def test_price_scan_excludes_addon_items_structured():
+    # A £1.50 photo card and £2 gift wrap must not fake a near-zero floor price.
+    html = ('{"title":"Photo Card","price":"1.50"}'
+            '{"title":"Gift Wrap","price":"2.00"}'
+            '{"title":"Gold Bracelet","price":"49.00"}'
+            '{"title":"Tote Bag","price":"89.00"}')
+    p = extractors.extract_prices(html, "")
+    assert p["min"] == 49.0 and p["max"] == 89.0 and p["count"] == 2
 
 
-def test_merge_marketplace_keeps_primary_on_tie_and_handles_none():
-    home = {"amazon": {"state": "linked", "url": "h"}, "tiktok": {"state": "none"}}
-    # On an equal state, the primary (homepage) read is kept.
-    m = extractors.merge_marketplace(home, {"amazon": {"state": "linked", "url": "s"}})
-    assert m["amazon"]["url"] == "h"
-    # A None secondary just returns the primary read intact.
-    m2 = extractors.merge_marketplace(home, None)
-    assert m2["amazon"]["state"] == "linked" and m2["tiktok"]["state"] == "none"
+def test_price_scan_excludes_addon_items_visible():
+    text = "Gift wrap £2.00 ... Gold Bracelet £49.00 ... Personalised Pouch £22.00"
+    p = extractors.extract_prices("", text)
+    assert p["min"] == 22.0        # 'pouch' is a real product line, NOT filtered
+    assert 2.0 not in (p["sample"] or [])
+
+
+def test_price_scan_per_brand_overrides():
+    html = ('{"title":"Charity Pin","price":"3.00"}'
+            '{"title":"Gold Bracelet","price":"49.00"}'
+            '{"title":"Tote Bag","price":"89.00"}'
+            '{"title":"Purse","price":"35.00"}')
+    rules = {"keywords": ["charity pin"], "values": [35.0]}
+    p = extractors.extract_prices(html, "", rules)
+    assert p["min"] == 49.0 and p["count"] == 2
+
+
+def test_listing_excludes_addons_too():
+    html = ('{"title":"Photo Card","price":"1.50"}'
+            '{"title":"Bag","price":"40.00"}{"title":"Bag 2","price":"60.00"}')
+    res = extractors.extract_listing(html, "")
+    assert res["prices"]["min"] == 40.0
+    assert res["products_seen"] == 2
 
 
 def test_accessibility():

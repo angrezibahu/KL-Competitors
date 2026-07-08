@@ -11,7 +11,7 @@ need a tweak. That is the trade-off for running with no paid AI extraction.
 
 import re
 from collections import Counter
-from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 # ---------------------------------------------------------------------------
@@ -538,32 +538,125 @@ def extract_hero(html, provided_hero=None):
     return base[:300] if base else None
 
 
-def extract_prices(html, visible_text):
+# ---------------------------------------------------------------------------
+# Price sense-checking — keep add-on items out of the floor price
+# ---------------------------------------------------------------------------
+# Non-standalone add-ons (a £1.50 photo card, £2 gift wrap, an e-gift top-up)
+# were dragging brands' entry/floor prices to near-zero, so any price whose
+# nearby product title/copy matches one of these is excluded from the scan.
+# Deliberately conservative: real product words ("pouch" is a real Katie
+# Loxton line) stay OUT of the generic list — brands with an oddball add-on
+# the generic filter misses declare per-brand `price_exclude_keywords` /
+# `price_exclude_values` in config/competitors.json instead.
+_ADDON_PRICE_KEYWORDS = [
+    "photo card", "photocard", "gift wrap", "gift-wrap", "gift wrapping",
+    "e-gift", "egift", "gift card", "giftcard", "gift note", "gift tag",
+    "greeting card", "donation",
+]
+
+_TITLE_NEAR_RE = re.compile(r'"(?:title|name)"\s*:\s*"([^"]{1,120})"')
+
+
+def _price_exclusion(brand_rules=None):
+    """Merged exclusion rules: the generic add-on list plus any per-brand
+    overrides from config. Returns (keywords_lowered, values_set)."""
+    rules = brand_rules or {}
+    kws = [k.lower() for k in _ADDON_PRICE_KEYWORDS + list(rules.get("keywords") or [])]
+    vals = {round(float(v), 2) for v in (rules.get("values") or [])}
+    return kws, vals
+
+
+def _structured_excluded(html, start, keywords):
+    """Does the JSON price match at `start` belong to an add-on product?
+
+    Product JSON blobs keep the title within a few hundred chars of the price,
+    so we take the NEAREST preceding "title"/"name" string (falling forward
+    when the price comes first) — the nearest one is this product's; scanning
+    a whole window would wrongly pick up neighbouring blobs' titles."""
+    back = (html or "")[max(0, start - 300):start]
+    title = None
+    for m in _TITLE_NEAR_RE.finditer(back):
+        title = m.group(1)                    # keep the last (nearest) one
+    if title is None:
+        m = _TITLE_NEAR_RE.search((html or "")[start:start + 300])
+        if m:
+            title = m.group(1)
+    if title is None:
+        return False
+    t = title.lower()
+    return any(kw in t for kw in keywords)
+
+
+def _visible_excluded(text, start, prev_end, keywords):
+    """Is the visible '£' amount at `start` labelled with add-on copy?
+
+    The window is this price's own label only: it stops at the previous price
+    match and at line breaks, so 'Gift wrap £2.00' can't bleed into the next
+    product's price on the same line."""
+    lo = max(0, start - 80, prev_end)
+    window = (text or "")[lo:start]
+    nl = max(window.rfind("\n"), window.rfind("\r"))
+    if nl >= 0:
+        window = window[nl + 1:]
+    window = window.lower()
+    return any(kw in window for kw in keywords)
+
+
+def _scan_structured_prices(html, keywords, values):
+    """Embedded-JSON prices, minus excluded values and add-on-titled blobs."""
+    prices = []
+    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
+        try:
+            p = round(float(m.group(1)), 2)
+        except ValueError:
+            continue
+        if p in values or _structured_excluded(html, m.start(), keywords):
+            continue
+        prices.append(p)
+    return prices
+
+
+def _scan_visible_prices(text, keywords, values):
+    """Visible '£' amounts, minus excluded values and add-on-labelled lines."""
+    prices = []
+    prev_end = 0
+    for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", text or ""):
+        start, prev = m.start(), prev_end
+        prev_end = m.end()
+        try:
+            p = round(float(m.group(1)), 2)
+        except ValueError:
+            continue
+        if p in values or _visible_excluded(text, start, prev, keywords):
+            continue
+        prices.append(p)
+    return prices
+
+
+def scan_prices(html, visible_text, brand_rules=None):
+    """All plausible product prices on a page, with add-on items filtered out.
+
+    Returns the raw list (unsorted, unbounded) so callers can summarise. Pure
+    and offline-testable. `brand_rules` is {"keywords": [...], "values": [...]}
+    from a brand's config overrides."""
+    keywords, values = _price_exclusion(brand_rules)
+    # Structured data is the trustworthy source; fall back to visible amounts.
+    prices = _scan_structured_prices(html, keywords, values)
+    if len(prices) < 4:
+        prices += _scan_visible_prices(visible_text, keywords, values)
+    return prices
+
+
+def extract_prices(html, visible_text, brand_rules=None):
     """Rough price-point sampling.
 
     Honesty note: a homepage isn't a price list, so this is APPROXIMATE. We
     prefer structured data (JSON-LD Product/Offer prices, which are reliable),
-    and fall back to scanning visible '£' amounts. We drop implausible values
-    and obvious noise (delivery thresholds like 'over £50' are kept out by the
-    range filter only loosely), so treat min/median/max as a price *band*, not
-    gospel. A future upgrade is to sample a real listing page per brand.
+    and fall back to scanning visible '£' amounts. We drop implausible values,
+    add-on items (see scan_prices) and obvious noise, so treat min/median/max
+    as a price *band*, not gospel; the listing-page sample is the real read.
     """
-    prices = []
-
-    # 1) Structured data is the trustworthy source when present.
-    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
-
-    # 2) Fall back to visible "£" amounts.
-    if len(prices) < 4:
-        for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", visible_text or ""):
-            try:
-                prices.append(round(float(m.group(1)), 2))
-            except ValueError:
-                pass
+    prices = scan_prices(html, visible_text, brand_rules)
 
     # Keep plausible product prices only.
     prices = sorted(p for p in prices if 1 <= p <= 2000)
@@ -615,6 +708,91 @@ _SCARCITY_PATTERNS = [
     r"while stocks last",
 ]
 
+# Countdown / urgency copy — a sale with a clock on it converts differently
+# from an open-ended one, and "ends midnight" says the competitor expects a
+# demand spike now, not eventually.
+_URGENCY_PATTERNS = [
+    r"ends (?:at )?midnight",
+    r"ends (?:to)?night",
+    r"ends (?:this )?(?:sunday|monday|tuesday|wednesday|thursday|friday|saturday|weekend|today|tomorrow)",
+    r"ends in \d+",
+    r"ends soon",
+    r"last (?:chance|day|few days)",
+    r"final (?:hours?|day|reductions?)",
+    r"today only",
+    r"\d+ ?(?:hours?|hrs) (?:left|only|to go)",
+    r"limited time(?: only)?",
+    r"don'?t miss out",
+    r"hurry\b",
+]
+
+# Bundle / multi-buy offers ("3 for 2", "2 for £30", "buy 2 save 10%").
+_MULTIBUY_PATTERNS = [
+    r"\b\d ?for ?\d\b",
+    r"\b\d ?for ?[£$€] ?\d+\b",
+    r"buy \d,? (?:get|save)[^.!?]{0,25}",
+    r"buy one,? get one[^.!?]{0,20}",
+    r"\bbogof\b",
+    r"multi[- ]?buy",
+    r"\bbundle (?:and save|offer|deal)s?\b",
+    r"save (?:£ ?\d+|\d{1,2} ?%) when you buy \d",
+]
+
+_GWP_PATTERNS = [
+    r"free gift with (?:your )?(?:purchase|order)",
+    r"gift with purchase",
+    r"free [^.!?]{0,30}when you (?:spend|buy|purchase)",
+    r"complimentary [^.!?]{0,30}when you (?:spend|buy|purchase)",
+]
+
+_LOYALTY_PATTERNS = [
+    r"loyalty (?:scheme|programme|program|points|club)",
+    r"rewards? (?:club|scheme|programme|program)\b",
+    r"earn points",
+    r"\bvip (?:club|list|access|members?)\b",
+    r"refer a friend",
+]
+
+_PERSONALISATION_UPSELL_PATTERNS = [
+    r"free personalis(?:ation|ing)",
+    r"free personaliz(?:ation|ing)",
+    r"free engraving",
+    r"add (?:a )?(?:monogram|initials?|engraving)",
+    r"personalise (?:it|yours|your)",
+    r"personalize (?:it|yours|your)",
+    r"make it (?:yours|personal)",
+]
+
+# SMS capture: platform fingerprints in markup, or explicit sign-up copy.
+_SMS_MARKERS = r"attentivemobile|attentive\.com|postscript\.io|smsbump"
+_SMS_COPY = (r"(?:sign up|subscribe|join)[^.!?]{0,50}\b(?:sms|texts?)\b"
+             r"|\b(?:sms|texts?)\b[^.!?]{0,50}(?:sign up|subscribe|updates|offers)")
+
+# Live-chat widgets leave reliable fingerprints in the markup. Patterns are
+# host/asset-specific so ordinary copy can't false-positive a platform.
+_CHAT_PLATFORMS = {
+    "Gorgias":  r"gorgias",
+    "Zendesk":  r"zdassets|zendesk",
+    "Intercom": r"intercom",
+    "Tidio":    r"tidio",
+    "LiveChat": r"livechatinc|livechat\.com",
+    "Tawk":     r"tawk\.to",
+    "Kustomer": r"kustomer",
+    "HubSpot":  r"hs-chat|hubspot-messages",
+}
+_CHAT_COPY = r"\blive ?chat\b|chat (?:with|to) us"
+
+
+def _find_phrases(text, patterns, limit=6):
+    """De-duplicated matches of `patterns` over already-lowered text."""
+    found = []
+    for pat in patterns:
+        for m in re.finditer(pat, text):
+            phrase = re.sub(r"\s+", " ", m.group(0)).strip()
+            if phrase and phrase not in found:
+                found.append(phrase)
+    return found[:limit]
+
 
 def _first_order_offer(visible_text):
     """The email/SMS-capture incentive (e.g. '10% off your first order').
@@ -653,25 +831,133 @@ def _free_delivery_threshold(visible_text):
 
 def extract_trading_signals(html, visible_text):
     """Homepage trading/conversion signals: finance options (BNPL + wallets),
-    the email-capture offer, the free-delivery threshold and scarcity language.
+    the email-capture offer, the free-delivery threshold, scarcity language,
+    urgency/countdown copy, bundle/multi-buy offers, gift-with-purchase,
+    loyalty prompts, personalisation upsells, SMS capture and live chat.
 
     Pure function (strings in, dict out) so it is unit-testable offline. Every
     field degrades to a falsy default when its signal is absent."""
     low = _text_lower(visible_text) + " " + (html or "").lower()
     finance = [name for name, pat in _FINANCE_PATTERNS.items() if re.search(pat, low)]
-    scarcity = []
     stext = _text_lower(visible_text)
-    for pat in _SCARCITY_PATTERNS:
-        for m in re.finditer(pat, stext):
-            phrase = m.group(0).strip()
-            if phrase not in scarcity:
-                scarcity.append(phrase)
+    gwp = _find_phrases(stext, _GWP_PATTERNS, limit=3)
+    chat_platform = next((name for name, pat in _CHAT_PLATFORMS.items()
+                          if re.search(pat, low)), None)
     return {
         "finance": finance,
         "has_bnpl": any(p in _BNPL_PROVIDERS for p in finance),
         "email_capture_offer": _first_order_offer(visible_text),
         "free_delivery_threshold": _free_delivery_threshold(visible_text),
-        "scarcity": scarcity[:6],
+        "scarcity": _find_phrases(stext, _SCARCITY_PATTERNS),
+        "urgency": _find_phrases(stext, _URGENCY_PATTERNS),
+        "multibuy": _find_phrases(stext, _MULTIBUY_PATTERNS),
+        "gift_with_purchase": gwp[0] if gwp else None,
+        "loyalty": (_find_phrases(stext, _LOYALTY_PATTERNS, limit=1) or [None])[0],
+        "personalisation_upsell": (_find_phrases(
+            stext, _PERSONALISATION_UPSELL_PATTERNS, limit=1) or [None])[0],
+        "sms_capture": bool(re.search(_SMS_MARKERS, low) or re.search(_SMS_COPY, stext)),
+        "live_chat": chat_platform or ("copy" if re.search(_CHAT_COPY, stext) else None),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Delivery & returns pages — the service proposition, read from each brand's
+# own policy pages (one extra same-site page each; no new blocking surface).
+# ---------------------------------------------------------------------------
+# The homepage only ever carries the headline ("free delivery over £50"); the
+# real service proposition — express + cutoff time, the returns window, whether
+# returns cost the shopper money — lives on the delivery/returns pages. Both
+# extractors are pure (strings in, dict out) and degrade field-by-field.
+
+_DELIVERY_LINK_RE = re.compile(r"delivery|shipping", re.I)
+_RETURNS_LINK_RE = re.compile(r"returns?\b|refunds?\b|exchanges?\b", re.I)
+
+
+def find_policy_links(html, base_url):
+    """Discover a brand's delivery and returns page URLs from its homepage
+    links (usually in the footer). Config `delivery_url` / `returns_url`
+    overrides win in capture.py; this is the zero-config fallback. Returns
+    {"delivery": url|None, "returns": url|None}. Pure."""
+    soup = BeautifulSoup(html or "", "lxml")
+    out = {"delivery": None, "returns": None}
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if not href or href.startswith(("#", "mailto:", "tel:", "javascript:")):
+            continue
+        hay = href + " " + a.get_text(" ", strip=True)
+        if out["delivery"] is None and _DELIVERY_LINK_RE.search(hay) \
+                and not _RETURNS_LINK_RE.search(hay):
+            out["delivery"] = urljoin(base_url, href)
+        if out["returns"] is None and _RETURNS_LINK_RE.search(hay):
+            out["returns"] = urljoin(base_url, href)
+        if out["delivery"] and out["returns"]:
+            break
+    return out
+
+
+# A delivery option line: "Standard Delivery ... £3.95" / "Express shipping — free".
+_DELIVERY_OPTION_RE = re.compile(
+    r"((?:free |standard |express |next[- ]day |named[- ]day |nominated[- ]day |same[- ]day |"
+    r"premium |saturday |sunday |evening |uk |international |worldwide |tracked |signed )+"
+    r"(?:delivery|shipping))[^£\n.!?]{0,60}?(free|£ ?\d{1,3}(?:\.\d{2})?)",
+    re.I)
+_EXPRESS_RE = re.compile(r"next[- ]?day|express|same[- ]?day", re.I)
+_CUTOFF_RE = re.compile(
+    r"order(?:ed)? (?:by|before)\s*(\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm|noon|midday|midnight))", re.I)
+
+
+def extract_delivery_page(visible_text):
+    """Service proposition from a brand's delivery/shipping page: the priced
+    option list, the free-delivery threshold, whether an express/next-day
+    service exists and its order cutoff, and click & collect. Pure."""
+    text = _text_lower(visible_text)
+    options = []
+    for m in _DELIVERY_OPTION_RE.finditer(visible_text or ""):
+        name = re.sub(r"\s+", " ", m.group(1)).strip().title()
+        price = m.group(2).lower().replace(" ", "")
+        entry = {"name": name, "price": ("free" if price == "free" else price)}
+        if entry not in options:
+            options.append(entry)
+    cutoff = _CUTOFF_RE.search(visible_text or "")
+    return {
+        "options": options[:8],
+        "free_threshold": _free_delivery_threshold(visible_text),
+        "express": bool(_EXPRESS_RE.search(text)),
+        "express_cutoff": re.sub(r"\s+", "", cutoff.group(1)).lower() if cutoff else None,
+        "click_collect": bool(re.search(r"click (?:&|and) collect", text)),
+    }
+
+
+_RETURNS_WINDOW_RE = re.compile(
+    r"(?:within|up to|have|you have)?\s*(\d{1,3})\s*days?\b[^.!?]{0,60}?"
+    r"\b(?:return|exchange|refund)"
+    r"|\b(?:return|exchange|refund)[^.!?]{0,60}?\bwithin\s*(\d{1,3})\s*days?", re.I)
+_FREE_RETURNS_RE = re.compile(r"free (?:uk )?returns?\b|returns? (?:are|is) free", re.I)
+_PAID_RETURNS_RE = re.compile(
+    r"(?:£ ?\d{1,2}(?:\.\d{2})?\s*(?:will be|is)? ?deducted)|cost of return"
+    r"|return (?:postage|shipping) (?:is|are|costs?|will)"
+    r"|at (?:your|the customer'?s?) (?:own )?(?:cost|expense)", re.I)
+
+
+def extract_returns_page(visible_text):
+    """Returns policy from a brand's returns/refunds page: the returns window
+    in days, free-vs-paid returns (None when the page doesn't say), and
+    whether exchanges are offered. Pure."""
+    text = visible_text or ""
+    low = _text_lower(text)
+    m = _RETURNS_WINDOW_RE.search(text)
+    window = int(m.group(1) or m.group(2)) if m else None
+    if window is not None and not (1 <= window <= 365):
+        window = None
+    free = None
+    if _FREE_RETURNS_RE.search(text):
+        free = True
+    elif _PAID_RETURNS_RE.search(text):
+        free = False
+    return {
+        "window_days": window,
+        "free_returns": free,
+        "exchanges": bool(re.search(r"\bexchanges?\b", low)),
     }
 
 
@@ -896,26 +1182,20 @@ def _detect_sale_pairs(html, visible_text):
     return on_sale, pairs
 
 
-def extract_listing(html, visible_text):
+def extract_listing(html, visible_text, brand_rules=None):
     """Trading data from a real product-listing/bestsellers page.
 
     Returns a price distribution, an approximate product count, how many lines
     are on sale and the resulting discounted share, plus a 'new in' mention
     count. Honest about being a sample: counts are approximate (one card can
     yield several prices), so read discounted_share as 'how promotional is this
-    range', not an exact figure. Pure/offline-testable."""
-    prices = []
-    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
-    structured_n = len(prices)
-    for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", visible_text or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
+    range', not an exact figure. Add-on items (photo cards, gift wrap...) are
+    kept out of the distribution so they can't fake a near-zero floor price.
+    Pure/offline-testable."""
+    keywords, values = _price_exclusion(brand_rules)
+    structured = _scan_structured_prices(html, keywords, values)
+    structured_n = len(structured)
+    prices = structured + _scan_visible_prices(visible_text, keywords, values)
 
     dist = _price_distribution(prices)
     on_sale, pairs = _detect_sale_pairs(html, visible_text)
@@ -933,148 +1213,6 @@ def extract_listing(html, visible_text):
         "sale_pairs": pairs,
         "new_in_mentions": new_in,
     }
-
-
-# ---------------------------------------------------------------------------
-# Marketplace presence — where brands show up OFF-SITE (Amazon, TikTok Shop)
-# ---------------------------------------------------------------------------
-# Read from the homepage HTML we ALREADY fetch (zero extra request, no new
-# blocking surface — the same design as the Reputation and BNPL levers). Amazon
-# and TikTok both block datacenter IPs hard, so live-scraping their search from a
-# free GitHub runner would be mostly "blocked", not signal. The reliable £0/public
-# read is what a brand LINKS TO ITSELF: an official Amazon storefront or a TikTok
-# Shop/profile link is a deliberate, on-brand channel.
-#
-# The nuance that matters (B2C-vs-outlet) lives in the *kind* of presence:
-#   Amazon  official  -> links its own Amazon storefront/seller page  (brand-run B2C shelf)
-#           linked    -> an Amazon link, but not clearly a storefront  (promoted, unconfirmed)
-#           mentioned -> "available on Amazon" in copy, no link
-#           none      -> nothing surfaced on the homepage
-#   TikTok  shop      -> a TikTok Shop link/badge                      (selling there)
-#           social    -> a tiktok.com/@handle profile link             (presence, not a shop)
-#           none      -> nothing surfaced
-#
-# Honesty (same ethos as everywhere here): we only report what the homepage
-# SURFACES, never guessed. Crucially `none` does NOT mean "not on the
-# marketplace" — a THIRD-PARTY reseller / outlet a brand never links can't be
-# seen from its own homepage. Catching that (the true grey-market/outlet probe)
-# needs a live Amazon/TikTok fetch, which only becomes reliable behind a paid
-# scraping proxy — a roadmap item, like the Meta Ad Library note in the README.
-# Pure function (strings in, dict out) so it is unit-tested offline.
-
-_ANCHOR_RE = re.compile(r"<a\b([^>]*)>(.*?)</a>", re.I | re.S)
-_HREF_RE = re.compile(r"""href\s*=\s*["']([^"']+)["']""", re.I)
-_TAG_RE = re.compile(r"<[^>]+>")
-
-# A real Amazon MARKETPLACE link (needs a scheme; homepage channel links are
-# absolute). Short links (amzn.to/amzn.eu/a.co) are deliberate brand CTAs.
-_AMAZON_RE = re.compile(
-    r"https?://(?:[a-z0-9.-]*\.)?amazon\.[a-z.]{2,6}/|"
-    r"https?://amzn\.(?:to|eu)/|https?://a\.co/", re.I)
-# Amazon hosts that are NOT the marketplace: asset CDNs, ads and the wallet.
-_AMAZON_BAD_RE = re.compile(
-    r"amazonaws\.com|media-amazon|images-amazon|amazon-adsystem|"
-    r"amazonpay|pay\.amazon", re.I)
-_AMAZON_STORE_PATH_RE = re.compile(r"/(?:stores|shops|seller)\b|/stores/page|seller=", re.I)
-_AMAZON_STORE_TXT_RE = re.compile(
-    r"amazon (?:store|storefront|shop)|(?:store|storefront|shop)(?:front)? on amazon|"
-    r"our amazon", re.I)
-_AMAZON_SELL_TXT_RE = re.compile(
-    r"(?:available|shop|buy|find us|now)\b[^.!?]{0,30}\bon amazon\b|"
-    r"\bamazon (?:store|storefront|shop)\b", re.I)
-
-_TIKTOK_RE = re.compile(
-    r"https?://(?:[a-z0-9.-]*\.)?tiktok\.com/|"
-    r"https?://(?:vm|vt)\.tiktok\.com/", re.I)
-_TIKTOK_HANDLE_RE = re.compile(r"tiktok\.com/@([a-z0-9._]+)", re.I)
-_TIKTOK_SHOP_TXT_RE = re.compile(r"\btiktok shop\b|shop (?:us |with us )?on tiktok", re.I)
-
-
-def _anchors(html):
-    """Every (href, context) pair in the HTML, where context is the anchor's
-    attributes + inner text lower-cased — so an icon-only link's intent (in its
-    aria-label/title/class) is searchable alongside any visible text."""
-    out = []
-    for attrs, inner in _ANCHOR_RE.findall(html or ""):
-        m = _HREF_RE.search(attrs)
-        if not m:
-            continue
-        href = m.group(1).strip()
-        context = (attrs + " " + _TAG_RE.sub(" ", inner)).lower()
-        out.append((href, context))
-    return out
-
-
-def _classify_amazon(anchors, low_text):
-    urls = [(h, c) for h, c in anchors
-            if _AMAZON_RE.search(h) and not _AMAZON_BAD_RE.search(h.lower())]
-    if urls:
-        for href, ctx in urls:
-            path = urlparse(href).path.lower()
-            if (_AMAZON_STORE_PATH_RE.search(path) or "seller=" in href.lower()
-                    or _AMAZON_STORE_TXT_RE.search(ctx)):
-                return {"state": "official", "url": href}
-        return {"state": "linked", "url": urls[0][0]}
-    if _AMAZON_SELL_TXT_RE.search(low_text):
-        return {"state": "mentioned", "url": None}
-    return {"state": "none", "url": None}
-
-
-def _classify_tiktok(anchors, low_text):
-    urls = [(h, c) for h, c in anchors if _TIKTOK_RE.search(h)]
-    handle = shop_url = social_url = None
-    for href, ctx in urls:
-        m = _TIKTOK_HANDLE_RE.search(href)
-        if m and not handle:
-            handle = "@" + m.group(1).lower()
-        path = urlparse(href).path.lower()
-        low = href.lower()
-        if ("shop.tiktok" in low or "/shop" in path or "/view/product" in path
-                or _TIKTOK_SHOP_TXT_RE.search(ctx)):
-            shop_url = shop_url or href
-        elif m:
-            social_url = social_url or href
-    if shop_url or _TIKTOK_SHOP_TXT_RE.search(low_text):
-        return {"state": "shop", "handle": handle, "url": shop_url}
-    if social_url or handle:
-        return {"state": "social", "handle": handle, "url": social_url}
-    return {"state": "none", "handle": None, "url": None}
-
-
-def extract_marketplace_presence(html, visible_text):
-    """Off-site channel presence a brand SURFACES on its own homepage: an Amazon
-    storefront/link and a TikTok Shop/profile. Degrades to `state: none` when
-    nothing is surfaced (never guessed). See the module note above for why
-    `none` is not the same as "absent from the marketplace"."""
-    anchors = _anchors(html)
-    low_text = _text_lower(visible_text)
-    return {
-        "amazon": _classify_amazon(anchors, low_text),
-        "tiktok": _classify_tiktok(anchors, low_text),
-    }
-
-
-# Strength ordering per channel, so two reads of the same brand (e.g. its
-# homepage and a stockists/"where to buy" page) combine to the STRONGEST signal
-# seen, never downgrading. Used by merge_marketplace.
-_AMAZON_RANK = {"official": 3, "linked": 2, "mentioned": 1, "none": 0}
-_TIKTOK_RANK = {"shop": 2, "social": 1, "none": 0}
-
-
-def merge_marketplace(primary, secondary):
-    """Combine two marketplace reads, the stronger state per channel winning and
-    keeping that side's url/handle. Either argument may be None or partial. Pure,
-    so it's unit-tested offline. Lets a best-effort stockists-page scan UPGRADE a
-    homepage 'none' to 'official' without ever overwriting a stronger homepage
-    read with a weaker one."""
-    def pick(name, rank):
-        a = (primary or {}).get(name) or {}
-        b = (secondary or {}).get(name) or {}
-        ra = rank.get(a.get("state", "none"), 0)
-        rb = rank.get(b.get("state", "none"), 0)
-        return dict(a) if ra >= rb else dict(b)
-    return {"amazon": pick("amazon", _AMAZON_RANK),
-            "tiktok": pick("tiktok", _TIKTOK_RANK)}
 
 
 # Chrome/utility links that sit in the nav but aren't part of the shopping
@@ -1161,7 +1299,8 @@ def extract_menu(html, limit=3):
     return best[:limit]
 
 
-def extract_all(html, visible_text, raw_text, categories, provided_hero=None, known_platforms=None):
+def extract_all(html, visible_text, raw_text, categories, provided_hero=None,
+                known_platforms=None, price_rules=None):
     """Run every extractor and return one flat dict of fields."""
     banner_text = _collect_banner_text(html)
     offers = extract_offers(visible_text, extra_texts=banner_text)
@@ -1175,10 +1314,9 @@ def extract_all(html, visible_text, raw_text, categories, provided_hero=None, kn
         "discount_codes": extract_discount_codes(raw_text),
         "product_mix": extract_product_mix(visible_text, categories),
         "keywords": extract_keywords(visible_text),
-        "prices": extract_prices(html, visible_text),
+        "prices": extract_prices(html, visible_text, price_rules),
         "trading": extract_trading_signals(html, visible_text),
         "reputation": extract_reputation(html, visible_text, known_platforms),
-        "marketplace": extract_marketplace_presence(html, visible_text),
         "seo": extract_seo(html),
         "accessibility": extract_accessibility(html),
     }

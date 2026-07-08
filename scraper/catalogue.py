@@ -37,8 +37,11 @@ SNAPSHOT_PATH = os.path.join(storage.DATA_DIR, "catalogue_snapshot.json")
 
 MAX_CHILD_SITEMAPS = 12      # bound work on a huge sitemap index
 MAX_HANDLES = 8000           # bound memory/output for very large catalogues
+MAX_ROBOTS_SITEMAPS = 5      # how many robots.txt-declared sitemaps to merge
 
 _LOC_RE = re.compile(r"<loc>\s*(.*?)\s*</loc>", re.I | re.S)
+_URL_BLOCK_RE = re.compile(r"<url\b[^>]*>(.*?)</url>", re.I | re.S)
+_SITEMAP_DECL_RE = re.compile(r"^\s*sitemap\s*:\s*(\S+)", re.I | re.M)
 
 
 def _unescape(s):
@@ -63,6 +66,38 @@ def looks_like_sitemap(body):
     clears) instead of trying to parse it as XML. Pure."""
     low = (body or "").lower()
     return "<sitemapindex" in low or "<urlset" in low
+
+
+def sitemaps_from_robots(text):
+    """Every sitemap URL declared in robots.txt, in order, de-duplicated and
+    capped at MAX_ROBOTS_SITEMAPS. Sites routinely declare several (products,
+    collections, blogs, per-locale) -- first-hit-wins misses whole catalogues,
+    so callers merge ALL of them. Pure."""
+    seen, out = set(), []
+    for u in _SITEMAP_DECL_RE.findall(text or ""):
+        u = u.strip()
+        if u and u not in seen:
+            seen.add(u)
+            out.append(u)
+    return out[:MAX_ROBOTS_SITEMAPS]
+
+
+def product_urls_with_images(xml):
+    """<loc> URLs of <url> entries that carry an <image:image> child.
+
+    Shopify/Magento/SFCC product sitemap entries carry product imagery;
+    category/blog entries don't -- so image children mark product pages even
+    when the URL path has no /products/ segment. This is the fallback that
+    fixed brands whose path heuristic undercounted (Pandora's 1043 real
+    products upstream). Pure."""
+    out = []
+    for block in _URL_BLOCK_RE.findall(xml or ""):
+        if not re.search(r"<image:image", block, re.I):
+            continue
+        m = _LOC_RE.search(block)
+        if m and m.group(1).strip():
+            out.append(_unescape(m.group(1).strip()))
+    return out
 
 
 def is_product_sitemap_url(url):
@@ -91,36 +126,61 @@ def _fail(msg):
             "sitemaps_used": [], "error": msg}
 
 
-def collect(get, base_url):
+def collect(get, base_url, get_text=None):
     """Walk a site's sitemaps into a sorted, de-duplicated set of product handles.
 
-    `get(url) -> str|None` is injected (network lives outside this module).
-    Returns {ok, product_count, handles, sitemaps_used, error}. Best-effort: any
-    failure yields ok=False with a short reason and no handles."""
+    `get(url) -> str|None` is injected (network lives outside this module);
+    `get_text(url) -> str|None`, when provided, fetches raw text (robots.txt)
+    through the same session. Sitemap discovery: every sitemap declared in
+    robots.txt (up to MAX_ROBOTS_SITEMAPS, merged -- not first-hit-wins), else
+    the conventional /sitemap.xml. Product detection: the /products/ URL-path
+    heuristic, falling back to <image:image>-bearing entries when the path
+    heuristic undercounts. Returns {ok, product_count, handles, sitemaps_used,
+    error}. Best-effort: any failure yields ok=False with a short reason."""
     root = base_url if base_url.endswith("/") else base_url + "/"
-    index_url = urljoin(root, "sitemap.xml")
-    xml = get(index_url)
-    if not xml:
+    entry_urls = []
+    if get_text:
+        entry_urls = sitemaps_from_robots(get_text(urljoin(root, "robots.txt")))
+    if not entry_urls:
+        entry_urls = [urljoin(root, "sitemap.xml")]
+
+    sitemaps_used = []
+    child_xmls = []
+    fetched_any = False
+    for entry in entry_urls:
+        xml = get(entry)
+        if not xml:
+            continue
+        fetched_any = True
+        if is_sitemap_index(xml):
+            children = extract_locs(xml)
+            # Prefer obviously-product child sitemaps; if none are recognisable,
+            # fall back to scanning all (still filtered to products below).
+            prod = [c for c in children if is_product_sitemap_url(c)]
+            for sm in (prod or children)[:MAX_CHILD_SITEMAPS]:
+                cx = get(sm)
+                if cx:
+                    sitemaps_used.append(sm)
+                    child_xmls.append(cx)
+        else:
+            # A flat urlset already lists page URLs; filter to products below.
+            sitemaps_used.append(entry)
+            child_xmls.append(xml)
+    if not fetched_any:
         return _fail("no sitemap.xml")
 
-    if is_sitemap_index(xml):
-        children = extract_locs(xml)
-        # Prefer obviously-product child sitemaps; if none are recognisable, fall
-        # back to scanning all of them (and we still filter to /products/ URLs).
-        prod = [c for c in children if is_product_sitemap_url(c)]
-        sitemaps_used = (prod or children)[:MAX_CHILD_SITEMAPS]
-        urls = []
-        for sm in sitemaps_used:
-            cx = get(sm)
-            if cx:
-                urls.extend(extract_locs(cx))
-    else:
-        # A flat urlset already lists page URLs; filter to products below.
-        sitemaps_used = [index_url]
-        urls = extract_locs(xml)
+    urls, image_urls = [], []
+    for cx in child_xmls:
+        urls.extend(extract_locs(cx))
+        image_urls.extend(product_urls_with_images(cx))
 
-    handles = sorted({handle_from_url(u) for u in urls
-                      if looks_like_product_url(u) and handle_from_url(u)})
+    path_handles = sorted({handle_from_url(u) for u in urls
+                           if looks_like_product_url(u) and handle_from_url(u)})
+    # Fallback: when URL paths don't say /products/ (Magento/SFCC-style flat
+    # paths), entries with an <image:image> child are the product pages.
+    image_handles = sorted({handle_from_url(u) for u in image_urls
+                            if handle_from_url(u)})
+    handles = image_handles if len(image_handles) > len(path_handles) else path_handles
     handles = handles[:MAX_HANDLES]
     if not handles:
         return _fail("no product URLs in sitemap")
@@ -171,15 +231,26 @@ def _brand_entry(res, prev):
             "ok": True, "first_seen": False, "error": None}
 
 
-def build(get, brands, categories=None, date=None, captured_at=None):
-    """Fetch each brand's catalogue, diff vs the prior day's snapshot, append a
-    dated run to catalogue.json and update the snapshot. Idempotent per day.
+def build(get, brands, categories=None, date=None, captured_at=None, get_text=None):
+    """Fetch each brand's catalogue then delegate to build_from_results.
+
+    Pure-ish: all network is via the injected `get`/`get_text`, so build() is
+    exercised in tests with an in-memory fake. Returns the appended run dict.
+    capture.py collects per brand itself (inside each brand's cleared browser
+    context) and calls build_from_results directly."""
+    results = {b["slug"]: collect(get, b["url"], get_text=get_text) for b in brands}
+    return build_from_results(results, brands, categories, date, captured_at)
+
+
+def build_from_results(results, brands, categories=None, date=None, captured_at=None):
+    """Diff each brand's collected handle set vs the prior day's snapshot,
+    append a dated run to catalogue.json and update the snapshot. Idempotent
+    per day.
 
     The snapshot keeps BOTH the latest handle set (`cur`) and the previous day's
     (`prev`), so today's "new products" always diffs against YESTERDAY even on a
     manual same-day re-run (which only refreshes `cur`, never advancing the
-    baseline). Pure-ish: all network is via the injected `get`, so build() is
-    exercised in tests with an in-memory fake. Returns the appended run dict."""
+    baseline)."""
     storage.ensure_dirs()
     date = date or storage.today()
     snap = storage._load_json(SNAPSHOT_PATH, {})
@@ -201,7 +272,7 @@ def build(get, brands, categories=None, date=None, captured_at=None):
     brands_out = {}
     for b in brands:
         slug = b["slug"]
-        res = collect(get, b["url"])
+        res = results.get(slug) or _fail("no collection result")
         brands_out[slug] = _brand_entry(res, baseline.get(slug))
         if res["ok"]:
             new_cur[slug] = res["handles"]        # refresh latest on success only

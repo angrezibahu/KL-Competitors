@@ -106,7 +106,7 @@ config/competitors.json     # brands + homepage URLs + optional listing_url + pr
 config/aio_queries.json     # buyer-intent questions for the AI-visibility job (edit me)
 scraper/
   capture.py                # daily orchestrator (Playwright)
-  extractors.py             # rules-based field extraction inc. price sampling, reputation, marketplace presence & accessibility
+  extractors.py             # rules-based field extraction inc. price sampling, reputation & accessibility
   colours.py                # dominant-colour extraction from screenshots
   trends.py                 # Google Trends (best-effort)
   digest.py                 # builds the weekly HTML digest
@@ -117,16 +117,19 @@ scraper/
   seed.py                   # generates the SAMPLE data you see before first real run
 docs/                       # the PWA dashboard (served by GitHub Pages)
   index.html, app.js, styles.css, sw.js, manifest.webmanifest
+  ask.js                    # Ask Me: deterministic client-side Q&A over the captured record
   data/captures.json        # the append-only history (the treasure trove)
   data/aio.json             # append-only AI-visibility history (weekly)
   data/catalogue.json       # append-only assortment history (range size + newness)
   data/catalogue_snapshot.json  # latest product handles per brand (the diff baseline)
   data/events.json          # derived change timeline + current opportunities
-  screenshots/<brand>/<date>.jpg
+  screenshots/<brand>/<date>.jpg          # desktop capture
+  screenshots/<brand>/<date>-mobile.jpg   # phone-rendered capture (390×844)
 tests/test_extractors.py    # offline tests for the extraction rules
 tests/test_catalogue.py     # offline tests for the sitemap parsing + diff
 tests/test_aio.py           # offline tests for AI-visibility parsing & scoring
 tests/test_events.py        # offline tests for the timeline + opportunity rules
+tests/test_ask.mjs          # offline (Node) tests for the Ask Me query engine
 .github/workflows/daily.yml          # the 9am capture schedule
 .github/workflows/weekly-digest.yml  # Monday digest build + optional email
 .github/workflows/aio.yml            # weekly AI-visibility capture (needs ANTHROPIC_API_KEY)
@@ -247,7 +250,8 @@ actually lists products with prices and re-run.
 
 The newest signal, and the one shoppers increasingly act on. When someone asks
 an AI assistant *"best personalised birthday jewellery UK"*, **which brands does
-it name, and in what order?** The **AI Visibility** tab tracks that over time.
+it name, and in what order?** The weekly AIO capture tracks that over time,
+and the **Ask Me** tab surfaces it (“what's our share of voice in AI answers?”).
 
 How it works (`scraper/aio.py`, weekly via `.github/workflows/aio.yml`):
 
@@ -259,8 +263,8 @@ How it works (`scraper/aio.py`, weekly via `.github/workflows/aio.yml`):
 - It computes a **share of voice** per brand (named more, and named first = higher
   SoV), plus per-query "who's named" — the dashboard surfaces queries where
   *competitors appear and Katie Loxton doesn't*, which is a ready-made content brief.
-- History is append-only (`docs/data/aio.json`), so the tab shows both this
-  week's leaderboard and the **trend**.
+- History is append-only (`docs/data/aio.json`), so both this week's
+  leaderboard and the **trend** stay queryable.
 
 **Honesty note:** AI answers are non-deterministic and depend on the model and
 live web results, so read this as *directional share-of-voice over time*, not a
@@ -277,6 +281,21 @@ Without the secret the workflow **skips cleanly** (writes nothing) and the tab
 shows a "not set up yet" note — nothing else is affected. The brand-mention
 parsing and share-of-voice scoring are pure and covered by `tests/test_aio.py`,
 so they're tested even with no key.
+
+## 💬 Ask Me — questions answered from the record
+
+The **Ask Me** tab answers buyer-intent questions (*"was Mint Velvet on sale at
+the end of June?"*, *"when did Coach's sale start?"*, *"who has the deepest
+discount?"*) **deterministically, in the browser** — `docs/ask.js` parses the
+question (intent + date range + typo-tolerant brand matching) and quotes the
+recorded captures. No LLM call, no network request, no API key: the dashboard
+is a static offline-capable PWA with nowhere to safely hold a key, and quoting
+recorded fields keeps the "show the evidence" principle — every answer cites
+the capture date and links the dated screenshot. Sale timelines are derived by
+diffing consecutive captures directly (never the pre-built events file, which
+can drift). Fuzzy brand matches are disclosed in the answer, and an untracked
+brand name gets the tracked roster plus a did-you-mean instead of a misfire.
+Covered by `tests/test_ask.mjs` (Node, runs in CI).
 
 ## ⭐ Reputation — the social-proof / trust pillar
 
@@ -316,92 +335,17 @@ shown and tagged "low volume" but excluded, so one 10-review rating can't set th
 market bar. Same spirit as the Overview: surface what we genuinely know, not a
 flattering artefact.
 
-## 🛍️ Marketplace presence — Amazon & TikTok Shop
+## 🛍️ Marketplace presence — retired
 
-> **⚠️ Status: the dashboard tab is temporarily hidden** (gated by `SHOW_MARKETPLACE`
-> in `scraper/events.py`; the tab is unregistered in `docs/app.js`). The extractor
-> keeps running, so history keeps accruing.
->
-> **Why it's hidden, honestly:** this layer reads only what a brand *links on its own
-> site*, so it false-negatives a channel a brand runs but doesn't link. Katie Loxton's real
-> captures show exactly this — **Amazon `none`** (the homepage doesn't link the
-> storefront) but **TikTok `social` ✓** (`@katieloxton` is detected). Showing
-> "none surfaced" for Katie Loxton's Amazon — a channel we *know* it runs — is misleading on
-> the brand we control, so the tab stays off until that's fixed.
->
-> **The £0 fix in place (stockists scan):** an optional `stockists_url` per brand
-> (below) is scanned for marketplace links the homepage misses, merged strongest-state-wins.
-> But note its real limit: it only helps if the brand *links* the marketplace on its
-> own site, and most DTC brands don't link their Amazon store anywhere (they want
-> direct sales). So the tab is re-enabled only once a brand we know — starting with
-> Katie Loxton — actually surfaces correctly. Reliably surfacing an *unlinked* channel is the
-> live-probe roadmap (needs a proxy/API), parked per the £0 constraint.
-
-Where do the brands show up *off-site*, and is it an on-brand B2C channel or an
-outlet? The **Marketplace** tab tracks, per brand, whether each competitor
-surfaces an **Amazon** storefront and/or a **TikTok Shop** — the two channels
-that matter most in this category.
-
-**Why homepage-declared, not live scraping.** Amazon and TikTok both block
-datacenter IPs hard (harder than the Cloudflare sites already flaky here), so
-live-scraping their search from a free GitHub runner would mostly return "blocked",
-not signal. The reliable, **£0/public** read is what a brand *links to itself* —
-and crucially, the *kind* of link answers the B2C-vs-outlet question. It reads
-straight from the **homepage HTML we already fetch** (`extract_marketplace_presence`
-in `scraper/extractors.py`), so **no extra request and no new surface to get
-blocked**, the same design as the Reputation and BNPL levers.
-
-What each state means:
-
-| Market | State | Meaning |
-|---|---|---|
-| Amazon | `official` | links its own Amazon **storefront / seller page** — a brand-run B2C shelf |
-| Amazon | `linked` | an Amazon link, but not clearly a storefront (promoted, unconfirmed) |
-| Amazon | `mentioned` | "available on Amazon" in copy, no link |
-| TikTok | `shop` | a **TikTok Shop** link/badge — they're selling there |
-| TikTok | `social` | a `tiktok.com/@handle` profile link — presence, not a shop |
-| either | `none` | nothing surfaced on the homepage |
-
-It feeds the **Opportunities** engine ("N competitors surface an Amazon
-presence — Katie Loxton's homepage shows none", "competitors surface a TikTok Shop —
-Katie Loxton's isn't detected") and the **change timeline** (a channel appearing or
-vanishing).
-
-**Honesty note — read `none` carefully:** it means *the homepage surfaces no
-channel*, **not** "this brand isn't on the marketplace". A **third-party
-reseller or outlet** a brand never links can't be seen from its own homepage —
-catching that (the true grey-market/outlet detector, plus a marketplace-price vs
-RRP read to flag outlet positioning) needs a **live Amazon/TikTok probe**, which
-only becomes reliable behind a paid scraping proxy (~£30–50/mo). That's a
-roadmap extension — the code is structured so the probe slots in later, exactly
-like the optional `listing_url` and the Meta Ad Library note below. The parsing
-is pure and covered by `tests/test_extractors.py`; the tab populates as daily
-captures run.
-
-### Making it accurate — the roadmap
-
-The accuracy ladder, cheapest first, so the tab can responsibly come back on:
-
-1. **Stockists-page scan — built, £0.** Set an optional `stockists_url` per brand
-   in `config/competitors.json`. The daily job scans that one page on the brand's
-   *own* site for marketplace links the homepage misses (`capture_stockists` →
-   `merge_marketplace`, strongest state per channel wins — a stockists `official`
-   upgrades a homepage `none`, never the reverse). No new blocking surface; never
-   fatal. **Limit:** only surfaces a channel the brand *links* somewhere on its
-   site. Most DTC brands don't link their Amazon store at all, so this won't catch
-   an unlinked store (e.g. Katie Loxton's Amazon, confirmed `none` in real captures).
-2. **Operator-declared known URLs — available if wanted, £0.** Treat a hand-entered
-   storefront URL as authoritative, so a channel we *know* a brand runs always shows
-   correctly regardless of what its site links. The reliable way to fix Katie Loxton's
-   Amazon; not built yet (we opted for the stockists scan first).
-3. **Live marketplace probe — parked (needs proxy/API).** The only way to find
-   channels a brand *doesn't* link (third-party resellers/outlets) and to read
-   marketplace price vs RRP. Blocked at £0 because Amazon/TikTok reject datacenter
-   IPs; ready to slot in the day a proxy or API becomes acceptable.
-
-**Re-enabling the tab** = surface a known channel correctly (rung 1 or 2 above),
-confirm Katie Loxton reads right, then flip `SHOW_MARKETPLACE = True` in `scraper/events.py`
-and re-register `marketplace` in `VIEWS`/`TABS` in `docs/app.js`.
+An Amazon/TikTok Shop "marketplace presence" pillar (classifying channels from
+homepage-linked evidence only) was tried here and **fully removed**: reading only
+what a brand links on its own site produced too many false negatives on channels
+known to be real (most DTC brands never link their Amazon storefront), and a
+stockists-page scan didn't rescue it enough to justify keeping it even hidden.
+Reliably detecting an *unlinked* channel — the actual grey-market/outlet
+question — needs a live Amazon/TikTok probe behind a paid proxy, which breaks
+the £0 constraint. If that budget ever appears, build the probe; don't resurrect
+the homepage-link heuristic.
 
 ## 📦 Assortment — range size & new-product velocity
 
@@ -505,13 +449,12 @@ from the full history each run (so it's idempotent), and the rules are covered b
 `tests/test_events.py`.
 
 ## 💡 Ideas to enrich the treasure trove later
-- **Live marketplace probe** — the paid-proxy upgrade to the Marketplace tab.
-  The £0 layer reads what brands *link to themselves* (official storefronts);
-  a live Amazon/TikTok search behind a scraping proxy would also catch
+- **Live marketplace probe** — a paid-proxy Amazon/TikTok search that catches
   **third-party resellers / outlets a brand never links** (the true grey-market
-  detector) and read **marketplace price vs RRP** to flag outlet positioning.
-  Reliable only behind a proxy from GitHub's IPs, so it's a roadmap extension —
-  the code is structured for it to slot in.
+  detector) and reads **marketplace price vs RRP** to flag outlet positioning.
+  Only reliable behind a proxy from GitHub's IPs — and the cheap homepage-link
+  version of this pillar was tried and removed (see the retired Marketplace
+  note above), so this is the only version worth building.
 - **Paid-acquisition intensity** via the (free, public) **Meta Ad Library** — how
   many active ads each competitor runs and when they spin up volume (sale
   launches). Another off-site pillar; it needs either a Meta API token or a paid

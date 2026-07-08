@@ -26,6 +26,10 @@ jobs:
         run: python tests/test_events.py
       - name: Run catalogue/assortment tests
         run: python tests/test_catalogue.py
+      - name: Run Ask Me engine tests (Node)
+        run: node tests/test_ask.mjs
+      - name: Syntax-check the dashboard JS
+        run: node --check docs/app.js && node --check docs/ask.js && node --check docs/sw.js
       - name: Sanity-check JSON + config
         run: |
           python -c "import json; json.load(open('config/competitors.json')); print('config ok')"

@@ -101,17 +101,23 @@ jobs:
           git commit -m "data: competitor capture $(date -u +%Y-%m-%d)"
           # A push can be rejected as non-fast-forward when another run or
           # workflow (a queued capture, the Pages deploy, a human merge) pushed
-          # to main while we were capturing. The concurrency group above
-          # serialises capture runs, but not those other writers -- so a benign
-          # race must not lose a real capture. Rebase our data commit onto the
-          # latest main and retry, only failing if it still can't land.
+          # while we were capturing. The concurrency group above serialises
+          # capture runs, but not those other writers -- so a benign race must
+          # not lose a real capture. Rebase our data commit onto the branch we
+          # are actually running on (not a hardcoded main) and retry;
+          # -X theirs resolves a genuine data-file conflict in favour of the
+          # capture we just took, and a wedged rebase is aborted cleanly so
+          # unmerged files can't break the NEXT run's checkout.
           for attempt in 1 2 3 4 5; do
             if git push; then
               echo "Pushed on attempt $attempt."
               exit 0
             fi
-            echo "Push rejected (attempt $attempt); rebasing onto latest main..."
-            git pull --rebase --autostash origin main || true
+            echo "Push rejected (attempt $attempt); rebasing onto latest ${GITHUB_REF_NAME}..."
+            if ! git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME"; then
+              echo "Rebase failed; aborting it so the tree stays clean."
+              git rebase --abort || true
+            fi
             sleep $((attempt * 3))
           done
           echo "::error::Could not push capture after 5 attempts."

@@ -543,37 +543,60 @@ function viewMarketMap() {
   const latestCat = runs.length ? runs[runs.length - 1].brands || {} : {};
   const brands = brandsSorted();
 
-  // Join: each brand needs a reliable median price AND a catalogue range size.
-  const pts = [];
-  const noisy = [];          // detectably-unreliable price -> shown, not plotted
-  for (const b of brands) {
+  // Join price signal + catalogue range size for EVERY tracked brand. Where a
+  // coordinate is missing or detectably unreliable we estimate it at the pack
+  // median and render the point visibly differently (hollow, dashed) with a
+  // caveat below — a brand with a noisy signal still exists in the market, so
+  // dropping it from the map would misdescribe the field.
+  const joined = brands.map(b => {
     const r = state.latest[b.slug];
     const ce = latestCat[b.slug];
-    const size = ce && ce.ok ? ce.product_count : null;
-    const sig = brandPriceSignal(r);
-    if (sig.noisy && size != null) { noisy.push({ b, lm: sig.lm, hm: sig.hm }); continue; }
-    if (sig.price != null && size != null) pts.push({ b, price: sig.price, size });
-  }
+    const size = ce && ce.ok && ce.product_count != null ? ce.product_count : null;
+    return { b, size, sig: brandPriceSignal(r) };
+  });
+  const knownPrices = joined.filter(j => !j.sig.noisy && j.sig.price != null).map(j => j.sig.price).sort((a, b) => a - b);
+  const knownSizes = joined.filter(j => j.size != null).map(j => j.size).sort((a, b) => a - b);
 
   const intro = el("div", "card");
   intro.innerHTML = `<h3>Market map — positioning</h3>
     <p class="hint">Where each brand sits on <b>price</b> (median, from real listing pages where available, else the homepage band)
-    against <b>range size</b> (catalogue products from sitemaps), splitting the market into value/premium × niche/broad.</p>`;
+    against <b>range size</b> (catalogue products from sitemaps), splitting the market into value/premium × niche/broad.
+    Every tracked brand is plotted; estimated positions are hollow dashed dots (see the caveats below the map).</p>`;
   wrap.append(intro);
 
-  if (pts.length < 3) {
+  if (knownPrices.length < 3 || knownSizes.length < 3) {
     const c = el("div", "card");
-    c.innerHTML = `<p class="muted">Not enough overlapping price + catalogue data yet to map positions
-      (need at least 3 brands with both). This fills in as the daily capture and the catalogue step run.</p>`;
+    c.innerHTML = `<p class="muted">Not enough measured price + catalogue data yet to map positions
+      (need at least 3 brands measured on each axis). This fills in as the daily capture and the catalogue step run.</p>`;
     wrap.append(c);
     return wrap;
   }
 
-  // Pack medians = the quadrant dividers.
-  const sortedP = pts.map(p => p.price).sort((a, b) => a - b);
-  const sortedS = pts.map(p => p.size).sort((a, b) => a - b);
-  const medP = sortedP[Math.floor(sortedP.length / 2)];
-  const medS = sortedS[Math.floor(sortedS.length / 2)];
+  // Pack medians of MEASURED brands = the quadrant dividers and the fallback
+  // position for brands whose own signal is missing/noisy.
+  const medP = knownPrices[Math.floor(knownPrices.length / 2)];
+  const medS = knownSizes[Math.floor(knownSizes.length / 2)];
+
+  const pts = [];
+  const caveats = [];
+  for (const { b, size, sig } of joined) {
+    let price = sig.price, estimated = false;
+    const why = [];
+    if (sig.noisy) {
+      price = medP; estimated = true;
+      why.push(`listing £${Math.round(sig.lm)} vs homepage £${Math.round(sig.hm)} disagree by more than 4× (usually a stray "spend over £X", bundle or "was" price) — plotted at the pack-median price`);
+    } else if (price == null) {
+      price = medP; estimated = true;
+      why.push("no price captured — plotted at the pack-median price");
+    }
+    let s = size;
+    if (s == null) {
+      s = medS; estimated = true;
+      why.push("no readable product sitemap — plotted at the pack-median range size");
+    }
+    if (why.length) caveats.push({ b, why: why.join("; ") });
+    pts.push({ b, price, size: s, estimated });
+  }
 
   // SVG scale with padding so points don't sit on the frame.
   const W = 760, H = 470, mL = 58, mR = 128, mT = 28, mB = 46;
@@ -613,17 +636,20 @@ function viewMarketMap() {
   svg += ql(mL + pW - 8, mT + 16, "end", "Broad & premium");
   svg += ql(mL + 8, mT + pH - 8, "start", "Niche & value");
   svg += ql(mL + pW - 8, mT + pH - 8, "end", "Niche & premium");
-  // Points.
+  // Points. Estimated positions render hollow with a dashed ring so they can
+  // never be mistaken for a measurement.
   for (const p of pts) {
     const cx = X(p.price), cy = Y(p.size), self = p.b.is_self;
     const rad = self ? 8 : 6;
-    const fill = self ? "var(--accent)" : "#fff";
-    const stroke = self ? "var(--accent)" : "var(--accent2)";
+    const fill = p.estimated ? "none" : (self ? "var(--accent)" : "#fff");
+    const stroke = p.estimated ? (self ? "var(--accent)" : "var(--muted)")
+      : (self ? "var(--accent)" : "var(--accent2)");
+    const dash = p.estimated ? ' stroke-dasharray="3 3"' : "";
     const labelRight = cx < mL + pW * 0.72;
     const lx = labelRight ? cx + rad + 5 : cx - rad - 5;
     const anchor = labelRight ? "start" : "end";
-    svg += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2">`
-         + `<title>${esc(p.b.brand)} — £${Math.round(p.price)} median, ${p.size} products</title></circle>`;
+    svg += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2"${dash}>`
+         + `<title>${esc(p.b.brand)} — £${Math.round(p.price)} median, ${p.size} products${p.estimated ? " (position estimated)" : ""}</title></circle>`;
     svg += `<text x="${lx}" y="${cy + 4}" font-size="11.5" text-anchor="${anchor}" `
          + `fill="${self ? "var(--accent)" : "var(--ink)"}" font-weight="${self ? 700 : 500}">${esc(p.b.brand)}${self ? " ★" : ""}</text>`;
   }
@@ -636,7 +662,7 @@ function viewMarketMap() {
 
   // Where does Katie Loxton sit?
   const jp = pts.find(p => p.b.is_self);
-  if (jp) {
+  if (jp && !jp.estimated) {
     const quad = (jp.size >= medS ? "broad" : "niche") + " & " + (jp.price >= medP ? "premium" : "value");
     const vc = el("div", "card");
     vc.innerHTML = `<h3>Where Katie Loxton sits</h3><p class="hint" style="margin:0">Katie Loxton maps to the <b>${esc(quad)}</b> quadrant
@@ -645,12 +671,11 @@ function viewMarketMap() {
     wrap.append(vc);
   }
 
-  if (noisy.length) {
+  if (caveats.length) {
     const nc = el("div", "card");
-    nc.innerHTML = `<h3>Not placed — price signal too noisy</h3>
-      <p class="hint">Their listing-page and homepage medians disagree by more than 4× (usually a stray "spend over £X", bundle or "was" price), so
-      placing them would mislabel their position. Shown here rather than guessed:</p>
-      <div>${noisy.map(n => `<span class="tag" title="listing £${Math.round(n.lm)} vs homepage £${Math.round(n.hm)}">${esc(n.b.brand)} — listing £${Math.round(n.lm)} vs homepage £${Math.round(n.hm)}</span>`).join("")}</div>`;
+    nc.innerHTML = `<h3>Plotted with a caveat</h3>
+      <p class="hint">Every tracked brand is on the map, but these positions are <b>estimated</b> (hollow dashed dots), not measured:</p>
+      <div>${caveats.map(n => `<span class="tag">${esc(n.b.brand)} — ${esc(n.why)}</span>`).join("")}</div>`;
     wrap.append(nc);
   }
 

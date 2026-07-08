@@ -542,6 +542,41 @@ def test_merge_marketplace_keeps_primary_on_tie_and_handles_none():
     assert m2["amazon"]["state"] == "linked" and m2["tiktok"]["state"] == "none"
 
 
+def test_price_scan_excludes_addon_items_structured():
+    # A £1.50 photo card and £2 gift wrap must not fake a near-zero floor price.
+    html = ('{"title":"Photo Card","price":"1.50"}'
+            '{"title":"Gift Wrap","price":"2.00"}'
+            '{"title":"Gold Bracelet","price":"49.00"}'
+            '{"title":"Tote Bag","price":"89.00"}')
+    p = extractors.extract_prices(html, "")
+    assert p["min"] == 49.0 and p["max"] == 89.0 and p["count"] == 2
+
+
+def test_price_scan_excludes_addon_items_visible():
+    text = "Gift wrap £2.00 ... Gold Bracelet £49.00 ... Personalised Pouch £22.00"
+    p = extractors.extract_prices("", text)
+    assert p["min"] == 22.0        # 'pouch' is a real product line, NOT filtered
+    assert 2.0 not in (p["sample"] or [])
+
+
+def test_price_scan_per_brand_overrides():
+    html = ('{"title":"Charity Pin","price":"3.00"}'
+            '{"title":"Gold Bracelet","price":"49.00"}'
+            '{"title":"Tote Bag","price":"89.00"}'
+            '{"title":"Purse","price":"35.00"}')
+    rules = {"keywords": ["charity pin"], "values": [35.0]}
+    p = extractors.extract_prices(html, "", rules)
+    assert p["min"] == 49.0 and p["count"] == 2
+
+
+def test_listing_excludes_addons_too():
+    html = ('{"title":"Photo Card","price":"1.50"}'
+            '{"title":"Bag","price":"40.00"}{"title":"Bag 2","price":"60.00"}')
+    res = extractors.extract_listing(html, "")
+    assert res["prices"]["min"] == 40.0
+    assert res["products_seen"] == 2
+
+
 def test_accessibility():
     a = extractors.extract_accessibility(SAMPLE_HTML)
     assert 0 <= a["score"] <= 100

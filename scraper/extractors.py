@@ -538,32 +538,125 @@ def extract_hero(html, provided_hero=None):
     return base[:300] if base else None
 
 
-def extract_prices(html, visible_text):
+# ---------------------------------------------------------------------------
+# Price sense-checking — keep add-on items out of the floor price
+# ---------------------------------------------------------------------------
+# Non-standalone add-ons (a £1.50 photo card, £2 gift wrap, an e-gift top-up)
+# were dragging brands' entry/floor prices to near-zero, so any price whose
+# nearby product title/copy matches one of these is excluded from the scan.
+# Deliberately conservative: real product words ("pouch" is a real Katie
+# Loxton line) stay OUT of the generic list — brands with an oddball add-on
+# the generic filter misses declare per-brand `price_exclude_keywords` /
+# `price_exclude_values` in config/competitors.json instead.
+_ADDON_PRICE_KEYWORDS = [
+    "photo card", "photocard", "gift wrap", "gift-wrap", "gift wrapping",
+    "e-gift", "egift", "gift card", "giftcard", "gift note", "gift tag",
+    "greeting card", "donation",
+]
+
+_TITLE_NEAR_RE = re.compile(r'"(?:title|name)"\s*:\s*"([^"]{1,120})"')
+
+
+def _price_exclusion(brand_rules=None):
+    """Merged exclusion rules: the generic add-on list plus any per-brand
+    overrides from config. Returns (keywords_lowered, values_set)."""
+    rules = brand_rules or {}
+    kws = [k.lower() for k in _ADDON_PRICE_KEYWORDS + list(rules.get("keywords") or [])]
+    vals = {round(float(v), 2) for v in (rules.get("values") or [])}
+    return kws, vals
+
+
+def _structured_excluded(html, start, keywords):
+    """Does the JSON price match at `start` belong to an add-on product?
+
+    Product JSON blobs keep the title within a few hundred chars of the price,
+    so we take the NEAREST preceding "title"/"name" string (falling forward
+    when the price comes first) — the nearest one is this product's; scanning
+    a whole window would wrongly pick up neighbouring blobs' titles."""
+    back = (html or "")[max(0, start - 300):start]
+    title = None
+    for m in _TITLE_NEAR_RE.finditer(back):
+        title = m.group(1)                    # keep the last (nearest) one
+    if title is None:
+        m = _TITLE_NEAR_RE.search((html or "")[start:start + 300])
+        if m:
+            title = m.group(1)
+    if title is None:
+        return False
+    t = title.lower()
+    return any(kw in t for kw in keywords)
+
+
+def _visible_excluded(text, start, prev_end, keywords):
+    """Is the visible '£' amount at `start` labelled with add-on copy?
+
+    The window is this price's own label only: it stops at the previous price
+    match and at line breaks, so 'Gift wrap £2.00' can't bleed into the next
+    product's price on the same line."""
+    lo = max(0, start - 80, prev_end)
+    window = (text or "")[lo:start]
+    nl = max(window.rfind("\n"), window.rfind("\r"))
+    if nl >= 0:
+        window = window[nl + 1:]
+    window = window.lower()
+    return any(kw in window for kw in keywords)
+
+
+def _scan_structured_prices(html, keywords, values):
+    """Embedded-JSON prices, minus excluded values and add-on-titled blobs."""
+    prices = []
+    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
+        try:
+            p = round(float(m.group(1)), 2)
+        except ValueError:
+            continue
+        if p in values or _structured_excluded(html, m.start(), keywords):
+            continue
+        prices.append(p)
+    return prices
+
+
+def _scan_visible_prices(text, keywords, values):
+    """Visible '£' amounts, minus excluded values and add-on-labelled lines."""
+    prices = []
+    prev_end = 0
+    for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", text or ""):
+        start, prev = m.start(), prev_end
+        prev_end = m.end()
+        try:
+            p = round(float(m.group(1)), 2)
+        except ValueError:
+            continue
+        if p in values or _visible_excluded(text, start, prev, keywords):
+            continue
+        prices.append(p)
+    return prices
+
+
+def scan_prices(html, visible_text, brand_rules=None):
+    """All plausible product prices on a page, with add-on items filtered out.
+
+    Returns the raw list (unsorted, unbounded) so callers can summarise. Pure
+    and offline-testable. `brand_rules` is {"keywords": [...], "values": [...]}
+    from a brand's config overrides."""
+    keywords, values = _price_exclusion(brand_rules)
+    # Structured data is the trustworthy source; fall back to visible amounts.
+    prices = _scan_structured_prices(html, keywords, values)
+    if len(prices) < 4:
+        prices += _scan_visible_prices(visible_text, keywords, values)
+    return prices
+
+
+def extract_prices(html, visible_text, brand_rules=None):
     """Rough price-point sampling.
 
     Honesty note: a homepage isn't a price list, so this is APPROXIMATE. We
     prefer structured data (JSON-LD Product/Offer prices, which are reliable),
-    and fall back to scanning visible '£' amounts. We drop implausible values
-    and obvious noise (delivery thresholds like 'over £50' are kept out by the
-    range filter only loosely), so treat min/median/max as a price *band*, not
-    gospel. A future upgrade is to sample a real listing page per brand.
+    and fall back to scanning visible '£' amounts. We drop implausible values,
+    add-on items (see scan_prices) and obvious noise, so treat min/median/max
+    as a price *band*, not gospel; the listing-page sample is the real read.
     """
-    prices = []
-
-    # 1) Structured data is the trustworthy source when present.
-    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
-
-    # 2) Fall back to visible "£" amounts.
-    if len(prices) < 4:
-        for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", visible_text or ""):
-            try:
-                prices.append(round(float(m.group(1)), 2))
-            except ValueError:
-                pass
+    prices = scan_prices(html, visible_text, brand_rules)
 
     # Keep plausible product prices only.
     prices = sorted(p for p in prices if 1 <= p <= 2000)
@@ -896,26 +989,20 @@ def _detect_sale_pairs(html, visible_text):
     return on_sale, pairs
 
 
-def extract_listing(html, visible_text):
+def extract_listing(html, visible_text, brand_rules=None):
     """Trading data from a real product-listing/bestsellers page.
 
     Returns a price distribution, an approximate product count, how many lines
     are on sale and the resulting discounted share, plus a 'new in' mention
     count. Honest about being a sample: counts are approximate (one card can
     yield several prices), so read discounted_share as 'how promotional is this
-    range', not an exact figure. Pure/offline-testable."""
-    prices = []
-    for m in re.finditer(r'"price"\s*:\s*"?(\d{1,5}(?:\.\d{1,2})?)"?', html or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
-    structured_n = len(prices)
-    for m in re.finditer(r"£\s?(\d{1,4}(?:\.\d{2})?)", visible_text or ""):
-        try:
-            prices.append(round(float(m.group(1)), 2))
-        except ValueError:
-            pass
+    range', not an exact figure. Add-on items (photo cards, gift wrap...) are
+    kept out of the distribution so they can't fake a near-zero floor price.
+    Pure/offline-testable."""
+    keywords, values = _price_exclusion(brand_rules)
+    structured = _scan_structured_prices(html, keywords, values)
+    structured_n = len(structured)
+    prices = structured + _scan_visible_prices(visible_text, keywords, values)
 
     dist = _price_distribution(prices)
     on_sale, pairs = _detect_sale_pairs(html, visible_text)
@@ -1161,7 +1248,8 @@ def extract_menu(html, limit=3):
     return best[:limit]
 
 
-def extract_all(html, visible_text, raw_text, categories, provided_hero=None, known_platforms=None):
+def extract_all(html, visible_text, raw_text, categories, provided_hero=None,
+                known_platforms=None, price_rules=None):
     """Run every extractor and return one flat dict of fields."""
     banner_text = _collect_banner_text(html)
     offers = extract_offers(visible_text, extra_texts=banner_text)
@@ -1175,7 +1263,7 @@ def extract_all(html, visible_text, raw_text, categories, provided_hero=None, kn
         "discount_codes": extract_discount_codes(raw_text),
         "product_mix": extract_product_mix(visible_text, categories),
         "keywords": extract_keywords(visible_text),
-        "prices": extract_prices(html, visible_text),
+        "prices": extract_prices(html, visible_text, price_rules),
         "trading": extract_trading_signals(html, visible_text),
         "reputation": extract_reputation(html, visible_text, known_platforms),
         "marketplace": extract_marketplace_presence(html, visible_text),

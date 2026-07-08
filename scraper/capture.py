@@ -373,6 +373,13 @@ def load_config():
         return json.load(fh)
 
 
+def price_rules_for(brand):
+    """Per-brand price-exclusion overrides from config, for anything the
+    generic add-on filter in extractors misses."""
+    return {"keywords": brand.get("price_exclude_keywords") or [],
+            "values": brand.get("price_exclude_values") or []}
+
+
 def new_brand_context(browser, brand):
     """A fresh, stealth-patched, UK-pinned context for one brand.
 
@@ -520,7 +527,7 @@ def capture_listing(context, brand):
         if detect_block(html, visible_text):
             print(f"  [listing blocked] {brand['name']}")
             return None
-        listing = extract_listing(html, visible_text)
+        listing = extract_listing(html, visible_text, price_rules_for(brand))
         if not listing["prices"]["count"]:
             print(f"  [listing empty]   {brand['name']}: no readable prices")
             return None
@@ -704,7 +711,8 @@ def capture_brand(context, brand, categories, date):
             provided_hero = None
 
         fields = extract_all(html, visible_text, html, categories, provided_hero,
-                             known_platforms=brand.get("review_platforms"))
+                             known_platforms=brand.get("review_platforms"),
+                             price_rules=price_rules_for(brand))
         colours = dominant_colours(shot_abs)
 
         base.update(fields)

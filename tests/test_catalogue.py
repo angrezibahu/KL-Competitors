@@ -153,6 +153,101 @@ def test_brand_entry_failure_is_graceful():
     assert e["ok"] is False and e["product_count"] is None and e["new_count"] == 0
 
 
+ROBOTS_TXT = """User-agent: *
+Disallow: /checkout
+Sitemap: https://shop.example/sitemap_products_1.xml?from=1&to=9
+Sitemap: https://shop.example/sitemap_extra.xml
+sitemap: https://shop.example/sitemap_products_1.xml?from=1&to=9
+"""
+
+# Magento/SFCC-style sitemap: product URLs with NO /products/ path segment,
+# distinguishable only by their <image:image> children.
+IMAGE_SITEMAP_XML = """<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://shop.example/gold-bracelet.html</loc>
+    <image:image><image:loc>https://cdn.example/g.jpg</image:loc></image:image></url>
+  <url><loc>https://shop.example/silver-necklace.html</loc>
+    <image:image><image:loc>https://cdn.example/s.jpg</image:loc></image:image></url>
+  <url><loc>https://shop.example/about-us</loc></url>
+  <url><loc>https://shop.example/blog/summer-edit</loc></url>
+</urlset>"""
+
+
+def test_sitemaps_from_robots_merges_and_dedupes():
+    urls = catalogue.sitemaps_from_robots(ROBOTS_TXT)
+    assert urls == [
+        "https://shop.example/sitemap_products_1.xml?from=1&to=9",
+        "https://shop.example/sitemap_extra.xml",
+    ]
+    assert catalogue.sitemaps_from_robots("") == []
+    assert catalogue.sitemaps_from_robots(None) == []
+
+
+def test_product_urls_with_images():
+    urls = catalogue.product_urls_with_images(IMAGE_SITEMAP_XML)
+    assert "https://shop.example/gold-bracelet.html" in urls
+    assert "https://shop.example/about-us" not in urls
+    assert len(urls) == 2
+
+
+def test_collect_uses_robots_declared_sitemaps():
+    # No /sitemap.xml at all -- discovery must come from robots.txt.
+    get = fake_get({
+        "https://shop.example/sitemap_products_1.xml?from=1&to=9": PRODUCTS_XML,
+        "https://shop.example/sitemap_extra.xml": COLLECTIONS_XML,
+    })
+    get_text = lambda url: ROBOTS_TXT if url.endswith("/robots.txt") else None
+    res = catalogue.collect(get, "https://shop.example", get_text=get_text)
+    assert res["ok"] is True and res["product_count"] == 3
+
+
+def test_collect_image_entry_fallback_when_paths_undercount():
+    get = fake_get({"https://shop.example/sitemap.xml": IMAGE_SITEMAP_XML})
+    res = catalogue.collect(get, "https://shop.example")
+    # Zero /products/ paths, but two image-bearing entries -> the fallback wins.
+    assert res["ok"] is True and res["product_count"] == 2
+    assert "gold-bracelet.html" in res["handles"]
+
+
+def test_collect_path_heuristic_still_preferred():
+    # When the path heuristic finds MORE products than image entries, keep it.
+    get = fake_get({
+        "https://shop.example/sitemap.xml": INDEX_XML,
+        "https://shop.example/sitemap_products_1.xml?from=1&to=9": PRODUCTS_XML,
+        "https://shop.example/sitemap_collections_1.xml": COLLECTIONS_XML,
+    })
+    res = catalogue.collect(get, "https://shop.example")
+    assert res["product_count"] == 3 and "gold-bracelet" in res["handles"]
+
+
+def test_build_from_results_matches_build():
+    # build() is now a thin wrapper: collect per brand, then build_from_results.
+    import tempfile
+    brands = [{"name": "Shop", "slug": "shop", "url": "https://shop.example"}]
+    get = fake_get({
+        "https://shop.example/sitemap.xml": INDEX_XML,
+        "https://shop.example/sitemap_products_1.xml?from=1&to=9": PRODUCTS_XML,
+    })
+    with tempfile.TemporaryDirectory() as tmp:
+        old_cat, old_snap = catalogue.CATALOGUE_PATH, catalogue.SNAPSHOT_PATH
+        catalogue.CATALOGUE_PATH = os.path.join(tmp, "catalogue.json")
+        catalogue.SNAPSHOT_PATH = os.path.join(tmp, "snapshot.json")
+        try:
+            run = catalogue.build(get, brands, date="2026-07-01")
+            assert run["brands"]["shop"]["ok"] is True
+            assert run["brands"]["shop"]["product_count"] == 3
+            assert run["brands"]["shop"]["first_seen"] is True
+            # Second day via build_from_results directly, one new handle.
+            res = catalogue.collect(get, "https://shop.example")
+            res["handles"] = res["handles"] + ["new-charm"]
+            res["product_count"] += 1
+            run2 = catalogue.build_from_results({"shop": res}, brands, date="2026-07-02")
+            assert run2["brands"]["shop"]["new_count"] == 1
+        finally:
+            catalogue.CATALOGUE_PATH, catalogue.SNAPSHOT_PATH = old_cat, old_snap
+
+
 if __name__ == "__main__":
     failures = 0
     for name, fn in sorted(globals().items()):

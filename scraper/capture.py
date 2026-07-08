@@ -18,11 +18,12 @@ so the dashboard can show exactly what worked and what didn't. No silent
 import json
 import os
 import sys
+import time
 import traceback
 from urllib.parse import urlparse
 
 from . import catalogue, storage
-from .colours import dominant_colours
+from .colours import dominant_colours, looks_blank
 from .extractors import (detect_block, extract_all, extract_delivery_page,
                          extract_listing, extract_returns_page,
                          find_policy_links)
@@ -295,6 +296,31 @@ _WAIT_IMAGES_JS = """
 }
 """
 
+# Has the ABOVE-THE-FOLD region actually painted real content yet? A blank,
+# still-hydrating SPA (e.g. Loewe mid-load) reports domcontentloaded/load and
+# has its nav text, but the hero is a not-yet-loaded <img> or CSS
+# background-image, so the frame is "text on a sea of white". We treat the page
+# as rendered once the first viewport holds either a loaded hero <img> or a
+# resolved background-image of hero-ish size. Cheap; runs on a poll.
+_RENDER_READY_JS = """
+() => {
+  const vh = window.innerHeight || 800;
+  for (const im of Array.from(document.images)) {
+    if (!im.complete || !im.naturalWidth) continue;
+    const r = im.getBoundingClientRect();
+    if (r.bottom > 0 && r.top < vh && r.width >= 120 && r.height >= 120) return true;
+  }
+  const els = Array.from(document.querySelectorAll('body *')).slice(0, 4000);
+  for (const el of els) {
+    const r = el.getBoundingClientRect();
+    if (r.top >= vh || r.bottom <= 0 || r.width < 200 || r.height < 150) continue;
+    const bg = getComputedStyle(el).backgroundImage;
+    if (bg && bg !== 'none' && bg.indexOf('url(') !== -1) return true;
+  }
+  return false;
+}
+"""
+
 
 def dismiss_overlays(page, attempts=3):
     """Best-effort consent clear. Polls EVERY frame (consent managers mount
@@ -367,6 +393,26 @@ def settle_before_screenshot(page):
         page.wait_for_timeout(400)
     except Exception:
         pass
+
+
+def wait_for_render(page, timeout_ms=8000, interval_ms=350):
+    """Poll (bounded) until the first viewport has painted real content -- a
+    loaded hero image or a resolved background-image -- rather than trusting a
+    flat timer. Returns True if content appeared, False if we gave up. Never
+    raises: a browser hiccup just counts as 'not ready this tick'."""
+    deadline = time.monotonic() + timeout_ms / 1000.0
+    while True:
+        try:
+            if page.evaluate(_RENDER_READY_JS):
+                return True
+        except Exception:
+            pass
+        if time.monotonic() >= deadline:
+            return False
+        try:
+            page.wait_for_timeout(interval_ms)
+        except Exception:
+            return False
 
 
 def load_config():
@@ -658,6 +704,7 @@ def capture_mobile_screenshot(context, brand, date):
             print(f"  [mobile blocked]  {brand['name']}")
             return None
         settle_before_screenshot(page)
+        wait_for_render(page)               # give the hero a chance to paint
         hide_overlays(page)                 # sweep scroll-triggered popups
         os.makedirs(os.path.dirname(abs_path), exist_ok=True)
         cap_px = MOBILE_VIEWPORT["height"] * MOBILE_MAX_SCREENS
@@ -728,6 +775,28 @@ def capture_brand(context, brand, categories, date):
         # popups before the shot.
         settle_before_screenshot(page)
         hide_overlays(page)
+
+        # Gate: don't shoot a still-blank hero. If the first viewport hasn't
+        # painted real content, give it ONE honest reload + re-settle before
+        # falling through -- a mid-hydration SPA (Loewe) otherwise saves as
+        # "text on white". Whatever the outcome, we record it truthfully.
+        render_ok = wait_for_render(page)
+        if not render_ok:
+            print(f"  [WAIT]   {brand['name']}: hero not painted yet, reloading once")
+            try:
+                page.reload(wait_until="domcontentloaded", timeout=60000)
+                try:
+                    page.wait_for_load_state("load", timeout=15000)
+                except Exception:
+                    pass
+                page.wait_for_timeout(2000)
+                clear_page_chrome(page)
+                settle_before_screenshot(page)
+                hide_overlays(page)
+                render_ok = wait_for_render(page)
+            except Exception:
+                pass
+
         html = page.content()
         visible_text = page.inner_text("body")
 
@@ -736,6 +805,12 @@ def capture_brand(context, brand, categories, date):
         shot_abs = os.path.join(storage.DOCS, shot_rel)
         os.makedirs(os.path.dirname(shot_abs), exist_ok=True)
         page.screenshot(path=shot_abs, full_page=True, type="jpeg", quality=70)
+
+        # Pixel-level backstop on the frame we actually saved: a genuinely blank
+        # (near-white, flat) shot means the render never landed.
+        if looks_blank(shot_abs):
+            render_ok = False
+            print(f"  [BLANK]  {brand['name']}: screenshot looks unrendered")
         try:
             provided_hero = page.evaluate(LARGEST_TEXT_JS)
         except Exception:
@@ -749,6 +824,7 @@ def capture_brand(context, brand, categories, date):
         base.update(fields)
         base["colours"] = colours
         base["screenshot"] = shot_rel
+        base["render_ok"] = render_ok
         base["status"] = "success"
         base["error"] = None
 

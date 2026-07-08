@@ -1977,7 +1977,7 @@
   },
   {
    "date": "2026-07-08",
-   "captured_at": "2026-07-08T14:08:32Z",
+   "captured_at": "2026-07-08T18:12:14Z",
    "brands": {
     "katie-loxton": {
      "product_count": 1844,
@@ -2024,21 +2024,18 @@
      }
     },
     "demellier": {
-     "product_count": 105,
-     "new_count": 5,
-     "removed_count": 11,
+     "product_count": 101,
+     "new_count": 2,
+     "removed_count": 12,
      "new_samples": [
-      "elsa-hosk-x-the-midi-hudson-brulee-suede-brulee-smooth",
       "the-midi-new-york-burgundy-small-grain",
-      "the-new-york-burgundy-small-grain",
-      "the-small-vancouver-black-suede-black-smooth-enamel-lock",
-      "the-vancouver-clutch-light-taupe-suede"
+      "the-new-york-burgundy-small-grain"
      ],
      "ok": true,
      "first_seen": false,
      "error": null,
      "categories": {
-      "bags": 10,
+      "bags": 9,
       "gifting": 1
      }
     },
@@ -2084,9 +2081,9 @@
      "error": "no product URLs in sitemap"
     },
     "mejuri": {
-     "product_count": 607,
+     "product_count": 606,
      "new_count": 0,
-     "removed_count": 7,
+     "removed_count": 8,
      "new_samples": [],
      "ok": true,
      "first_seen": false,
@@ -2146,17 +2143,18 @@
      "error": "no sitemap.xml"
     },
     "mint-velvet": {
-     "product_count": 2121,
-     "new_count": 7,
+     "product_count": 2128,
+     "new_count": 14,
      "removed_count": 0,
      "new_samples": [
+      "brown-pleat-wide-trouser",
+      "brown-waisted-blazer-1",
       "check-asymmetric-midi-dress",
+      "cream-layered-poncho-knit",
       "ink-sheer-utility-dress",
+      "ivory-cropped-utility-trousers-1",
       "navy-stripe-woven-mix-cardigan",
-      "red-fluff-v-neck-cardigan",
-      "red-layered-poncho-knit",
-      "silver-batwing-metallic-top",
-      "spot-border-print-scarf"
+      "red-fluff-v-neck-cardigan"
      ],
      "ok": true,
      "first_seen": false,

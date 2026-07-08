@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-07-08T14:08:33Z",
+ "generated_at": "2026-07-08T18:12:15Z",
  "events": [
   {
    "date": "2026-07-08",
    "slug": "strathberry",
    "brand": "Strathberry",
    "type": "hero_changed",
-   "text": "Strathberry changed its hero to “Free delivery & returns*”"
+   "text": "Strathberry changed its hero to “Designed in Scotland | Handmade in Spain”"
   },
   {
    "date": "2026-07-08",
@@ -69,7 +69,21 @@
    "slug": "mint-velvet",
    "brand": "Mint Velvet",
    "type": "products_added",
-   "text": "Mint Velvet added 7 new products to its range"
+   "text": "Mint Velvet added 14 new products to its range"
+  },
+  {
+   "date": "2026-07-08",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_started",
+   "text": "Mejuri started a sale: 40% off"
+  },
+  {
+   "date": "2026-07-08",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "bnpl_removed",
+   "text": "Leo et Violette dropped Klarna"
   },
   {
    "date": "2026-07-08",
@@ -83,7 +97,7 @@
    "slug": "demellier",
    "brand": "DeMellier",
    "type": "products_added",
-   "text": "DeMellier added 5 new products to its range"
+   "text": "DeMellier added 2 new products to its range"
   },
   {
    "date": "2026-07-08",
@@ -405,7 +419,7 @@
   {
    "priority": "medium",
    "kind": "delivery",
-   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
+   "title": "3 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
    "detail": "Free-delivery messaging is a visible basket-conversion lever."
   }
  ]

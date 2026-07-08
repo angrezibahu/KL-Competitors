@@ -458,6 +458,77 @@ def test_extract_all_includes_reputation():
     fields = extractors.extract_all(SAMPLE_HTML, VISIBLE, SAMPLE_HTML, CATEGORIES)
     assert "reputation" in fields and "rating" in fields["reputation"]
 
+def test_trading_signals_urgency_and_levers():
+    visible = ("SALE ENDS MIDNIGHT — last chance! 3 for 2 on all charms. "
+               "Free gift with purchase over £60. Join our rewards club to earn points. "
+               "Add a monogram for free. Sign up for SMS offers.")
+    html = '<script src="https://cdn.gorgias.chat/x.js"></script>'
+    t = extractors.extract_trading_signals(html, visible)
+    assert any("ends midnight" in u for u in t["urgency"])
+    assert any("last chance" in u for u in t["urgency"])
+    assert any("3 for 2" in m for m in t["multibuy"])
+    assert t["gift_with_purchase"] is not None
+    assert t["loyalty"] is not None
+    assert t["personalisation_upsell"] is not None
+    assert t["sms_capture"] is True
+    assert t["live_chat"] == "Gorgias"
+
+
+def test_trading_signals_levers_absent_degrade():
+    t = extractors.extract_trading_signals("<html></html>", "Plain homepage copy.")
+    assert t["urgency"] == [] and t["multibuy"] == []
+    assert t["gift_with_purchase"] is None and t["loyalty"] is None
+    assert t["personalisation_upsell"] is None
+    assert t["sms_capture"] is False and t["live_chat"] is None
+
+
+def test_find_policy_links_from_footer():
+    html = """<html><body><footer>
+      <a href="/pages/delivery-information">Delivery Information</a>
+      <a href="/pages/returns-and-refunds">Returns &amp; Refunds</a>
+      <a href="/pages/contact">Contact us</a>
+    </footer></body></html>"""
+    links = extractors.find_policy_links(html, "https://shop.example/")
+    assert links["delivery"] == "https://shop.example/pages/delivery-information"
+    assert links["returns"] == "https://shop.example/pages/returns-and-refunds"
+
+
+def test_find_policy_links_absent_is_graceful():
+    links = extractors.find_policy_links("<html><body>nothing</body></html>", "https://x.example/")
+    assert links == {"delivery": None, "returns": None}
+
+
+def test_extract_delivery_page():
+    text = ("UK Standard Delivery 3-5 working days £3.95\n"
+            "Express Delivery next working day £5.95 — order by 8pm\n"
+            "Free UK standard delivery on orders over £60.\n"
+            "Click and collect available in store.")
+    d = extractors.extract_delivery_page(text)
+    assert d["free_threshold"] == 60
+    assert d["express"] is True
+    assert d["express_cutoff"] == "8pm"
+    assert d["click_collect"] is True
+    assert any("Standard Delivery" in o["name"] and o["price"] == "£3.95" for o in d["options"])
+    assert any("Express Delivery" in o["name"] for o in d["options"])
+
+
+def test_extract_returns_page():
+    text = ("You have 30 days to return your order. Free UK returns via our portal. "
+            "We are happy to offer exchanges on unworn items.")
+    r = extractors.extract_returns_page(text)
+    assert r["window_days"] == 30
+    assert r["free_returns"] is True
+    assert r["exchanges"] is True
+
+
+def test_extract_returns_page_paid_and_silent():
+    paid = extractors.extract_returns_page(
+        "Returns accepted within 14 days. Return postage is the responsibility of the customer.")
+    assert paid["window_days"] == 14 and paid["free_returns"] is False
+    silent = extractors.extract_returns_page("Our products are lovely.")
+    assert silent["window_days"] is None and silent["free_returns"] is None
+
+
 def test_price_scan_excludes_addon_items_structured():
     # A £1.50 photo card and £2 gift wrap must not fake a near-zero floor price.
     html = ('{"title":"Photo Card","price":"1.50"}'

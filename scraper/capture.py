@@ -23,7 +23,9 @@ from urllib.parse import urlparse
 
 from . import catalogue, storage
 from .colours import dominant_colours
-from .extractors import detect_block, extract_all, extract_listing
+from .extractors import (detect_block, extract_all, extract_delivery_page,
+                         extract_listing, extract_returns_page,
+                         find_policy_links)
 from .trends import fetch_trends
 
 CONFIG_PATH = os.path.join(storage.ROOT, "config", "competitors.json")
@@ -543,6 +545,78 @@ def capture_listing(context, brand):
         page.close()
 
 
+def _fetch_page_text(context, url, brand_name, kind):
+    """Fetch one same-site page and return its visible text, or None. Shared
+    by the delivery/returns policy captures; never fatal."""
+    page = context.new_page()
+    try:
+        page.goto(url, wait_until="domcontentloaded", timeout=45000)
+        try:
+            page.wait_for_load_state("load", timeout=10000)
+        except Exception:
+            pass
+        page.wait_for_timeout(1200)
+        clear_page_chrome(page)
+        html = page.content()
+        visible_text = page.inner_text("body")
+        if detect_block(html, visible_text):
+            print(f"  [{kind} blocked] {brand_name}")
+            return None
+        return visible_text
+    except Exception as exc:
+        print(f"  [{kind} skipped] {brand_name}: {type(exc).__name__}: {exc}")
+        return None
+    finally:
+        page.close()
+
+
+def capture_policy_pages(context, brand, homepage_html):
+    """Capture the brand's delivery and returns pages and extract the service
+    proposition (options + free threshold + express & cutoff; returns window,
+    free-vs-paid, exchanges).
+
+    URLs come from config (`delivery_url` / `returns_url`) or are discovered
+    from the homepage's own links. `known_express_delivery: true` in config
+    marks express as confirmed even when a given day's page wording doesn't
+    match the detection patterns — real signals shouldn't drop out on copy
+    variance. Entirely optional and never fatal: a missing/blocked page just
+    yields no block. Returns (delivery_info|None, returns_info|None)."""
+    discovered = find_policy_links(homepage_html, brand["url"])
+    delivery_url = brand.get("delivery_url") or discovered.get("delivery")
+    returns_url = brand.get("returns_url") or discovered.get("returns")
+
+    delivery_info = None
+    if delivery_url:
+        text = _fetch_page_text(context, delivery_url, brand["name"], "delivery")
+        if text:
+            delivery_info = extract_delivery_page(text)
+            delivery_info["url"] = delivery_url
+    if brand.get("known_express_delivery"):
+        if delivery_info is None:
+            delivery_info = {"options": [], "free_threshold": None, "express": False,
+                             "express_cutoff": None, "click_collect": False, "url": delivery_url}
+        if not delivery_info.get("express"):
+            # Confirmed-but-undetected express: keep the signal, say where it
+            # came from so the dashboard can label it.
+            delivery_info["express"] = True
+            delivery_info["express_source"] = "config"
+
+    returns_info = None
+    if returns_url:
+        text = _fetch_page_text(context, returns_url, brand["name"], "returns")
+        if text:
+            returns_info = extract_returns_page(text)
+            returns_info["url"] = returns_url
+
+    if delivery_info:
+        print(f"  [delivery OK]     {brand['name']}: {len(delivery_info.get('options') or [])} options, "
+              f"express={delivery_info.get('express')}")
+    if returns_info:
+        print(f"  [returns OK]      {brand['name']}: window={returns_info.get('window_days')}d, "
+              f"free={returns_info.get('free_returns')}")
+    return delivery_info, returns_info
+
+
 MOBILE_VIEWPORT = {"width": 390, "height": 844}   # iPhone-class CSS viewport
 MOBILE_MAX_SCREENS = 25                            # cap the full-page scroll
 
@@ -686,6 +760,14 @@ def capture_brand(context, brand, categories, date):
         listing = capture_listing(context, brand)
         if listing:
             base["listing"] = listing
+
+        # Optional: the brand's delivery + returns pages (service proposition).
+        # Never fatal — a missing/blocked page just yields no block.
+        delivery_info, returns_info = capture_policy_pages(context, brand, html)
+        if delivery_info:
+            base["delivery_info"] = delivery_info
+        if returns_info:
+            base["returns_info"] = returns_info
 
         price = fields.get("prices", {})
         print(f"  [OK]     {brand['name']}: '{(fields.get('hero_message') or '')[:50]}' "

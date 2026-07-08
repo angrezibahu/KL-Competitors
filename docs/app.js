@@ -513,6 +513,70 @@ function viewTrading() {
   tw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">BNPL</th><th scope="col">Finance / wallets</th><th scope="col">Sign-up offer</th><th scope="col">Free delivery</th><th scope="col">Scarcity</th></tr></thead><tbody>${frows}</tbody></table>`;
   fc.append(tw);
   wrap.append(fc);
+
+  // --- urgency & conversion levers (homepage) ---
+  const uc = el("div", "card");
+  uc.innerHTML = `<h3>Urgency &amp; conversion levers</h3>
+    <p class="hint">Countdown/urgency copy, bundle offers, gift-with-purchase, loyalty prompts, personalisation upsells,
+    SMS capture and live chat — read from each homepage. Empty cells mean the signal wasn't detected, not proven absent.</p>`;
+  const utw = el("div", "tablewrap");
+  const tag = s => `<span class="tag">${esc(s)}</span>`;
+  const dash = '<span class="muted">—</span>';
+  let urows = "";
+  for (const { b, r } of rows) {
+    const t = r.trading || {};
+    urows += `<tr>
+      <td>${nameCell(b)}</td>
+      <td>${(t.urgency || []).length ? t.urgency.slice(0, 2).map(tag).join("") : dash}</td>
+      <td>${(t.multibuy || []).length ? t.multibuy.slice(0, 2).map(tag).join("") : dash}</td>
+      <td>${t.gift_with_purchase ? tag(t.gift_with_purchase) : dash}</td>
+      <td>${t.loyalty ? tag(t.loyalty) : dash}</td>
+      <td>${t.personalisation_upsell ? tag(t.personalisation_upsell) : dash}</td>
+      <td>${t.sms_capture ? '<span class="pill good">✓</span>' : dash}</td>
+      <td>${t.live_chat ? `<span class="pill good">✓${t.live_chat !== "copy" ? " " + esc(t.live_chat) : ""}</span>` : dash}</td>
+    </tr>`;
+  }
+  utw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">Urgency</th><th scope="col">Multi-buy</th><th scope="col">Gift w/ purchase</th><th scope="col">Loyalty</th><th scope="col">Personalisation</th><th scope="col">SMS</th><th scope="col">Live chat</th></tr></thead><tbody>${urows}</tbody></table>`;
+  uc.append(utw);
+  wrap.append(uc);
+
+  // --- delivery & returns (dedicated policy-page captures) ---
+  const withPolicy = rows.filter(x => x.r.delivery_info || x.r.returns_info);
+  const dc = el("div", "card");
+  dc.innerHTML = `<h3>Delivery &amp; returns</h3>
+    <p class="hint">The service proposition from each brand's own delivery and returns pages: priced options,
+    free-delivery threshold, express + order cutoff, returns window and whether returns cost the shopper money.</p>`;
+  if (withPolicy.length) {
+    const dtw = el("div", "tablewrap");
+    let drows = "";
+    for (const { b, r } of withPolicy) {
+      const d = r.delivery_info || {};
+      const ret = r.returns_info || {};
+      const opts = (d.options || []).slice(0, 3)
+        .map(o => tag(`${o.name} ${o.price}`)).join("") || dash;
+      const express = d.express
+        ? `<span class="pill good">✓${d.express_cutoff ? " by " + esc(d.express_cutoff) : ""}</span>`
+          + (d.express_source === "config" ? ' <span class="tag" title="Confirmed express service; the page wording didn\'t match the detection patterns today">confirmed</span>' : "")
+        : dash;
+      const freeRet = ret.free_returns === true ? '<span class="pill good">free</span>'
+        : ret.free_returns === false ? '<span class="pill warn">paid</span>'
+        : dash;
+      drows += `<tr>
+        <td>${nameCell(b)}</td>
+        <td>${opts}</td>
+        <td class="num">${d.free_threshold == null ? dash : (d.free_threshold === 0 ? '<span class="pill good">free</span>' : `<span class="pill">over £${d.free_threshold}</span>`)}</td>
+        <td>${express}</td>
+        <td class="num">${ret.window_days != null ? `<span class="pill">${ret.window_days} days</span>` : dash}</td>
+        <td>${freeRet}</td>
+        <td>${ret.exchanges ? '<span class="pill good">✓</span>' : dash}</td>
+      </tr>`;
+    }
+    dtw.innerHTML = `<table><thead><tr><th scope="col">Brand</th><th scope="col">Delivery options</th><th scope="col">Free over</th><th scope="col">Express</th><th scope="col">Returns window</th><th scope="col">Return cost</th><th scope="col">Exchanges</th></tr></thead><tbody>${drows}</tbody></table>`;
+    dc.append(dtw);
+  } else {
+    dc.append(el("p", "muted", "No delivery/returns pages captured yet — this fills in as the daily job runs (URLs are auto-discovered from each homepage, or set delivery_url / returns_url per brand in config)."));
+  }
+  wrap.append(dc);
   return wrap;
 }
 

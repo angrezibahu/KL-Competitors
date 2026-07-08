@@ -11,6 +11,7 @@ need a tweak. That is the trade-off for running with no paid AI extraction.
 
 import re
 from collections import Counter
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 # ---------------------------------------------------------------------------
@@ -707,6 +708,91 @@ _SCARCITY_PATTERNS = [
     r"while stocks last",
 ]
 
+# Countdown / urgency copy — a sale with a clock on it converts differently
+# from an open-ended one, and "ends midnight" says the competitor expects a
+# demand spike now, not eventually.
+_URGENCY_PATTERNS = [
+    r"ends (?:at )?midnight",
+    r"ends (?:to)?night",
+    r"ends (?:this )?(?:sunday|monday|tuesday|wednesday|thursday|friday|saturday|weekend|today|tomorrow)",
+    r"ends in \d+",
+    r"ends soon",
+    r"last (?:chance|day|few days)",
+    r"final (?:hours?|day|reductions?)",
+    r"today only",
+    r"\d+ ?(?:hours?|hrs) (?:left|only|to go)",
+    r"limited time(?: only)?",
+    r"don'?t miss out",
+    r"hurry\b",
+]
+
+# Bundle / multi-buy offers ("3 for 2", "2 for £30", "buy 2 save 10%").
+_MULTIBUY_PATTERNS = [
+    r"\b\d ?for ?\d\b",
+    r"\b\d ?for ?[£$€] ?\d+\b",
+    r"buy \d,? (?:get|save)[^.!?]{0,25}",
+    r"buy one,? get one[^.!?]{0,20}",
+    r"\bbogof\b",
+    r"multi[- ]?buy",
+    r"\bbundle (?:and save|offer|deal)s?\b",
+    r"save (?:£ ?\d+|\d{1,2} ?%) when you buy \d",
+]
+
+_GWP_PATTERNS = [
+    r"free gift with (?:your )?(?:purchase|order)",
+    r"gift with purchase",
+    r"free [^.!?]{0,30}when you (?:spend|buy|purchase)",
+    r"complimentary [^.!?]{0,30}when you (?:spend|buy|purchase)",
+]
+
+_LOYALTY_PATTERNS = [
+    r"loyalty (?:scheme|programme|program|points|club)",
+    r"rewards? (?:club|scheme|programme|program)\b",
+    r"earn points",
+    r"\bvip (?:club|list|access|members?)\b",
+    r"refer a friend",
+]
+
+_PERSONALISATION_UPSELL_PATTERNS = [
+    r"free personalis(?:ation|ing)",
+    r"free personaliz(?:ation|ing)",
+    r"free engraving",
+    r"add (?:a )?(?:monogram|initials?|engraving)",
+    r"personalise (?:it|yours|your)",
+    r"personalize (?:it|yours|your)",
+    r"make it (?:yours|personal)",
+]
+
+# SMS capture: platform fingerprints in markup, or explicit sign-up copy.
+_SMS_MARKERS = r"attentivemobile|attentive\.com|postscript\.io|smsbump"
+_SMS_COPY = (r"(?:sign up|subscribe|join)[^.!?]{0,50}\b(?:sms|texts?)\b"
+             r"|\b(?:sms|texts?)\b[^.!?]{0,50}(?:sign up|subscribe|updates|offers)")
+
+# Live-chat widgets leave reliable fingerprints in the markup. Patterns are
+# host/asset-specific so ordinary copy can't false-positive a platform.
+_CHAT_PLATFORMS = {
+    "Gorgias":  r"gorgias",
+    "Zendesk":  r"zdassets|zendesk",
+    "Intercom": r"intercom",
+    "Tidio":    r"tidio",
+    "LiveChat": r"livechatinc|livechat\.com",
+    "Tawk":     r"tawk\.to",
+    "Kustomer": r"kustomer",
+    "HubSpot":  r"hs-chat|hubspot-messages",
+}
+_CHAT_COPY = r"\blive ?chat\b|chat (?:with|to) us"
+
+
+def _find_phrases(text, patterns, limit=6):
+    """De-duplicated matches of `patterns` over already-lowered text."""
+    found = []
+    for pat in patterns:
+        for m in re.finditer(pat, text):
+            phrase = re.sub(r"\s+", " ", m.group(0)).strip()
+            if phrase and phrase not in found:
+                found.append(phrase)
+    return found[:limit]
+
 
 def _first_order_offer(visible_text):
     """The email/SMS-capture incentive (e.g. '10% off your first order').
@@ -745,25 +831,133 @@ def _free_delivery_threshold(visible_text):
 
 def extract_trading_signals(html, visible_text):
     """Homepage trading/conversion signals: finance options (BNPL + wallets),
-    the email-capture offer, the free-delivery threshold and scarcity language.
+    the email-capture offer, the free-delivery threshold, scarcity language,
+    urgency/countdown copy, bundle/multi-buy offers, gift-with-purchase,
+    loyalty prompts, personalisation upsells, SMS capture and live chat.
 
     Pure function (strings in, dict out) so it is unit-testable offline. Every
     field degrades to a falsy default when its signal is absent."""
     low = _text_lower(visible_text) + " " + (html or "").lower()
     finance = [name for name, pat in _FINANCE_PATTERNS.items() if re.search(pat, low)]
-    scarcity = []
     stext = _text_lower(visible_text)
-    for pat in _SCARCITY_PATTERNS:
-        for m in re.finditer(pat, stext):
-            phrase = m.group(0).strip()
-            if phrase not in scarcity:
-                scarcity.append(phrase)
+    gwp = _find_phrases(stext, _GWP_PATTERNS, limit=3)
+    chat_platform = next((name for name, pat in _CHAT_PLATFORMS.items()
+                          if re.search(pat, low)), None)
     return {
         "finance": finance,
         "has_bnpl": any(p in _BNPL_PROVIDERS for p in finance),
         "email_capture_offer": _first_order_offer(visible_text),
         "free_delivery_threshold": _free_delivery_threshold(visible_text),
-        "scarcity": scarcity[:6],
+        "scarcity": _find_phrases(stext, _SCARCITY_PATTERNS),
+        "urgency": _find_phrases(stext, _URGENCY_PATTERNS),
+        "multibuy": _find_phrases(stext, _MULTIBUY_PATTERNS),
+        "gift_with_purchase": gwp[0] if gwp else None,
+        "loyalty": (_find_phrases(stext, _LOYALTY_PATTERNS, limit=1) or [None])[0],
+        "personalisation_upsell": (_find_phrases(
+            stext, _PERSONALISATION_UPSELL_PATTERNS, limit=1) or [None])[0],
+        "sms_capture": bool(re.search(_SMS_MARKERS, low) or re.search(_SMS_COPY, stext)),
+        "live_chat": chat_platform or ("copy" if re.search(_CHAT_COPY, stext) else None),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Delivery & returns pages — the service proposition, read from each brand's
+# own policy pages (one extra same-site page each; no new blocking surface).
+# ---------------------------------------------------------------------------
+# The homepage only ever carries the headline ("free delivery over £50"); the
+# real service proposition — express + cutoff time, the returns window, whether
+# returns cost the shopper money — lives on the delivery/returns pages. Both
+# extractors are pure (strings in, dict out) and degrade field-by-field.
+
+_DELIVERY_LINK_RE = re.compile(r"delivery|shipping", re.I)
+_RETURNS_LINK_RE = re.compile(r"returns?\b|refunds?\b|exchanges?\b", re.I)
+
+
+def find_policy_links(html, base_url):
+    """Discover a brand's delivery and returns page URLs from its homepage
+    links (usually in the footer). Config `delivery_url` / `returns_url`
+    overrides win in capture.py; this is the zero-config fallback. Returns
+    {"delivery": url|None, "returns": url|None}. Pure."""
+    soup = BeautifulSoup(html or "", "lxml")
+    out = {"delivery": None, "returns": None}
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if not href or href.startswith(("#", "mailto:", "tel:", "javascript:")):
+            continue
+        hay = href + " " + a.get_text(" ", strip=True)
+        if out["delivery"] is None and _DELIVERY_LINK_RE.search(hay) \
+                and not _RETURNS_LINK_RE.search(hay):
+            out["delivery"] = urljoin(base_url, href)
+        if out["returns"] is None and _RETURNS_LINK_RE.search(hay):
+            out["returns"] = urljoin(base_url, href)
+        if out["delivery"] and out["returns"]:
+            break
+    return out
+
+
+# A delivery option line: "Standard Delivery ... £3.95" / "Express shipping — free".
+_DELIVERY_OPTION_RE = re.compile(
+    r"((?:free |standard |express |next[- ]day |named[- ]day |nominated[- ]day |same[- ]day |"
+    r"premium |saturday |sunday |evening |uk |international |worldwide |tracked |signed )+"
+    r"(?:delivery|shipping))[^£\n.!?]{0,60}?(free|£ ?\d{1,3}(?:\.\d{2})?)",
+    re.I)
+_EXPRESS_RE = re.compile(r"next[- ]?day|express|same[- ]?day", re.I)
+_CUTOFF_RE = re.compile(
+    r"order(?:ed)? (?:by|before)\s*(\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm|noon|midday|midnight))", re.I)
+
+
+def extract_delivery_page(visible_text):
+    """Service proposition from a brand's delivery/shipping page: the priced
+    option list, the free-delivery threshold, whether an express/next-day
+    service exists and its order cutoff, and click & collect. Pure."""
+    text = _text_lower(visible_text)
+    options = []
+    for m in _DELIVERY_OPTION_RE.finditer(visible_text or ""):
+        name = re.sub(r"\s+", " ", m.group(1)).strip().title()
+        price = m.group(2).lower().replace(" ", "")
+        entry = {"name": name, "price": ("free" if price == "free" else price)}
+        if entry not in options:
+            options.append(entry)
+    cutoff = _CUTOFF_RE.search(visible_text or "")
+    return {
+        "options": options[:8],
+        "free_threshold": _free_delivery_threshold(visible_text),
+        "express": bool(_EXPRESS_RE.search(text)),
+        "express_cutoff": re.sub(r"\s+", "", cutoff.group(1)).lower() if cutoff else None,
+        "click_collect": bool(re.search(r"click (?:&|and) collect", text)),
+    }
+
+
+_RETURNS_WINDOW_RE = re.compile(
+    r"(?:within|up to|have|you have)?\s*(\d{1,3})\s*days?\b[^.!?]{0,60}?"
+    r"\b(?:return|exchange|refund)"
+    r"|\b(?:return|exchange|refund)[^.!?]{0,60}?\bwithin\s*(\d{1,3})\s*days?", re.I)
+_FREE_RETURNS_RE = re.compile(r"free (?:uk )?returns?\b|returns? (?:are|is) free", re.I)
+_PAID_RETURNS_RE = re.compile(
+    r"(?:£ ?\d{1,2}(?:\.\d{2})?\s*(?:will be|is)? ?deducted)|cost of return"
+    r"|return (?:postage|shipping) (?:is|are|costs?|will)"
+    r"|at (?:your|the customer'?s?) (?:own )?(?:cost|expense)", re.I)
+
+
+def extract_returns_page(visible_text):
+    """Returns policy from a brand's returns/refunds page: the returns window
+    in days, free-vs-paid returns (None when the page doesn't say), and
+    whether exchanges are offered. Pure."""
+    text = visible_text or ""
+    low = _text_lower(text)
+    m = _RETURNS_WINDOW_RE.search(text)
+    window = int(m.group(1) or m.group(2)) if m else None
+    if window is not None and not (1 <= window <= 365):
+        window = None
+    free = None
+    if _FREE_RETURNS_RE.search(text):
+        free = True
+    elif _PAID_RETURNS_RE.search(text):
+        free = False
+    return {
+        "window_days": window,
+        "free_returns": free,
+        "exchanges": bool(re.search(r"\bexchanges?\b", low)),
     }
 
 

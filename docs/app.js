@@ -1,23 +1,37 @@
 /* Katie Loxton Competitor Radar — vanilla JS, no build step, no CDN (works offline). */
 
-const TABS = [
-  ["overview",   "Overview"],
-  ["opportunities", "Opportunities"],
-  ["market",     "Market Map"],
-  ["periods",    "W/M/Q overview"],
-  ["competitors","By competitor"],
-  ["offers",     "Offer trends"],
-  ["trading",    "Trading"],
-  ["reputation", "Reputation"],
-  ["assortment", "Assortment"],
-  ["pricing",    "Pricing"],
-  ["colours",    "Colour trends"],
-  ["keywords",   "Keyword trends"],
-  ["seo",        "SEO"],
-  ["aio",        "AI Visibility"],
-  ["a11y",       "Accessibility"],
-  ["screens",    "Screenshots"],
+// Side-nav sections: logical groups rather than one flat row of 16 tabs.
+const NAV_GROUPS = [
+  ["Overview", [
+    ["overview",      "Overview"],
+    ["opportunities", "Opportunities"],
+  ]],
+  ["Daily trading", [
+    ["offers",  "Offer trends"],
+    ["trading", "Trading"],
+    ["pricing", "Pricing"],
+  ]],
+  ["Market & range", [
+    ["market",     "Market map"],
+    ["assortment", "Assortment"],
+    ["periods",    "W/M/Q overview"],
+  ]],
+  ["Brand & creative", [
+    ["competitors", "By competitor"],
+    ["colours",     "Colour trends"],
+    ["reputation",  "Reputation"],
+  ]],
+  ["Search & visibility", [
+    ["keywords", "Keyword trends"],
+    ["seo",      "SEO"],
+    ["aio",      "AI Visibility"],
+    ["a11y",     "Accessibility"],
+  ]],
+  ["Screenshots", [
+    ["screens", "Screenshots"],
+  ]],
 ];
+const TABS = NAV_GROUPS.flatMap(([, items]) => items);
 
 const state = { captures: [], byBrand: {}, dates: [], latest: {}, aio: { runs: [] }, events: { events: [], opportunities: [] }, catalogue: { runs: [] }, active: "overview" };
 
@@ -125,6 +139,35 @@ function viewOverview() {
   const wrap = el("div");
   const brands = brandsSorted();
   const today = latestDate();
+
+  // Lead with the storefronts themselves — the latest (mobile-first) capture
+  // per brand; tapping one jumps into that brand's screenshot history.
+  const shots = brands.map(b => {
+    const recs = (state.byBrand[b.slug] || {}).recs || [];
+    const latest = [...recs].reverse().find(r => r.screenshot);
+    return latest ? { b, latest } : null;
+  }).filter(Boolean);
+  if (shots.length) {
+    const heroCard = el("div", "card");
+    heroCard.innerHTML = `<h3>Today's storefronts</h3>
+      <p class="hint">The latest homepage capture per brand (phone view where captured). Tap a storefront to open its screenshot history.</p>`;
+    const grid = el("div", "storefronts");
+    for (const { b, latest } of shots) {
+      const mobile = !!latest.screenshot_mobile;
+      const src = latest.screenshot_mobile || latest.screenshot;
+      const btn = el("button", "storefront");
+      btn.setAttribute("aria-label", `${b.brand} storefront, captured ${latest.date} — open screenshot history`);
+      btn.innerHTML = `<span class="shot"><img src="${esc(src)}" alt="" loading="lazy"></span>
+        <span class="lbl">${esc(b.brand)}${b.is_self ? " ★" : ""}<span class="date">${esc(latest.date)}</span></span>`;
+      btn.onclick = () => {
+        shotState = { slug: b.slug, device: mobile ? "mobile" : "desktop", bucket: "all", lightbox: null };
+        selectTab("screens");
+      };
+      grid.append(btn);
+    }
+    heroCard.append(grid);
+    wrap.append(heroCard);
+  }
   // Sale/discount/shipping figures read from brands actually captured TODAY, so
   // the denominator is honest — a brand that fell to a block today isn't counted
   // as "on sale" off a stale capture. Coverage is shown explicitly below.
@@ -378,53 +421,168 @@ function viewSeo() {
   return wrap;
 }
 
-let shotState = { slug: null, idx: 0 };
+// ---------- screenshots: filterable gallery + accessible lightbox ----------
+let shotState = { slug: "all", device: "desktop", bucket: "week", lightbox: null };
+
+// Which date bucket does a capture fall in, relative to the newest capture?
+function inBucket(dateStr, bucket) {
+  if (bucket === "all") return true;
+  const latest = latestDate();
+  if (latest === "—") return true;
+  if (bucket.startsWith("month:")) return dateStr.slice(0, 7) === bucket.slice(6);
+  const [ly, lw] = isoWeekParts(new Date(latest + "T00:00:00Z"));
+  const [y, w] = isoWeekParts(new Date(dateStr + "T00:00:00Z"));
+  if (bucket === "week") return y === ly && w === lw;
+  if (bucket === "lastweek") {
+    // Previous ISO week, handling the year boundary.
+    const prev = new Date(latest + "T00:00:00Z");
+    prev.setUTCDate(prev.getUTCDate() - 7);
+    const [py, pw] = isoWeekParts(prev);
+    return y === py && w === pw;
+  }
+  return true;
+}
+
+function galleryItems() {
+  const brands = shotState.slug === "all"
+    ? brandsSorted()
+    : brandsSorted().filter(b => b.slug === shotState.slug);
+  const items = [];
+  for (const b of brands) {
+    for (const r of (state.byBrand[b.slug] || {}).recs || []) {
+      const src = shotState.device === "mobile" ? r.screenshot_mobile : r.screenshot;
+      if (!src || !inBucket(r.date, shotState.bucket)) continue;
+      items.push({ b, r, src });
+    }
+  }
+  // Newest first, then brand order for same-day shots.
+  items.sort((a, c) => c.r.date.localeCompare(a.r.date));
+  return items;
+}
+
 function viewScreens() {
   const wrap = el("div");
   const brands = brandsSorted();
-  if (!shotState.slug) shotState.slug = (brands.find(b => b.is_self) || brands[0] || {}).slug;
 
-  const pick = el("div", "brandpick");
-  pick.setAttribute("role", "group");
-  pick.setAttribute("aria-label", "Choose a brand");
-  for (const b of brands) {
-    const btn = el("button", b.slug === shotState.slug ? "active" : "", esc(b.brand) + (b.is_self ? " ★" : ""));
-    btn.setAttribute("aria-pressed", b.slug === shotState.slug ? "true" : "false");
-    btn.onclick = () => { shotState.slug = b.slug; shotState.idx = 0; render(); };
-    pick.append(btn);
+  // --- filters: brand, device, date bucket ---
+  const ctrl = el("div", "card");
+  ctrl.innerHTML = `<h3>Screenshot gallery</h3>
+    <p class="hint">Every capture, filterable by brand, device and date. Newest first; select a shot to view it full-size.</p>`;
+
+  const brandRow = el("div", "brandpick");
+  brandRow.setAttribute("role", "group");
+  brandRow.setAttribute("aria-label", "Filter by brand");
+  const brandBtn = (slug, label) => {
+    const on = shotState.slug === slug;
+    const btn = el("button", on ? "active" : "", label);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.slug = slug; shotState.lightbox = null; render(); };
+    return btn;
+  };
+  brandRow.append(brandBtn("all", "All brands"));
+  for (const b of brands) brandRow.append(brandBtn(b.slug, esc(b.brand) + (b.is_self ? " ★" : "")));
+
+  const deviceRow = el("div", "brandpick");
+  deviceRow.setAttribute("role", "group");
+  deviceRow.setAttribute("aria-label", "Device");
+  for (const [dev, label] of [["desktop", "🖥 Desktop"], ["mobile", "📱 Mobile"]]) {
+    const on = shotState.device === dev;
+    const btn = el("button", on ? "active" : "", label);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.device = dev; shotState.lightbox = null; render(); };
+    deviceRow.append(btn);
   }
-  wrap.append(pick);
 
-  // Newest first: recs are stored oldest→newest, so reverse for the slider.
-  const recs = (state.byBrand[shotState.slug]?.recs || []).filter(r => r.screenshot).reverse();
+  const bucketRow = el("div", "brandpick");
+  bucketRow.setAttribute("role", "group");
+  bucketRow.setAttribute("aria-label", "Date range");
+  const months = [...new Set(state.dates.map(d => d.slice(0, 7)))].sort().reverse();
+  const buckets = [["week", "This week"], ["lastweek", "Last week"],
+    ...months.map(m => ["month:" + m, m]), ["all", "All"]];
+  for (const [bk, label] of buckets) {
+    const on = shotState.bucket === bk;
+    const btn = el("button", on ? "active" : "", esc(label));
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.onclick = () => { shotState.bucket = bk; shotState.lightbox = null; render(); };
+    bucketRow.append(btn);
+  }
+  ctrl.append(el("p", "hint", "Brand"), brandRow,
+              el("p", "hint", "Device"), deviceRow,
+              el("p", "hint", "Date"), bucketRow);
+  wrap.append(ctrl);
+
+  // --- the gallery grid ---
+  const items = galleryItems();
   const card = el("div", "card");
-  if (!recs.length) { card.innerHTML = `<p class="muted">No screenshots yet for this brand.</p>`; wrap.append(card); return wrap; }
-  shotState.idx = Math.min(shotState.idx, recs.length - 1);
-  const cur = recs[shotState.idx];
-
-  const main = el("div", "shotmain");
-  const brandName = state.byBrand[shotState.slug].brand;
-  main.innerHTML = `<div class="shotctrl">
-      <button class="btn" id="prevShot" aria-label="Newer screenshot">‹ Newer</button>
-      <label class="sr-only" for="shotRange">Screenshot date (${shotState.idx + 1} of ${recs.length}, newest first)</label>
-      <input type="range" min="0" max="${recs.length - 1}" value="${shotState.idx}" id="shotRange"
-        aria-label="Screenshot date (newest first)" aria-valuetext="${esc(cur.date)}, ${shotState.idx + 1} of ${recs.length}">
-      <button class="btn" id="nextShot" aria-label="Older screenshot">Older ›</button>
-    </div>
-    <p class="hint"><b>${esc(brandName)}</b> — ${esc(cur.date)} (${shotState.idx + 1}/${recs.length})
-      ${cur.headline_offer ? ` · <span class="pill warn">${esc(cur.headline_offer)}</span>` : ""}</p>
-    <img src="${esc(cur.screenshot)}" alt="${esc(brandName)} homepage captured ${esc(cur.date)}" loading="lazy">`;
-  card.append(main);
+  if (!items.length) {
+    card.innerHTML = `<p class="muted">No ${esc(shotState.device)} screenshots in this date range yet`
+      + (shotState.device === "mobile" ? " — mobile capture starts with the next daily run." : ".") + `</p>`;
+    wrap.append(card);
+    return wrap;
+  }
+  const grid = el("div", "gallery");
+  items.forEach((it, i) => {
+    const cell = el("button", "galleryitem");
+    cell.setAttribute("aria-label",
+      `${it.b.brand} ${shotState.device} screenshot, ${it.r.date} — open full size`);
+    cell.innerHTML = `<span class="shot"><img src="${esc(it.src)}" alt="" loading="lazy"></span>
+      <span class="lbl">${esc(it.b.brand)}${it.b.is_self ? " ★" : ""}<span class="date">${esc(it.r.date)}</span>
+      ${it.r.headline_offer ? `<span class="pill warn">${esc(it.r.headline_offer)}</span>` : ""}</span>`;
+    cell.onclick = () => { shotState.lightbox = i; render(); };
+    grid.append(cell);
+  });
+  card.append(grid);
   wrap.append(card);
 
-  setTimeout(() => {
-    const range = document.getElementById("shotRange");
-    const go = i => { shotState.idx = Math.max(0, Math.min(recs.length - 1, i)); render(); };
-    range.oninput = e => go(+e.target.value);
-    document.getElementById("prevShot").onclick = () => go(shotState.idx - 1);
-    document.getElementById("nextShot").onclick = () => go(shotState.idx + 1);
-  }, 0);
+  // --- lightbox (modal dialog: focus trap, Escape, ‹ Newer / Older ›) ---
+  if (shotState.lightbox != null && items[shotState.lightbox]) {
+    wrap.append(buildLightbox(items, shotState.lightbox));
+  }
   return wrap;
+}
+
+function buildLightbox(items, idx) {
+  const it = items[idx];
+  const box = el("div", "lightbox");
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-modal", "true");
+  box.setAttribute("aria-label",
+    `${it.b.brand} screenshot, ${it.r.date} (${idx + 1} of ${items.length})`);
+  box.innerHTML = `
+    <div class="lightbox-bar">
+      <span><b>${esc(it.b.brand)}</b> — ${esc(it.r.date)} (${idx + 1}/${items.length})
+        ${it.r.headline_offer ? `<span class="pill warn">${esc(it.r.headline_offer)}</span>` : ""}</span>
+      <span class="lightbox-ctl">
+        <button class="btn" id="lbPrev" ${idx === 0 ? "disabled" : ""} aria-label="Newer screenshot">‹ Newer</button>
+        <button class="btn" id="lbNext" ${idx === items.length - 1 ? "disabled" : ""} aria-label="Older screenshot">Older ›</button>
+        <button class="btn" id="lbClose" aria-label="Close">✕ Close</button>
+      </span>
+    </div>
+    <div class="lightbox-body"><img src="${esc(it.src)}"
+      alt="${esc(it.b.brand)} homepage captured ${esc(it.r.date)}"></div>`;
+  const close = () => { shotState.lightbox = null; render(); };
+  const go = i => { shotState.lightbox = Math.max(0, Math.min(items.length - 1, i)); render(); };
+  setTimeout(() => {
+    const prev = document.getElementById("lbPrev"), next = document.getElementById("lbNext");
+    document.getElementById("lbClose").onclick = close;
+    prev.onclick = () => go(idx - 1);
+    next.onclick = () => go(idx + 1);
+    (idx > 0 ? prev : next).focus();
+    box.onkeydown = e => {
+      if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (e.key === "ArrowLeft" && idx > 0) go(idx - 1);
+      else if (e.key === "ArrowRight" && idx < items.length - 1) go(idx + 1);
+      else if (e.key === "Tab") {
+        // Focus trap inside the dialog.
+        const f = [...box.querySelectorAll("button:not([disabled])")];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+  }, 0);
+  return box;
 }
 
 function viewPricing() {
@@ -1167,6 +1325,110 @@ function viewPeriods() {
   return wrap;
 }
 
+// ---------- opportunity infographics (inline SVG, theme-aware) ----------
+// Each opportunity kind renders as the diagram matching its actual mechanism —
+// a self-reinforcing flywheel, a funnel with the leak stage highlighted, or a
+// cause→effect chain. Kinds without an obvious diagram shape fall back to
+// plain text — no forced metaphors. All SVGs carry <title>/<desc> for screen
+// readers and use theme CSS custom properties.
+
+let _svgId = 0;
+function _svgOpen(w, h, title, desc) {
+  const id = "oppsvg" + (++_svgId);
+  return [`<svg viewBox="0 0 ${w} ${h}" class="oppsvg" role="img" aria-labelledby="${id}t ${id}d">`
+    + `<title id="${id}t">${esc(title)}</title><desc id="${id}d">${esc(desc)}</desc>`, id];
+}
+
+// Wrap a short label into <tspan> lines that fit a box.
+function _tspans(label, x, y, maxChars) {
+  const words = label.split(" ");
+  const lines = [""];
+  for (const w of words) {
+    const cur = lines[lines.length - 1];
+    if (cur && (cur + " " + w).length > maxChars) lines.push(w);
+    else lines[lines.length - 1] = cur ? cur + " " + w : w;
+  }
+  const y0 = y - (lines.length - 1) * 6.5;
+  return lines.map((l, i) =>
+    `<tspan x="${x}" y="${y0 + i * 13}">${esc(l)}</tspan>`).join("");
+}
+
+function svgChain(steps, title) {
+  const n = steps.length, W = 640, H = 84, gap = 26;
+  const bw = (W - gap * (n - 1) - 8) / n, bh = 64;
+  const [open] = _svgOpen(W, H, title, "Cause and effect chain: " + steps.join(", then "));
+  let s = open;
+  steps.forEach((step, i) => {
+    const x = 4 + i * (bw + gap);
+    const last = i === n - 1;
+    s += `<rect x="${x}" y="10" width="${bw}" height="${bh}" rx="10" fill="${last ? "var(--bad-bg,#f7e4e4)" : "var(--card,#fff)"}" stroke="${last ? "var(--bad)" : "var(--line)"}"/>`;
+    s += `<text x="${x + bw / 2}" y="${10 + bh / 2 + 4}" font-size="11.5" text-anchor="middle" fill="${last ? "var(--bad)" : "var(--ink)"}">${_tspans(step, x + bw / 2, 10 + bh / 2 + 4, Math.round(bw / 6.2))}</text>`;
+    if (!last) {
+      const ax = x + bw;
+      s += `<path d="M${ax + 4} ${10 + bh / 2} h${gap - 14} m-6 -5 l6 5 l-6 5" fill="none" stroke="var(--muted)" stroke-width="1.8"/>`;
+    }
+  });
+  return s + "</svg>";
+}
+
+function svgFunnel(stages, leak, note, title) {
+  const n = stages.length, W = 640, H = 46 * n + 30;
+  const [open] = _svgOpen(W, H, title,
+    `Funnel: ${stages.join(" → ")}. Leak at the ${stages[leak]} stage: ${note}`);
+  let s = open;
+  const cx = 210, top = 10, rh = 38, vgap = 8;
+  stages.forEach((st, i) => {
+    const wTop = 340 - i * 64, wBot = 340 - (i + 1) * 64;
+    const y = top + i * (rh + vgap);
+    const isLeak = i === leak;
+    s += `<path d="M${cx - wTop / 2} ${y} h${wTop} l${(wBot - wTop) / 2} ${rh} h${-wBot} z"
+      fill="${isLeak ? "var(--bad-bg,#f7e4e4)" : "var(--accent-bg,#f0e5ea)"}"
+      stroke="${isLeak ? "var(--bad)" : "var(--line)"}"${isLeak ? ' stroke-width="2"' : ""}/>`;
+    s += `<text x="${cx}" y="${y + rh / 2 + 4}" font-size="12" text-anchor="middle" fill="${isLeak ? "var(--bad)" : "var(--ink)"}">${esc(st)}</text>`;
+    if (isLeak) {
+      s += `<path d="M${cx + wTop / 2 + 6} ${y + rh / 2} h30 m-6 -5 l6 5 l-6 5" fill="none" stroke="var(--bad)" stroke-width="1.8"/>`;
+      s += `<text x="${cx + wTop / 2 + 44}" y="${y + rh / 2 + 4}" font-size="11.5" fill="var(--bad)">${_tspans(note, cx + wTop / 2 + 44, y + rh / 2 + 4, 34)}</text>`;
+    }
+  });
+  return s + "</svg>";
+}
+
+function svgFlywheel(steps, title) {
+  const W = 640, H = 240, cx = 180, cy = 120, r = 78;
+  const [open] = _svgOpen(W, H, title,
+    "Self-reinforcing loop: " + steps.join(" leads to ") + ", which feeds back to the start.");
+  let s = open;
+  // Four arc arrows around the circle.
+  const arc = (a1, a2) => {
+    const p = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    const [x1, y1] = p(a1), [x2, y2] = p(a2);
+    return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#flyarrow)"/>`;
+  };
+  s += `<defs><marker id="flyarrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="var(--accent)"/></marker></defs>`;
+  const seg = Math.PI / 2, pad = 0.34;
+  for (let i = 0; i < 4; i++) s += arc(-Math.PI / 2 + i * seg + pad, -Math.PI / 2 + (i + 1) * seg - pad);
+  // Labels at N / E / S / W.
+  const pos = [[cx, cy - r - 18], [cx + r + 16, cy], [cx, cy + r + 22], [cx - r - 16, cy]];
+  const anchors = ["middle", "start", "middle", "end"];
+  steps.slice(0, 4).forEach((st, i) => {
+    s += `<text x="${pos[i][0]}" y="${pos[i][1] + 4}" font-size="12" text-anchor="${anchors[i]}" fill="var(--ink)" font-weight="600">${_tspans(st, pos[i][0], pos[i][1] + 4, 20)}</text>`;
+  });
+  s += `<text x="${cx}" y="${cy + 4}" font-size="11.5" text-anchor="middle" fill="var(--muted)">reinforces</text>`;
+  return s + "</svg>";
+}
+
+// kind → mechanism diagram. Anything not listed falls back to plain text.
+const OPP_DIAGRAMS = {
+  promo: o => svgChain(["Pack discounts deepen", "Shoppers price-compare", "Full-price offer loses"], o.title),
+  finance: o => svgFunnel(["Browse", "Basket", "Checkout", "Order"], 2, "no BNPL at the payment step", o.title),
+  delivery: o => svgFunnel(["Browse", "Basket", "Delivery", "Order"], 2, "threshold friction", o.title),
+  acquisition: o => svgFlywheel(["Sign-up offer", "List grows", "Owned traffic", "Repeat sales"], o.title),
+  reputation: o => svgFlywheel(["Visible rating", "Shopper trust", "More conversions", "More reviews"], o.title),
+  ai_visibility: o => svgFunnel(["AI answer", "Shortlist", "Site visit", "Sale"], 0, "absent from the answer", o.title),
+  assortment: o => svgChain(["Narrower range", "Fewer entry points", "Less discovery"], o.title),
+  assortment_mix: o => svgChain(["Category gap", "Buyers shop it elsewhere", "Basket lost"], o.title),
+};
+
 // ---------- opportunities + change timeline ----------
 const EVENT_LABEL = {
   sale_started: "Sale started", sale_ended: "Sale ended", discount_changed: "Discount moved",
@@ -1193,10 +1455,14 @@ function viewOpportunities() {
     const rank = { high: 0, medium: 1, low: 2 };
     const pillCls = { high: "bad", medium: "warn", low: "" };
     oc.append(el("div", "", opps.slice().sort((a, b) => (rank[a.priority] ?? 3) - (rank[b.priority] ?? 3))
-      .map(o => `<div style="padding:10px 0;border-top:1px solid #eee">
+      .map(o => {
+        const diagram = OPP_DIAGRAMS[o.kind];
+        return `<div class="opp">
         <div><span class="pill ${pillCls[o.priority] || ""}">${esc(o.priority)}</span>
           <b style="margin-left:6px">${esc(o.title)}</b></div>
-        <div class="hint" style="margin-top:4px">${esc(o.detail)}</div></div>`).join("")));
+        <div class="hint" style="margin-top:4px">${esc(o.detail)}</div>
+        ${diagram ? `<div class="oppdiagram">${diagram(o)}</div>` : ""}</div>`;
+      }).join("")));
   } else {
     oc.append(el("p", "muted", "No standout gaps in the latest snapshot — or not enough data yet. "
       + "This fills in as the daily capture runs (and the AI Visibility job, if enabled)."));
@@ -1327,40 +1593,61 @@ function render() {
     `${Object.keys(state.byBrand).length} brands · ${state.dates.length} days of history`;
 }
 
-function buildTabs() {
-  const nav = document.getElementById("tabs");
+// Build the grouped side nav: collapsible sections, each holding a vertical
+// WAI-ARIA tablist entry (role=tab, roving tabindex, Up/Down/Home/End keys).
+function buildNav() {
+  const nav = document.getElementById("sidenav");
+  nav.innerHTML = "";
   nav.setAttribute("role", "tablist");
-  TABS.forEach(([id, label], i) => {
-    const b = el("button", id === state.active ? "active" : "", label);
-    b.id = "tab-" + id;
-    b.dataset.tab = id;
-    b.setAttribute("role", "tab");
-    b.setAttribute("aria-controls", "view");
-    b.setAttribute("aria-selected", id === state.active ? "true" : "false");
-    b.tabIndex = id === state.active ? 0 : -1;   // roving tabindex
-    b.onclick = () => selectTab(id);
-    b.onkeydown = e => onTabKey(e, i);
-    nav.append(b);
-  });
+  nav.setAttribute("aria-orientation", "vertical");
+  let flat = 0;
+  for (const [group, items] of NAV_GROUPS) {
+    const sec = el("div", "navgroup");
+    const head = el("button", "navhead", `<span>${esc(group)}</span><span class="chev" aria-hidden="true">▾</span>`);
+    head.setAttribute("aria-expanded", "true");
+    head.onclick = () => {
+      const open = head.getAttribute("aria-expanded") === "true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      sec.classList.toggle("collapsed", open);
+    };
+    sec.append(head);
+    const list = el("div", "navitems");
+    for (const [id, label] of items) {
+      const i = flat++;
+      const b = el("button", "navitem" + (id === state.active ? " active" : ""), label);
+      b.id = "tab-" + id;
+      b.dataset.tab = id;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-controls", "view");
+      b.setAttribute("aria-selected", id === state.active ? "true" : "false");
+      b.tabIndex = id === state.active ? 0 : -1;   // roving tabindex
+      b.onclick = () => selectTab(id);
+      b.onkeydown = e => onTabKey(e, i);
+      list.append(b);
+    }
+    sec.append(list);
+    nav.append(sec);
+  }
 }
 
-// Switch tab, keeping ARIA state and roving tabindex in sync.
+// Switch tab, keeping ARIA state and roving tabindex in sync; on mobile the
+// off-canvas drawer closes so the chosen view is immediately visible.
 function selectTab(id, focusTab) {
   state.active = id;
-  const nav = document.getElementById("tabs");
-  for (const b of nav.children) {
+  for (const b of document.querySelectorAll("#sidenav [role=tab]")) {
     const on = b.dataset.tab === id;
     b.classList.toggle("active", on);
     b.setAttribute("aria-selected", on ? "true" : "false");
     b.tabIndex = on ? 0 : -1;
     if (on && focusTab) b.focus();
   }
+  closeNav();
   render();
 }
 
-// Arrow / Home / End keyboard navigation for the tablist (WAI-ARIA pattern).
+// Up/Down (vertical list) + Home/End keyboard navigation (WAI-ARIA pattern).
 function onTabKey(e, i) {
-  const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+  const dir = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
   const n = TABS.length;
   let j = null;
   if (e.key in dir) j = (i + dir[e.key] + n) % n;
@@ -1371,7 +1658,48 @@ function onTabKey(e, i) {
   selectTab(TABS[j][0], true);
 }
 
-// The tab bar sticks directly under the header; the header height isn't fixed
+// ---------- mobile off-canvas drawer ----------
+const isDrawerMode = () => window.matchMedia("(max-width: 900px)").matches;
+
+function openNav() {
+  document.body.classList.add("nav-open");
+  document.getElementById("backdrop").hidden = false;
+  document.getElementById("navToggle").setAttribute("aria-expanded", "true");
+  const active = document.querySelector("#sidenav [role=tab][tabindex='0']");
+  if (active) active.focus();
+}
+
+function closeNav() {
+  if (!document.body.classList.contains("nav-open")) return;
+  document.body.classList.remove("nav-open");
+  document.getElementById("backdrop").hidden = true;
+  const toggle = document.getElementById("navToggle");
+  toggle.setAttribute("aria-expanded", "false");
+  if (isDrawerMode()) toggle.focus();
+}
+
+// Keep keyboard focus inside the open drawer (focus trap), Escape to close.
+function navKeydown(e) {
+  if (!document.body.classList.contains("nav-open") || !isDrawerMode()) return;
+  if (e.key === "Escape") { e.preventDefault(); closeNav(); return; }
+  if (e.key !== "Tab") return;
+  const focusables = [document.getElementById("navToggle"),
+    ...document.querySelectorAll("#sidenav button")].filter(b => b.offsetParent !== null || b.id === "navToggle");
+  if (!focusables.length) return;
+  const first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+function wireDrawer() {
+  const toggle = document.getElementById("navToggle");
+  toggle.onclick = () => document.body.classList.contains("nav-open") ? closeNav() : openNav();
+  document.getElementById("backdrop").onclick = closeNav;
+  document.addEventListener("keydown", navKeydown);
+  window.matchMedia("(max-width: 900px)").addEventListener("change", m => { if (!m.matches) closeNav(); });
+}
+
+// The side nav sticks directly under the header; the header height isn't fixed
 // (it wraps on small screens), so measure it into a CSS variable.
 function syncStickyOffsets() {
   const topbar = document.querySelector(".topbar");
@@ -1379,7 +1707,8 @@ function syncStickyOffsets() {
 }
 
 async function boot() {
-  buildTabs();
+  buildNav();
+  wireDrawer();
   syncStickyOffsets();
   window.addEventListener("resize", syncStickyOffsets);
   try { await loadData(); }

@@ -13,6 +13,10 @@
 <body>
   <a class="skip-link" href="#view">Skip to content</a>
   <header class="topbar">
+    <button id="navToggle" class="navtoggle" aria-label="Open navigation"
+            aria-expanded="false" aria-controls="sidenav">
+      <span aria-hidden="true">☰</span>
+    </button>
     <div class="brand">
       <img class="logo" src="icon.svg" alt="" aria-hidden="true" width="30" height="30" />
       <div>
@@ -27,9 +31,11 @@
     Showing <strong>SAMPLE</strong> data. The first real capture replaces this automatically.
   </div>
 
-  <nav class="tabs" id="tabs" aria-label="Dashboard sections"></nav>
-
-  <main id="view" tabindex="-1" role="tabpanel" aria-label="Dashboard content"><div class="loading">Loading data…</div></main>
+  <div class="layout">
+    <div id="backdrop" class="backdrop" hidden></div>
+    <nav class="sidenav" id="sidenav" aria-label="Dashboard sections"></nav>
+    <main id="view" tabindex="-1" role="tabpanel" aria-label="Dashboard content"><div class="loading">Loading data…</div></main>
+  </div>
 
   <footer class="foot">
     <span id="footStatus"></span>

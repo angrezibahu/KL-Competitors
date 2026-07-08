@@ -1,6 +1,8 @@
 /* Service worker: app shell cached for offline; DATA is network-first so an
    open app always gets the freshest committed capture, falling back to cache. */
-const SHELL = "radar-shell-v5";
+// Bump the version whenever the shell changes, or installed PWA users keep
+// the old UI until the cache happens to expire.
+const SHELL = "radar-shell-v6";
 const ASSETS = ["./", "index.html", "app.js", "styles.css", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", e => {

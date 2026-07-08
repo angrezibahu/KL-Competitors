@@ -1,12 +1,14 @@
 :root{
   --bg:#f8f7f0; --card:#ffffff; --ink:#2a2430; --muted:#675d6b;
   --line:#ece5ea; --accent:#a04e6a; --accent2:#5a73a0;
+  --accent-bg:#f0e5ea; --bad-bg:#f7e4e4;
   --good:#2f7d54; --bad:#b83a3a; --warn:#8a6410;
   --radius:14px; --shadow:0 1px 3px rgba(40,30,45,.07),0 6px 22px rgba(40,30,45,.05);
   --focus:#1f5fb0;
-  /* Header/tab heights are measured in JS so the sticky tab bar always sits
-     directly under the header, whatever the viewport. Fallbacks for no-JS. */
-  --topbar-h:58px; --tabs-h:55px;
+  /* Header height is measured in JS so the sticky side nav always sits
+     directly under the header, whatever the viewport. Fallback for no-JS. */
+  --topbar-h:58px;
+  --sidenav-w:225px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -30,27 +32,46 @@ a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;
   padding:14px 18px;background:#fff;border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:5}
+  position:sticky;top:0;z-index:20}
 .brand{display:flex;gap:12px;align-items:center;min-width:0}
 .logo{width:30px;height:30px;border-radius:8px;display:block;flex:0 0 auto}
 .topbar h1{font-size:18px}
 .sub{margin:0;color:var(--muted);font-size:12.5px}
 .meta{font-size:12.5px;color:var(--muted);text-align:right;flex:0 0 auto}
 
+/* Hamburger — drawer toggle, hidden on desktop where the nav is persistent. */
+.navtoggle{display:none;border:1px solid var(--line);background:#fff;color:var(--ink);
+  border-radius:9px;padding:6px 12px;min-height:40px;min-width:44px;font-size:18px;
+  cursor:pointer}
+.navtoggle:hover{border-color:var(--accent)}
+
 .banner{background:#fff5d6;border-bottom:1px solid #efe0a8;color:#6b540f;
   padding:8px 18px;font-size:14px}
 .hidden{display:none}
 
-.tabs{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
-  padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);
-  position:sticky;top:var(--topbar-h);z-index:4;scrollbar-width:thin}
-.tabs button{flex:0 0 auto;border:1px solid var(--line);background:#fff;
-  color:var(--muted);padding:9px 14px;min-height:40px;border-radius:999px;font-size:14px;
-  cursor:pointer;white-space:nowrap;transition:.15s}
-.tabs button:hover{border-color:var(--accent);color:var(--ink)}
-.tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+/* ---- layout: persistent side nav + content ---- */
+.layout{display:flex;align-items:flex-start;max-width:1400px;margin:0 auto}
+.sidenav{flex:0 0 var(--sidenav-w);position:sticky;top:var(--topbar-h);
+  height:calc(100vh - var(--topbar-h));overflow-y:auto;scrollbar-width:thin;
+  padding:14px 10px 24px;background:#fff;border-right:1px solid var(--line)}
+.backdrop{position:fixed;inset:0;background:rgba(30,20,30,.45);z-index:24}
 
-main{padding:16px;max-width:1180px;margin:0 auto}
+.navgroup+.navgroup{margin-top:8px}
+.navhead{display:flex;justify-content:space-between;align-items:center;width:100%;
+  border:0;background:none;color:var(--muted);font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;min-height:34px;
+  cursor:pointer;border-radius:8px}
+.navhead:hover{color:var(--ink)}
+.navhead .chev{transition:transform .15s}
+.navgroup.collapsed .chev{transform:rotate(-90deg)}
+.navgroup.collapsed .navitems{display:none}
+.navitem{display:block;width:100%;text-align:left;border:0;background:none;
+  color:var(--ink);font-size:14.5px;padding:9px 12px;min-height:40px;
+  border-radius:9px;cursor:pointer}
+.navitem:hover{background:var(--accent-bg)}
+.navitem.active{background:var(--accent);color:#fff;font-weight:600}
+
+main{flex:1;min-width:0;padding:16px;max-width:1180px}
 main:focus{outline:none}
 .loading{color:var(--muted);padding:40px;text-align:center}
 
@@ -81,7 +102,7 @@ main:focus{outline:none}
 .pill{font-size:12px;padding:2px 9px;border-radius:999px;background:#f0ebee;color:var(--muted);
   display:inline-block}
 .pill.good{background:#e3f1ea;color:var(--good)}
-.pill.bad{background:#f7e4e4;color:var(--bad)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
 .pill.warn{background:#f6ecd5;color:var(--warn)}
 
 .bar{height:9px;border-radius:99px;background:#e9e2e7;overflow:hidden;min-width:60px;flex:1}
@@ -104,6 +125,42 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 .tablewrap{overflow:auto;-webkit-overflow-scrolling:touch;max-height:70vh;
   border:1px solid var(--line);border-radius:var(--radius);background:#fff}
 
+/* ---- storefronts hero (Overview) ---- */
+.storefronts{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.storefront{border:1px solid var(--line);background:#fff;border-radius:12px;padding:0;
+  overflow:hidden;cursor:pointer;text-align:left;display:flex;flex-direction:column}
+.storefront:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.storefront .shot{display:block;height:170px;overflow:hidden;background:#f4f1f3;
+  border-bottom:1px solid var(--line)}
+.storefront .shot img{width:100%;height:auto;display:block;object-fit:cover;object-position:top}
+.storefront .lbl{display:block;padding:8px 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.storefront .lbl .date{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+
+/* ---- screenshot gallery + lightbox ---- */
+.gallery{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.galleryitem{border:1px solid var(--line);background:#fff;border-radius:12px;padding:0;
+  overflow:hidden;cursor:pointer;text-align:left;display:flex;flex-direction:column}
+.galleryitem:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.galleryitem .shot{display:block;height:200px;overflow:hidden;background:#f4f1f3;
+  border-bottom:1px solid var(--line)}
+.galleryitem .shot img{width:100%;height:auto;display:block;object-fit:cover;object-position:top}
+.galleryitem .lbl{display:block;padding:8px 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.galleryitem .lbl .date{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-bottom:3px}
+
+.lightbox{position:fixed;inset:0;z-index:40;background:rgba(25,18,26,.72);
+  display:flex;flex-direction:column;padding:16px}
+.lightbox-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  flex-wrap:wrap;background:#fff;border-radius:12px;padding:10px 14px;margin-bottom:10px;
+  font-size:14px}
+.lightbox-ctl{display:flex;gap:8px}
+.lightbox-body{flex:1;overflow:auto;border-radius:12px;background:#fff}
+.lightbox-body img{width:100%;height:auto;display:block}
+
+/* ---- opportunity infographics ---- */
+.opp{padding:12px 0;border-top:1px solid var(--line)}
+.oppdiagram{margin-top:10px;overflow-x:auto}
+.oppsvg{width:100%;max-width:640px;height:auto;display:block}
+
 .shotwrap{display:flex;gap:16px;flex-wrap:wrap}
 .shotmain{flex:1;min-width:min(300px,100%)}
 .shotmain img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff}
@@ -112,6 +169,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 .btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 14px;
   min-height:40px;cursor:pointer;color:var(--ink);font-size:14px}
 .btn:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn[disabled]:hover{border-color:var(--line)}
 .brandpick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .brandpick button{font-size:13.5px;border:1px solid var(--line);background:#fff;
   padding:8px 13px;min-height:38px;border-radius:999px;cursor:pointer;color:var(--ink)}
@@ -122,21 +181,32 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   color:var(--muted);font-size:12.5px;padding:18px;max-width:1180px;margin:0 auto}
 
-/* ---- responsive ---- */
+/* ---- responsive: below 900px the side nav becomes an off-canvas drawer ---- */
+@media (max-width:900px){
+  .navtoggle{display:inline-flex;align-items:center;justify-content:center}
+  .sidenav{position:fixed;left:0;top:0;bottom:0;height:100vh;z-index:25;
+    transform:translateX(-105%);transition:transform .18s ease-out;
+    box-shadow:0 0 30px rgba(30,20,30,.25);padding-top:16px}
+  body.nav-open .sidenav{transform:translateX(0)}
+  body:not(.nav-open) .backdrop{display:none}
+}
 @media (max-width:720px){
   .topbar{padding:12px 14px}
-  .tabs{padding:8px 12px}
   main{padding:14px 12px}
   .foot{padding:16px 12px}
 }
 @media (max-width:560px){
-  .topbar{flex-wrap:wrap;gap:6px 12px}
   .topbar h1{font-size:16px}
   .logo{width:26px;height:26px}
-  .meta{text-align:left;flex-basis:100%;order:3}
+  .sub{display:none}
   .banner{padding:8px 14px}
   .card{padding:14px}
   .kpi .big{font-size:22px}
+  .storefronts{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}
+  .storefront .shot{height:130px}
+  .gallery{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .galleryitem .shot{height:160px}
+  .lightbox{padding:8px}
   /* Let pricing/listing labels wrap instead of forcing a fixed-width column. */
   .row .name[style*="flex:0 0 150px"],
   .row .name[style*="flex:0 0 160px"]{flex-basis:110px!important}

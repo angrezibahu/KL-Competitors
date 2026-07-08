@@ -11,7 +11,6 @@ need a tweak. That is the trade-off for running with no paid AI extraction.
 
 import re
 from collections import Counter
-from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 # ---------------------------------------------------------------------------
@@ -1022,148 +1021,6 @@ def extract_listing(html, visible_text, brand_rules=None):
     }
 
 
-# ---------------------------------------------------------------------------
-# Marketplace presence — where brands show up OFF-SITE (Amazon, TikTok Shop)
-# ---------------------------------------------------------------------------
-# Read from the homepage HTML we ALREADY fetch (zero extra request, no new
-# blocking surface — the same design as the Reputation and BNPL levers). Amazon
-# and TikTok both block datacenter IPs hard, so live-scraping their search from a
-# free GitHub runner would be mostly "blocked", not signal. The reliable £0/public
-# read is what a brand LINKS TO ITSELF: an official Amazon storefront or a TikTok
-# Shop/profile link is a deliberate, on-brand channel.
-#
-# The nuance that matters (B2C-vs-outlet) lives in the *kind* of presence:
-#   Amazon  official  -> links its own Amazon storefront/seller page  (brand-run B2C shelf)
-#           linked    -> an Amazon link, but not clearly a storefront  (promoted, unconfirmed)
-#           mentioned -> "available on Amazon" in copy, no link
-#           none      -> nothing surfaced on the homepage
-#   TikTok  shop      -> a TikTok Shop link/badge                      (selling there)
-#           social    -> a tiktok.com/@handle profile link             (presence, not a shop)
-#           none      -> nothing surfaced
-#
-# Honesty (same ethos as everywhere here): we only report what the homepage
-# SURFACES, never guessed. Crucially `none` does NOT mean "not on the
-# marketplace" — a THIRD-PARTY reseller / outlet a brand never links can't be
-# seen from its own homepage. Catching that (the true grey-market/outlet probe)
-# needs a live Amazon/TikTok fetch, which only becomes reliable behind a paid
-# scraping proxy — a roadmap item, like the Meta Ad Library note in the README.
-# Pure function (strings in, dict out) so it is unit-tested offline.
-
-_ANCHOR_RE = re.compile(r"<a\b([^>]*)>(.*?)</a>", re.I | re.S)
-_HREF_RE = re.compile(r"""href\s*=\s*["']([^"']+)["']""", re.I)
-_TAG_RE = re.compile(r"<[^>]+>")
-
-# A real Amazon MARKETPLACE link (needs a scheme; homepage channel links are
-# absolute). Short links (amzn.to/amzn.eu/a.co) are deliberate brand CTAs.
-_AMAZON_RE = re.compile(
-    r"https?://(?:[a-z0-9.-]*\.)?amazon\.[a-z.]{2,6}/|"
-    r"https?://amzn\.(?:to|eu)/|https?://a\.co/", re.I)
-# Amazon hosts that are NOT the marketplace: asset CDNs, ads and the wallet.
-_AMAZON_BAD_RE = re.compile(
-    r"amazonaws\.com|media-amazon|images-amazon|amazon-adsystem|"
-    r"amazonpay|pay\.amazon", re.I)
-_AMAZON_STORE_PATH_RE = re.compile(r"/(?:stores|shops|seller)\b|/stores/page|seller=", re.I)
-_AMAZON_STORE_TXT_RE = re.compile(
-    r"amazon (?:store|storefront|shop)|(?:store|storefront|shop)(?:front)? on amazon|"
-    r"our amazon", re.I)
-_AMAZON_SELL_TXT_RE = re.compile(
-    r"(?:available|shop|buy|find us|now)\b[^.!?]{0,30}\bon amazon\b|"
-    r"\bamazon (?:store|storefront|shop)\b", re.I)
-
-_TIKTOK_RE = re.compile(
-    r"https?://(?:[a-z0-9.-]*\.)?tiktok\.com/|"
-    r"https?://(?:vm|vt)\.tiktok\.com/", re.I)
-_TIKTOK_HANDLE_RE = re.compile(r"tiktok\.com/@([a-z0-9._]+)", re.I)
-_TIKTOK_SHOP_TXT_RE = re.compile(r"\btiktok shop\b|shop (?:us |with us )?on tiktok", re.I)
-
-
-def _anchors(html):
-    """Every (href, context) pair in the HTML, where context is the anchor's
-    attributes + inner text lower-cased — so an icon-only link's intent (in its
-    aria-label/title/class) is searchable alongside any visible text."""
-    out = []
-    for attrs, inner in _ANCHOR_RE.findall(html or ""):
-        m = _HREF_RE.search(attrs)
-        if not m:
-            continue
-        href = m.group(1).strip()
-        context = (attrs + " " + _TAG_RE.sub(" ", inner)).lower()
-        out.append((href, context))
-    return out
-
-
-def _classify_amazon(anchors, low_text):
-    urls = [(h, c) for h, c in anchors
-            if _AMAZON_RE.search(h) and not _AMAZON_BAD_RE.search(h.lower())]
-    if urls:
-        for href, ctx in urls:
-            path = urlparse(href).path.lower()
-            if (_AMAZON_STORE_PATH_RE.search(path) or "seller=" in href.lower()
-                    or _AMAZON_STORE_TXT_RE.search(ctx)):
-                return {"state": "official", "url": href}
-        return {"state": "linked", "url": urls[0][0]}
-    if _AMAZON_SELL_TXT_RE.search(low_text):
-        return {"state": "mentioned", "url": None}
-    return {"state": "none", "url": None}
-
-
-def _classify_tiktok(anchors, low_text):
-    urls = [(h, c) for h, c in anchors if _TIKTOK_RE.search(h)]
-    handle = shop_url = social_url = None
-    for href, ctx in urls:
-        m = _TIKTOK_HANDLE_RE.search(href)
-        if m and not handle:
-            handle = "@" + m.group(1).lower()
-        path = urlparse(href).path.lower()
-        low = href.lower()
-        if ("shop.tiktok" in low or "/shop" in path or "/view/product" in path
-                or _TIKTOK_SHOP_TXT_RE.search(ctx)):
-            shop_url = shop_url or href
-        elif m:
-            social_url = social_url or href
-    if shop_url or _TIKTOK_SHOP_TXT_RE.search(low_text):
-        return {"state": "shop", "handle": handle, "url": shop_url}
-    if social_url or handle:
-        return {"state": "social", "handle": handle, "url": social_url}
-    return {"state": "none", "handle": None, "url": None}
-
-
-def extract_marketplace_presence(html, visible_text):
-    """Off-site channel presence a brand SURFACES on its own homepage: an Amazon
-    storefront/link and a TikTok Shop/profile. Degrades to `state: none` when
-    nothing is surfaced (never guessed). See the module note above for why
-    `none` is not the same as "absent from the marketplace"."""
-    anchors = _anchors(html)
-    low_text = _text_lower(visible_text)
-    return {
-        "amazon": _classify_amazon(anchors, low_text),
-        "tiktok": _classify_tiktok(anchors, low_text),
-    }
-
-
-# Strength ordering per channel, so two reads of the same brand (e.g. its
-# homepage and a stockists/"where to buy" page) combine to the STRONGEST signal
-# seen, never downgrading. Used by merge_marketplace.
-_AMAZON_RANK = {"official": 3, "linked": 2, "mentioned": 1, "none": 0}
-_TIKTOK_RANK = {"shop": 2, "social": 1, "none": 0}
-
-
-def merge_marketplace(primary, secondary):
-    """Combine two marketplace reads, the stronger state per channel winning and
-    keeping that side's url/handle. Either argument may be None or partial. Pure,
-    so it's unit-tested offline. Lets a best-effort stockists-page scan UPGRADE a
-    homepage 'none' to 'official' without ever overwriting a stronger homepage
-    read with a weaker one."""
-    def pick(name, rank):
-        a = (primary or {}).get(name) or {}
-        b = (secondary or {}).get(name) or {}
-        ra = rank.get(a.get("state", "none"), 0)
-        rb = rank.get(b.get("state", "none"), 0)
-        return dict(a) if ra >= rb else dict(b)
-    return {"amazon": pick("amazon", _AMAZON_RANK),
-            "tiktok": pick("tiktok", _TIKTOK_RANK)}
-
-
 # Chrome/utility links that sit in the nav but aren't part of the shopping
 # taxonomy (account, search, basket...). Matched case-insensitively against the
 # whole, cleaned label so we don't accidentally drop real categories.
@@ -1266,7 +1123,6 @@ def extract_all(html, visible_text, raw_text, categories, provided_hero=None,
         "prices": extract_prices(html, visible_text, price_rules),
         "trading": extract_trading_signals(html, visible_text),
         "reputation": extract_reputation(html, visible_text, known_platforms),
-        "marketplace": extract_marketplace_presence(html, visible_text),
         "seo": extract_seo(html),
         "accessibility": extract_accessibility(html),
     }

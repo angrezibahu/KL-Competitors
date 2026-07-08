@@ -958,103 +958,6 @@ function viewReputation() {
   return wrap;
 }
 
-// ---------- marketplace presence (off-site channels) ----------
-const mkOf = (r, name) => (r && r.marketplace && r.marketplace[name]) || { state: "none" };
-const AMAZON_OWNED = new Set(["official", "linked"]);
-
-// Render the Amazon cell as a pill that encodes the *kind* of presence.
-function amazonCell(a) {
-  const url = a.url ? ` <a href="${esc(a.url)}" target="_blank" rel="noopener">open ↗</a>` : "";
-  if (a.state === "official") return `<span class="pill good">official store</span>${url}`;
-  if (a.state === "linked") return `<span class="pill warn">linked</span>${url}`;
-  if (a.state === "mentioned") return `<span class="tag">mentioned</span>`;
-  return '<span class="muted">none surfaced</span>';
-}
-function tiktokCell(t) {
-  const tag = t.handle ? ` <span class="tag">${esc(t.handle)}</span>` : "";
-  if (t.state === "shop") return `<span class="pill good">TikTok Shop</span>${tag}`;
-  if (t.state === "social") return `<span class="pill warn">profile</span>${tag}`;
-  return '<span class="muted">none surfaced</span>';
-}
-// The B2C-vs-outlet read, from what the homepage declares.
-function channelRead(a, t) {
-  if (a.state === "official" || t.state === "shop")
-    return '<span class="pill good">brand-run channel</span> <span class="hint">B2C-aligned</span>';
-  if (a.state === "linked" || a.state === "mentioned")
-    return '<span class="hint">promoted · storefront unconfirmed</span>';
-  if (t.state === "social")
-    return '<span class="hint">social presence · no shop</span>';
-  return '<span class="muted">no owned channel surfaced</span>';
-}
-
-function viewMarketplace() {
-  const wrap = el("div");
-  const brands = brandsSorted();
-  const rows = brands.map(b => ({ b, r: state.latest[b.slug] })).filter(x => x.r);
-
-  const amazonHas = rows.filter(x => AMAZON_OWNED.has(mkOf(x.r, "amazon").state));
-  const tiktokShop = rows.filter(x => mkOf(x.r, "tiktok").state === "shop");
-  const me = brands.find(b => b.is_self);
-  const jr = me && state.latest[me.slug];
-  const ja = jr && mkOf(jr, "amazon"), jt = jr && mkOf(jr, "tiktok");
-
-  const kpis = el("div", "grid cols-3");
-  const kpi = (big, lbl) => { const c = el("div", "card kpi"); c.innerHTML = `<div class="big">${big}</div><div class="lbl">${lbl}</div>`; return c; };
-  kpis.append(
-    kpi(`${amazonHas.length}/${rows.length}`, "surface an Amazon channel"),
-    kpi(`${tiktokShop.length}/${rows.length}`, "surface a TikTok Shop"),
-    kpi(jr ? (ja.state === "none" && jt.state === "none" ? "none" : `${ja.state}/${jt.state}`) : "—", "Katie Loxton's channels (Amazon/TikTok)"),
-  );
-  wrap.append(kpis);
-
-  const note = el("div", "card");
-  note.innerHTML = `<h3>What this is</h3><p class="hint" style="margin:0">Where each brand shows up <b>off-site</b> — read from the
-    homepage HTML we already fetch (the same no-extra-request design as Reputation and BNPL). The signal is what a brand
-    <b>links to itself</b>: an <b>official Amazon storefront</b> or a <b>TikTok Shop</b> is a deliberate, brand-run B2C shelf;
-    a bare profile link is presence, not a shop. <b>Honesty note:</b> “none surfaced” is <u>not</u> “not on the marketplace” —
-    a third-party reseller or outlet a brand never links can't be seen from its own homepage. Catching that (the true
-    grey-market/outlet probe, and a marketplace-vs-RRP price read) needs a live Amazon/TikTok fetch, which only becomes reliable
-    behind a paid scraping proxy — on the roadmap, like the Meta Ad Library pillar.</p>`;
-  wrap.append(note);
-
-  const card = el("div", "card");
-  card.innerHTML = `<h3>Off-site presence — ${latestDate()}</h3>
-    <p class="hint">Homepage-declared channels per brand. <b>Channel read</b> infers B2C-aligned vs promoted-only from the kind of link. ★ = Katie Loxton.</p>`;
-  const tw = el("div", "tablewrap");
-  // Order: brand-run channels first (most relevant), then promoted, then none.
-  const score = x => {
-    const a = mkOf(x.r, "amazon").state, t = mkOf(x.r, "tiktok").state;
-    return (a === "official" ? 4 : a === "linked" ? 2 : a === "mentioned" ? 1 : 0)
-      + (t === "shop" ? 4 : t === "social" ? 2 : 0);
-  };
-  const ordered = rows.slice().sort((x, y) => (y.b.is_self - x.b.is_self) || (score(y) - score(x)));
-  let body = "";
-  for (const { b, r } of ordered) {
-    const a = mkOf(r, "amazon"), t = mkOf(r, "tiktok");
-    body += `<tr>
-      <td>${nameCell(b)}</td>
-      <td>${amazonCell(a)}</td>
-      <td>${tiktokCell(t)}</td>
-      <td>${channelRead(a, t)}</td>
-    </tr>`;
-  }
-  tw.innerHTML = `<table><thead><tr><th>Brand</th><th>Amazon</th><th>TikTok</th><th>Channel read</th></tr></thead><tbody>${body}</tbody></table>`;
-  card.append(tw);
-  wrap.append(card);
-
-  // Katie Loxton-vs-pack one-liner.
-  if (jr) {
-    const meOwned = ja.state === "official" || jt.state === "shop";
-    const vc = el("div", "card");
-    vc.innerHTML = `<h3>Katie Loxton vs the pack</h3><p class="hint" style="margin:0">${meOwned
-      ? `Katie Loxton surfaces an owned channel (Amazon: <b>${esc(ja.state)}</b>, TikTok: <b>${esc(jt.state)}</b>).`
-      : `Katie Loxton surfaces <b>no owned marketplace channel</b> on its homepage, while <b>${amazonHas.length}</b> competitor(s) link an Amazon presence and <b>${tiktokShop.length}</b> a TikTok Shop.`}
-      Channel gaps surface on the Opportunities tab. Reseller/outlet detection awaits the live-probe roadmap.</p>`;
-    wrap.append(vc);
-  }
-  return wrap;
-}
-
 function viewA11y() {
   const wrap = el("div");
   const brands = brandsSorted();
@@ -1207,7 +1110,6 @@ const EVENT_LABEL = {
   bnpl_removed: "BNPL dropped", price_shift: "Price shift",
   rating_changed: "Rating moved", reviews_added: "Reviews added",
   products_added: "New products",
-  marketplace_added: "Marketplace channel", marketplace_removed: "Channel dropped",
 };
 function viewOpportunities() {
   const wrap = el("div");
@@ -1341,10 +1243,6 @@ function viewAIO() {
   return wrap;
 }
 
-// NOTE: `marketplace` (viewMarketplace, defined above) is intentionally NOT
-// registered here — the tab is hidden from the live dashboard until detection is
-// accurate enough not to false-negative a channel we KNOW a brand runs (e.g.
-// Katie Loxton on Amazon). Re-enabled by the config-declared + stockists-scan work.
 const VIEWS = { overview: viewOverview, opportunities: viewOpportunities, periods: viewPeriods, competitors: viewCompetitors, offers: viewOffers, market: viewMarketMap, trading: viewTrading, reputation: viewReputation, assortment: viewAssortment, pricing: viewPricing, colours: viewColours, keywords: viewKeywords, seo: viewSeo, aio: viewAIO, a11y: viewA11y, screens: viewScreens };
 
 // ---------- shell ----------

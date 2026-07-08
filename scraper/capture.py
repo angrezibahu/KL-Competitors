@@ -23,8 +23,7 @@ from urllib.parse import urlparse
 
 from . import catalogue, storage
 from .colours import dominant_colours
-from .extractors import (detect_block, extract_all, extract_listing,
-                         extract_marketplace_presence, merge_marketplace)
+from .extractors import detect_block, extract_all, extract_listing
 from .trends import fetch_trends
 
 CONFIG_PATH = os.path.join(storage.ROOT, "config", "competitors.json")
@@ -544,48 +543,6 @@ def capture_listing(context, brand):
         page.close()
 
 
-def capture_stockists(context, brand):
-    """Scan a brand's optional `stockists_url` ("where to buy" / stockists page)
-    for OFF-SITE marketplace links the homepage doesn't carry.
-
-    Off-site channels (an Amazon storefront, a TikTok Shop) are often linked from
-    a stockists/where-to-buy page rather than the homepage. This fetches that one
-    page on the brand's OWN site (so no Amazon/TikTok request, no new blocking
-    surface) and runs the same homepage marketplace extractor over it. Entirely
-    optional and never fatal: no `stockists_url`, a blocked page, or one with no
-    marketplace links simply yields None and the homepage read stands. Returns a
-    marketplace dict to merge, or None."""
-    url = brand.get("stockists_url")
-    if not url:
-        return None
-    page = context.new_page()
-    try:
-        page.goto(url, wait_until="domcontentloaded", timeout=60000)
-        try:
-            page.wait_for_load_state("load", timeout=12000)
-        except Exception:
-            pass
-        page.wait_for_timeout(1500)
-        clear_page_chrome(page)
-        html = page.content()
-        visible_text = page.inner_text("body")
-        if detect_block(html, visible_text):
-            print(f"  [stockists blocked] {brand['name']}")
-            return None
-        mk = extract_marketplace_presence(html, visible_text)
-        if mk["amazon"]["state"] == "none" and mk["tiktok"]["state"] == "none":
-            print(f"  [stockists OK]    {brand['name']}: no marketplace links on stockists page")
-            return None
-        print(f"  [stockists OK]    {brand['name']}: amazon={mk['amazon']['state']} "
-              f"tiktok={mk['tiktok']['state']}")
-        return mk
-    except Exception as exc:
-        print(f"  [stockists FAILED] {brand['name']}: {type(exc).__name__}: {exc}")
-        return None
-    finally:
-        page.close()
-
-
 MOBILE_VIEWPORT = {"width": 390, "height": 844}   # iPhone-class CSS viewport
 MOBILE_MAX_SCREENS = 25                            # cap the full-page scroll
 
@@ -729,14 +686,6 @@ def capture_brand(context, brand, categories, date):
         listing = capture_listing(context, brand)
         if listing:
             base["listing"] = listing
-
-        # Optional: scan a stockists/"where to buy" page for off-site marketplace
-        # links the homepage doesn't carry, and merge (stronger state per channel
-        # wins -- a stockists 'official' upgrades a homepage 'none', never the
-        # reverse). Never fatal: None leaves the homepage marketplace read intact.
-        stockists_mk = capture_stockists(context, brand)
-        if stockists_mk:
-            base["marketplace"] = merge_marketplace(base.get("marketplace"), stockists_mk)
 
         price = fields.get("prices", {})
         print(f"  [OK]     {brand['name']}: '{(fields.get('hero_message') or '')[:50]}' "

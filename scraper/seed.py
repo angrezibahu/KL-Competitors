@@ -174,31 +174,6 @@ def build():
                 reputation = {"rating": None, "review_count": None,
                               "platforms": [], "has_reviews": False, "source": None}
 
-            # Sample marketplace presence (off-site channels, homepage-declared).
-            # The owned brand is deliberately given no owned channel so the demo
-            # shows the Marketplace opportunity; the pack varies.
-            if is_self:
-                amazon_state, tk_state = "none", "none"
-            else:
-                amazon_state = random.choice(["official", "official", "linked", "mentioned", "none"])
-                tk_state = random.choice(["shop", "shop", "social", "none"])
-            handle = "@" + slug.replace("-", "")
-            marketplace = {
-                "amazon": {
-                    "state": amazon_state,
-                    "url": (f"https://www.amazon.co.uk/stores/{slug}" if amazon_state == "official"
-                            else f"https://www.amazon.co.uk/s?k={slug}" if amazon_state == "linked"
-                            else None),
-                },
-                "tiktok": {
-                    "state": tk_state,
-                    "handle": handle if tk_state in ("shop", "social") else None,
-                    "url": (f"https://www.tiktok.com/{handle}/shop" if tk_state == "shop"
-                            else f"https://www.tiktok.com/{handle}" if tk_state == "social"
-                            else None),
-                },
-            }
-
             # Sample listing-page trading data (real price distribution + sale depth).
             llo = random.choice([15, 19, 25, 35])
             lband = sorted(round(random.uniform(llo, llo * random.uniform(3, 10)), 2)
@@ -234,7 +209,6 @@ def build():
                 "prices": prices,
                 "trading": trading,
                 "reputation": reputation,
-                "marketplace": marketplace,
                 "listing": listing,
                 "colours": dominant_colours(shot_abs),
                 "seo": {

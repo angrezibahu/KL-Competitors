@@ -26,6 +26,29 @@ def _nearest_name(rgb):
     return best
 
 
+def looks_blank(image_path, white_thresh=236, min_share=0.985, max_std=6.0):
+    """True if the screenshot is almost entirely near-white with virtually no
+    visual variation -- i.e. the page hadn't painted when we shot it. This is a
+    conservative BACKSTOP to the DOM render gate: it only fires on a genuinely
+    empty frame (both an overwhelming white share AND a near-flat luminance
+    spread), so a legitimately minimalist, image-led page with a logo/nav/hero
+    won't trip it. Reuses Pillow; samples a small downscaled crop, so it's cheap.
+    Returns False whenever it can't tell -- never block on uncertainty."""
+    try:
+        img = Image.open(image_path).convert("RGB").resize((100, 100))
+    except Exception:
+        return False
+    raw = img.tobytes()                      # flat R,G,B,R,G,B,...
+    px = [raw[i:i + 3] for i in range(0, len(raw), 3)]
+    n = len(px) or 1
+    white = sum(1 for r, g, b in px
+                if r >= white_thresh and g >= white_thresh and b >= white_thresh)
+    lum = [0.299 * r + 0.587 * g + 0.114 * b for r, g, b in px]
+    mean = sum(lum) / n
+    std = (sum((x - mean) ** 2 for x in lum) / n) ** 0.5
+    return (white / n) >= min_share and std <= max_std
+
+
 def dominant_colours(image_path, n=6):
     """Return a list of {hex, name, share} sorted by prevalence."""
     try:

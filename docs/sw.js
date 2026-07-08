@@ -3,7 +3,7 @@
 // Bump the version whenever the shell changes, or installed PWA users keep
 // the old UI until the cache happens to expire.
 const SHELL = "radar-shell-v6";
-const ASSETS = ["./", "index.html", "app.js", "styles.css", "manifest.webmanifest", "icon.svg"];
+const ASSETS = ["./", "index.html", "app.js", "ask.js", "styles.css", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

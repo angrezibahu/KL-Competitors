@@ -156,6 +156,15 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 .lightbox-body{flex:1;overflow:auto;border-radius:12px;background:#fff}
 .lightbox-body img{width:100%;height:auto;display:block}
 
+/* ---- Ask Me ---- */
+.askform{display:flex;gap:8px;margin:10px 0 14px;flex-wrap:wrap}
+.askform input{flex:1;min-width:min(280px,100%);border:1px solid var(--line);
+  border-radius:9px;padding:10px 12px;font:inherit;font-size:14.5px;
+  background:#fff;color:var(--ink)}
+.askform input:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.asktext{font-size:15px;line-height:1.55;margin:6px 0 2px}
+.askev{min-height:34px;padding:5px 11px;font-size:12.5px}
+
 /* ---- opportunity infographics ---- */
 .opp{padding:12px 0;border-top:1px solid var(--line)}
 .oppdiagram{margin-top:10px;overflow-x:auto}

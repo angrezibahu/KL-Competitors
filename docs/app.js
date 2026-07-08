@@ -24,7 +24,7 @@ const NAV_GROUPS = [
   ["Search & visibility", [
     ["keywords", "Keyword trends"],
     ["seo",      "SEO"],
-    ["aio",      "AI Visibility"],
+    ["ask",      "Ask Me"],
     ["a11y",     "Accessibility"],
   ]],
   ["Screenshots", [
@@ -513,6 +513,13 @@ function viewScreens() {
 
   // --- the gallery grid ---
   const items = galleryItems();
+  // An evidence link (Ask Me) can ask for a specific date's shot: open the
+  // lightbox straight onto it, once.
+  if (shotState.focusDate) {
+    const i = items.findIndex(it => it.r.date === shotState.focusDate);
+    if (i >= 0) shotState.lightbox = i;
+    shotState.focusDate = null;
+  }
   const card = el("div", "card");
   if (!items.length) {
     card.innerHTML = `<p class="muted">No ${esc(shotState.device)} screenshots in this date range yet`
@@ -1488,92 +1495,95 @@ function viewOpportunities() {
   return wrap;
 }
 
-// ---------- AI visibility (AIO) ----------
-function viewAIO() {
+// ---------- Ask Me: deterministic Q&A over the captured record ----------
+// The engine (docs/ask.js, window.AskEngine) is pure and offline — it quotes
+// recorded fields with dated-screenshot evidence rather than narrating. It
+// also surfaces the weekly AI-visibility share-of-voice data when present,
+// replacing the old AI Visibility placeholder tab.
+let askState = { q: "", result: null };
+
+const ASK_EXAMPLES = [
+  "Who has the deepest discount?",
+  "Was Mint Velvet on sale at the end of June?",
+  "When did Katie Loxton's sale start?",
+  "Who's on sale today?",
+  "What are Strathberry's prices?",
+  "When did Sezane last change their hero?",
+];
+
+function runAsk(q) {
+  askState.q = q;
+  askState.result = (typeof AskEngine !== "undefined")
+    ? AskEngine.ask(q, { captures: state.captures, aio: state.aio })
+    : { ok: false, text: "Ask engine failed to load — refresh the page.", evidence: [], note: null };
+  render();
+}
+
+function viewAsk() {
   const wrap = el("div");
-  const runs = (state.aio && state.aio.runs) || [];
 
   const intro = el("div", "card");
-  intro.innerHTML = `<h3>AI visibility — share of voice in AI answers</h3>
-    <p class="hint">When a shopper asks an AI assistant a buyer-intent question (e.g. “best personalised
-    birthday jewellery UK”), which brands get named, and how often? <b>Share of voice</b> rewards being
-    named, and named <i>first</i>.</p>`;
+  intro.innerHTML = `<h3>Ask Me</h3>
+    <p class="hint">Ask a buyer-intent question about the tracked brands. Answers quote the recorded captures —
+    no AI narration — and every answer cites the capture date and links the dated screenshot.</p>
+    <form class="askform" id="askForm">
+      <label class="sr-only" for="askInput">Your question</label>
+      <input id="askInput" type="text" autocomplete="off" placeholder="e.g. was Mint Velvet on sale at the end of June?"
+        value="${esc(askState.q)}">
+      <button class="btn" type="submit">Ask</button>
+    </form>`;
+  const chips = el("div", "brandpick");
+  chips.setAttribute("aria-label", "Example questions");
+  for (const ex of ASK_EXAMPLES) {
+    const b = el("button", "", esc(ex));
+    b.type = "button";
+    b.onclick = () => runAsk(ex);
+    chips.append(b);
+  }
+  intro.append(el("p", "hint", "Try one of these:"), chips);
   wrap.append(intro);
 
-  if (!runs.length) {
-    const c = el("div", "card");
-    c.innerHTML = `<h3>Coming soon</h3>
-      <p class="hint" style="margin:0">This pillar measures how often each brand is named in AI-assistant
-      answers to buyer-intent questions. It's <b>dependent on investment</b> — running it needs a paid model
-      budget — so it sits on the roadmap and will populate here once that's in place.</p>`;
-    wrap.append(c);
-    return wrap;
-  }
-
-  const latest = runs[runs.length - 1];
-  const sov = latest.share_of_voice || {};
-  const rows = Object.entries(sov).sort((a, b) => b[1].sov - a[1].sov);
-  const maxSov = Math.max(0.0001, ...rows.map(([, v]) => v.sov));
-  const meSlug = (brandsSorted().find(b => b.is_self) || {}).slug;
-
-  // Leaderboard
-  const lb = el("div", "card");
-  lb.innerHTML = `<h3>Share of voice — week of ${esc(latest.date)}</h3>
-    <p class="hint">${latest.queries_total} buyer-intent queries · ${esc(latest.market || "")}. ★ = Katie Loxton.</p>`;
-  lb.append(el("div", "", rows.map(([slug, v]) => {
-    const self = slug === meSlug;
-    return `<div class="row"><span class="name" style="flex:0 0 160px">
-        <b class="${self ? "self" : ""}">${esc(v.brand)}${self ? " ★" : ""}</b></span>
-      <span class="bar"><span style="width:${Math.round(v.sov / maxSov * 100)}%"></span></span>
-      <span class="pill ${v.sov >= maxSov * 0.66 ? "warn" : ""}">${Math.round(v.sov * 100)}% SoV</span>
-      <span class="pill">${Math.round(v.visibility * 100)}% of queries</span>
-      <span class="pill">${v.avg_rank == null ? "—" : "avg #" + v.avg_rank}</span></div>`;
-  }).join("")));
-  wrap.append(lb);
-
-  // SoV trend over time (if more than one run)
-  if (runs.length > 1) {
-    const keys = runs.map(r => r.date);
-    const tracked = rows.map(([slug]) => slug).slice(0, 8);
-    const tc = el("div", "card");
-    tc.innerHTML = `<h3>Share-of-voice trend</h3><p class="hint">% SoV per weekly run.</p>`;
-    const tw = el("div", "tablewrap");
-    let head = `<tr><th scope="col">Brand</th>${keys.map(k => `<th scope="col">${esc(k)}</th>`).join("")}</tr>`;
-    let body = "";
-    for (const slug of tracked) {
-      const self = slug === meSlug;
-      const name = (sov[slug] || {}).brand || slug;
-      let cells = "";
-      for (const r of runs) {
-        const v = (r.share_of_voice || {})[slug];
-        cells += `<td class="num">${v ? `<span class="pill ${v.sov >= 0.2 ? "warn" : ""}">${Math.round(v.sov * 100)}%</span>` : '<span class="muted">—</span>'}</td>`;
+  if (askState.result) {
+    const res = askState.result;
+    const card = el("div", "card");
+    card.innerHTML = `<h3>${res.ok ? "Answer" : "No answer"}</h3>
+      <p class="hint">“${esc(askState.q)}”</p>
+      <p class="asktext">${esc(res.text)}</p>
+      ${res.note ? `<p class="hint">${esc(res.note)}</p>` : ""}`;
+    if (res.evidence && res.evidence.length) {
+      const evWrap = el("div");
+      evWrap.innerHTML = `<p class="hint" style="margin-top:10px">Evidence — recorded fields, one click from the screenshot:</p>`;
+      for (const e of res.evidence) {
+        const row = el("div", "row");
+        const open = e.screenshot
+          ? `<button class="btn askev" data-slug="${esc(e.slug)}" data-date="${esc(e.date)}">View screenshot ↗</button>`
+          : '<span class="muted">no screenshot</span>';
+        row.innerHTML = `<span class="name"><b>${esc(e.brand)}</b></span>
+          <span class="tag">${esc(e.date)}</span>
+          <span class="tag">${esc(e.field)}: <b>${esc(String(e.value))}</b></span>
+          ${open}`;
+        evWrap.append(row);
       }
-      body += `<tr><td><b class="${self ? "self" : ""}">${esc(name)}${self ? " ★" : ""}</b></td>${cells}</tr>`;
+      card.append(evWrap);
     }
-    tw.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
-    tc.append(tw);
-    wrap.append(tc);
+    wrap.append(card);
   }
 
-  // Per-query breakdown — the actionable bit: where is Katie Loxton named vs not?
-  const qc = el("div", "card");
-  qc.innerHTML = `<h3>By query — who gets named</h3>
-    <p class="hint">The opportunity is a query where competitors appear and Katie Loxton doesn't.</p>`;
-  qc.append(el("div", "", (latest.queries || []).map(q => {
-    const named = (q.mentions || []).map(m => {
-      const self = m.slug === meSlug;
-      return `<span class="tag ${self ? "" : ""}"><b class="${self ? "self" : ""}">${esc(m.brand)}${self ? " ★" : ""}</b> #${m.rank}</span>`;
-    }).join("") || '<span class="muted">none of our brands named</span>';
-    const meIn = (q.mentions || []).some(m => m.slug === meSlug);
-    return `<div style="padding:8px 0;border-top:1px solid #eee">
-      <div><b>${esc(q.query)}</b> ${meIn ? '<span class="pill good">Katie Loxton named</span>' : '<span class="pill bad">Katie Loxton absent</span>'}</div>
-      <div style="margin-top:4px">${named}</div></div>`;
-  }).join("")));
-  wrap.append(qc);
+  setTimeout(() => {
+    const form = document.getElementById("askForm");
+    if (form) form.onsubmit = e => { e.preventDefault(); runAsk(document.getElementById("askInput").value); };
+    for (const b of document.querySelectorAll(".askev")) {
+      b.onclick = () => {
+        shotState = { slug: b.dataset.slug, device: "desktop", bucket: "all",
+                      lightbox: null, focusDate: b.dataset.date };
+        selectTab("screens");
+      };
+    }
+  }, 0);
   return wrap;
 }
 
-const VIEWS = { overview: viewOverview, opportunities: viewOpportunities, periods: viewPeriods, competitors: viewCompetitors, offers: viewOffers, market: viewMarketMap, trading: viewTrading, reputation: viewReputation, assortment: viewAssortment, pricing: viewPricing, colours: viewColours, keywords: viewKeywords, seo: viewSeo, aio: viewAIO, a11y: viewA11y, screens: viewScreens };
+const VIEWS = { overview: viewOverview, opportunities: viewOpportunities, periods: viewPeriods, competitors: viewCompetitors, offers: viewOffers, market: viewMarketMap, trading: viewTrading, reputation: viewReputation, assortment: viewAssortment, pricing: viewPricing, colours: viewColours, keywords: viewKeywords, seo: viewSeo, ask: viewAsk, a11y: viewA11y, screens: viewScreens };
 
 // ---------- shell ----------
 function render() {

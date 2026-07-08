@@ -117,16 +117,19 @@ scraper/
   seed.py                   # generates the SAMPLE data you see before first real run
 docs/                       # the PWA dashboard (served by GitHub Pages)
   index.html, app.js, styles.css, sw.js, manifest.webmanifest
+  ask.js                    # Ask Me: deterministic client-side Q&A over the captured record
   data/captures.json        # the append-only history (the treasure trove)
   data/aio.json             # append-only AI-visibility history (weekly)
   data/catalogue.json       # append-only assortment history (range size + newness)
   data/catalogue_snapshot.json  # latest product handles per brand (the diff baseline)
   data/events.json          # derived change timeline + current opportunities
-  screenshots/<brand>/<date>.jpg
+  screenshots/<brand>/<date>.jpg          # desktop capture
+  screenshots/<brand>/<date>-mobile.jpg   # phone-rendered capture (390×844)
 tests/test_extractors.py    # offline tests for the extraction rules
 tests/test_catalogue.py     # offline tests for the sitemap parsing + diff
 tests/test_aio.py           # offline tests for AI-visibility parsing & scoring
 tests/test_events.py        # offline tests for the timeline + opportunity rules
+tests/test_ask.mjs          # offline (Node) tests for the Ask Me query engine
 .github/workflows/daily.yml          # the 9am capture schedule
 .github/workflows/weekly-digest.yml  # Monday digest build + optional email
 .github/workflows/aio.yml            # weekly AI-visibility capture (needs ANTHROPIC_API_KEY)
@@ -247,7 +250,8 @@ actually lists products with prices and re-run.
 
 The newest signal, and the one shoppers increasingly act on. When someone asks
 an AI assistant *"best personalised birthday jewellery UK"*, **which brands does
-it name, and in what order?** The **AI Visibility** tab tracks that over time.
+it name, and in what order?** The weekly AIO capture tracks that over time,
+and the **Ask Me** tab surfaces it (“what's our share of voice in AI answers?”).
 
 How it works (`scraper/aio.py`, weekly via `.github/workflows/aio.yml`):
 
@@ -259,8 +263,8 @@ How it works (`scraper/aio.py`, weekly via `.github/workflows/aio.yml`):
 - It computes a **share of voice** per brand (named more, and named first = higher
   SoV), plus per-query "who's named" — the dashboard surfaces queries where
   *competitors appear and Katie Loxton doesn't*, which is a ready-made content brief.
-- History is append-only (`docs/data/aio.json`), so the tab shows both this
-  week's leaderboard and the **trend**.
+- History is append-only (`docs/data/aio.json`), so both this week's
+  leaderboard and the **trend** stay queryable.
 
 **Honesty note:** AI answers are non-deterministic and depend on the model and
 live web results, so read this as *directional share-of-voice over time*, not a
@@ -277,6 +281,21 @@ Without the secret the workflow **skips cleanly** (writes nothing) and the tab
 shows a "not set up yet" note — nothing else is affected. The brand-mention
 parsing and share-of-voice scoring are pure and covered by `tests/test_aio.py`,
 so they're tested even with no key.
+
+## 💬 Ask Me — questions answered from the record
+
+The **Ask Me** tab answers buyer-intent questions (*"was Mint Velvet on sale at
+the end of June?"*, *"when did Coach's sale start?"*, *"who has the deepest
+discount?"*) **deterministically, in the browser** — `docs/ask.js` parses the
+question (intent + date range + typo-tolerant brand matching) and quotes the
+recorded captures. No LLM call, no network request, no API key: the dashboard
+is a static offline-capable PWA with nowhere to safely hold a key, and quoting
+recorded fields keeps the "show the evidence" principle — every answer cites
+the capture date and links the dated screenshot. Sale timelines are derived by
+diffing consecutive captures directly (never the pre-built events file, which
+can drift). Fuzzy brand matches are disclosed in the answer, and an untracked
+brand name gets the tracked roster plus a did-you-mean instead of a misfire.
+Covered by `tests/test_ask.mjs` (Node, runs in CI).
 
 ## ⭐ Reputation — the social-proof / trust pillar
 

@@ -359,7 +359,7 @@ def compute_opportunities(captures, aio=None, catalogue=None):
             add("high", "ai_visibility",
                 f"Competitors are named in AI answers for {len(absent)} buyer-intent quer"
                 + ("y" if len(absent) == 1 else "ies") + f" where {self_name} is absent",
-                f"e.g. “{sample}”. Each is a content brief — see the AI Visibility tab.")
+                f"e.g. “{sample}”. Each is a content brief — ask the Ask Me tab for the detail.")
 
     order = {"high": 0, "medium": 1, "low": 2}
     opps.sort(key=lambda o: order.get(o["priority"], 3))

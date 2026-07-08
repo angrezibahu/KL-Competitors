@@ -1977,36 +1977,45 @@
   },
   {
    "date": "2026-07-08",
-   "captured_at": "2026-07-08T09:38:58Z",
+   "captured_at": "2026-07-08T14:08:32Z",
    "brands": {
     "katie-loxton": {
-     "product_count": null,
+     "product_count": 1844,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
-     "ok": false,
-     "first_seen": false,
-     "error": "no sitemap.xml"
+     "ok": true,
+     "first_seen": true,
+     "error": null,
+     "categories": {
+      "bags": 638,
+      "scarves": 115,
+      "purses": 153,
+      "accessories": 124,
+      "gifting": 152,
+      "personalised": 6,
+      "sentiment": 2
+     }
     },
     "strathberry": {
-     "product_count": 449,
-     "new_count": 14,
-     "removed_count": 0,
+     "product_count": 450,
+     "new_count": 16,
+     "removed_count": 1,
      "new_samples": [
+      "charlotte-drawstring-marine-blue",
+      "georgia-midi-taupe",
       "kite-tote-navy-suede",
       "large-melville-street-wallet-croc-embossed-leather-light-taupe",
       "melville-street-wallet-croc-embossed-croc-leather-light-taupe",
       "midi-tote-croc-embossed-leather-light-taupe",
       "mini-tote-navy-suede",
-      "multrees-chain-wallet-croc-embossed-leather-light-taupe",
-      "nano-tote-croc-embossed-leather-light-taupe",
-      "silk-diamond-scarf-navy-red-block-floral"
+      "multrees-chain-wallet-croc-embossed-leather-light-taupe"
      ],
      "ok": true,
      "first_seen": false,
      "error": null,
      "categories": {
-      "bags": 120,
+      "bags": 119,
       "scarves": 47,
       "purses": 56,
       "accessories": 3,
@@ -2015,24 +2024,21 @@
      }
     },
     "demellier": {
-     "product_count": 110,
-     "new_count": 8,
-     "removed_count": 9,
+     "product_count": 105,
+     "new_count": 5,
+     "removed_count": 11,
      "new_samples": [
       "elsa-hosk-x-the-midi-hudson-brulee-suede-brulee-smooth",
-      "the-large-siena-bucket-tan-small-grain",
       "the-midi-new-york-burgundy-small-grain",
       "the-new-york-burgundy-small-grain",
       "the-small-vancouver-black-suede-black-smooth-enamel-lock",
-      "the-tokyo-off-white-croc-effect",
-      "the-vancouver-clutch-light-taupe-suede",
-      "the-vancouver-deep-toffee-smooth"
+      "the-vancouver-clutch-light-taupe-suede"
      ],
      "ok": true,
      "first_seen": false,
      "error": null,
      "categories": {
-      "bags": 11,
+      "bags": 10,
       "gifting": 1
      }
     },
@@ -2102,22 +2108,33 @@
      "error": "no sitemap.xml"
     },
     "coach": {
-     "product_count": null,
+     "product_count": 1666,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
-     "ok": false,
-     "first_seen": false,
-     "error": "no sitemap.xml"
+     "ok": true,
+     "first_seen": true,
+     "error": null,
+     "categories": {}
     },
     "oliver-bonas": {
-     "product_count": null,
+     "product_count": 5466,
      "new_count": 0,
      "removed_count": 0,
      "new_samples": [],
-     "ok": false,
-     "first_seen": false,
-     "error": "no product URLs in sitemap"
+     "ok": true,
+     "first_seen": true,
+     "error": null,
+     "categories": {
+      "bags": 229,
+      "scarves": 118,
+      "purses": 35,
+      "accessories": 42,
+      "gifting": 71,
+      "personalised": 44,
+      "sentiment": 1,
+      "new_in": 4
+     }
     },
     "leo-et-violette": {
      "product_count": null,

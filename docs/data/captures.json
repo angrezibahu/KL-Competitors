@@ -51433,7 +51433,7 @@
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:36:16Z",
+  "captured_at": "2026-07-08T13:59:59Z",
   "brand": "Katie Loxton",
   "slug": "katie-loxton",
   "url": "https://www.katieloxton.com/",
@@ -51562,11 +51562,11 @@
     5
    ],
    [
-    "cookies",
+    "summer",
     4
    ],
    [
-    "summer",
+    "delivery",
     4
    ]
   ],
@@ -51619,7 +51619,14 @@
    "has_bnpl": true,
    "email_capture_offer": "10% off",
    "free_delivery_threshold": 40,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -51630,17 +51637,6 @@
    "has_reviews": true,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "social",
-    "handle": "@katie.loxton",
-    "url": "https://www.tiktok.com/@katie.loxton"
-   }
   },
   "seo": {
    "title": "Katie Loxton™ | Up to 50% Off Summer Sale*",
@@ -51661,12 +51657,12 @@
     "WebPage",
     "SpeakableSpecification"
    ],
-   "word_count": 2066,
-   "image_count": 47,
-   "internal_link_count": 577
+   "word_count": 2023,
+   "image_count": 48,
+   "internal_link_count": 575
   },
   "accessibility": {
-   "score": 89,
+   "score": 88,
    "grade": "B",
    "checks": [
     {
@@ -51700,10 +51696,10 @@
      "id": "img_alt",
      "label": "Images have alt attributes",
      "weight": 20,
-     "ratio": 0.894,
+     "ratio": 0.875,
      "passed": false,
      "applicable": true,
-     "detail": "42/47 images"
+     "detail": "42/48 images"
     },
     {
      "id": "link_text",
@@ -51712,7 +51708,7 @@
      "ratio": 0.933,
      "passed": true,
      "applicable": true,
-     "detail": "528/566 links"
+     "detail": "526/564 links"
     },
     {
      "id": "button_name",
@@ -51721,7 +51717,7 @@
      "ratio": 0.966,
      "passed": true,
      "applicable": true,
-     "detail": "86/89 buttons"
+     "detail": "85/88 buttons"
     },
     {
      "id": "form_labels",
@@ -51760,46 +51756,47 @@
      "detail": "present"
     }
    ],
-   "images_total": 47,
+   "images_total": 48,
    "images_with_alt": 42,
-   "links_total": 566,
-   "links_with_text": 528
+   "links_total": 564,
+   "links_with_text": 526
   },
   "colours": [
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.5312
+    "share": 0.5605
    },
    {
-    "hex": "#d7d7d7",
-    "name": "blush",
-    "share": 0.1826
-   },
-   {
-    "hex": "#474642",
-    "name": "navy",
-    "share": 0.134
-   },
-   {
-    "hex": "#f7f6f2",
+    "hex": "#f2f1ed",
     "name": "white",
-    "share": 0.0881
+    "share": 0.1745
+   },
+   {
+    "hex": "#b7a490",
+    "name": "tan",
+    "share": 0.1348
+   },
+   {
+    "hex": "#fafafa",
+    "name": "white",
+    "share": 0.1055
+   },
+   {
+    "hex": "#fffffe",
+    "name": "white",
+    "share": 0.022
    },
    {
     "hex": "#feffff",
     "name": "white",
-    "share": 0.0483
-   },
-   {
-    "hex": "#707070",
-    "name": "grey",
-    "share": 0.0158
+    "share": 0.0027
    }
   ],
   "screenshot": "screenshots/katie-loxton/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/katie-loxton/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 38,
    "prices": {
@@ -51856,16 +51853,43 @@
    "sale_pairs": [],
    "new_in_mentions": 0,
    "url": "https://www.katieloxton.com/collections/bags"
+  },
+  "delivery_info": {
+   "options": [
+    {
+     "name": "Free Standard Delivery",
+     "price": "£40"
+    },
+    {
+     "name": "Uk Standard Delivery",
+     "price": "free"
+    },
+    {
+     "name": "Express Delivery",
+     "price": "£4.95"
+    }
+   ],
+   "free_threshold": 40,
+   "express": true,
+   "express_cutoff": null,
+   "click_collect": false,
+   "url": "https://www.katieloxton.com/orders-and-delivery"
+  },
+  "returns_info": {
+   "window_days": null,
+   "free_returns": true,
+   "exchanges": true,
+   "url": "https://www.katieloxton.com/orders-and-delivery"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:36:28Z",
+  "captured_at": "2026-07-08T14:00:42Z",
   "brand": "Strathberry",
   "slug": "strathberry",
   "url": "https://www.strathberry.com/",
   "is_self": false,
-  "hero_message": "SALE\nBAGS\nACCESSORIES\nNEW\nGIFTS\nDISCOVER\nShip to:  GB\nAccount",
+  "hero_message": "Free delivery & returns*",
   "menu": [
    "Sale",
    "Bags",
@@ -51884,7 +51908,9 @@
   ],
   "headline_offer": "up to 30% off",
   "max_discount_pct": 35,
-  "delivery": [],
+  "delivery": [
+   "free delivery"
+  ],
   "discount_codes": [],
   "product_mix": {
    "bags": {
@@ -51954,6 +51980,14 @@
     3
    ],
    [
+    "delivery",
+    2
+   ],
+   [
+    "returns",
+    2
+   ],
+   [
     "vanilla",
     2
    ],
@@ -51979,14 +52013,6 @@
    ],
    [
     "product",
-    2
-   ],
-   [
-    "craftsmanship",
-    2
-   ],
-   [
-    "stories",
     2
    ]
   ],
@@ -52028,8 +52054,15 @@
    ],
    "has_bnpl": true,
    "email_capture_offer": "10% off",
-   "free_delivery_threshold": null,
-   "scarcity": []
+   "free_delivery_threshold": 0,
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": "refer a friend",
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": "Gorgias"
   },
   "reputation": {
    "rating": null,
@@ -52042,17 +52075,6 @@
    "source": null,
    "confidence": null
   },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "social",
-    "handle": "@strathberry",
-    "url": "https://www.tiktok.com/@strathberry"
-   }
-  },
   "seo": {
    "title": "Luxury designer handbags | Strathberry",
    "title_length": 38,
@@ -52063,16 +52085,16 @@
    "h1": [
     "Strathberry | Our homepage",
     "New Arrivals",
+    "As Seen On",
     "Summer Sale",
-    "Bestsellers",
-    "As Seen On"
+    "Bestsellers"
    ],
    "h1_count": 6,
    "h2_count": 1,
    "canonical": "https://www.strathberry.com",
    "structured_data_types": [],
-   "word_count": 442,
-   "image_count": 160,
+   "word_count": 446,
+   "image_count": 168,
    "internal_link_count": 104
   },
   "accessibility": {
@@ -52113,7 +52135,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "160/160 images"
+     "detail": "168/168 images"
     },
     {
      "id": "link_text",
@@ -52131,7 +52153,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "40/40 buttons"
+     "detail": "41/41 buttons"
     },
     {
      "id": "form_labels",
@@ -52170,46 +52192,47 @@
      "detail": "present"
     }
    ],
-   "images_total": 160,
-   "images_with_alt": 160,
+   "images_total": 168,
+   "images_with_alt": 168,
    "links_total": 104,
    "links_with_text": 99
   },
   "colours": [
    {
+    "hex": "#2b2720",
+    "name": "black",
+    "share": 0.2304
+   },
+   {
+    "hex": "#8b725b",
+    "name": "grey",
+    "share": 0.1921
+   },
+   {
     "hex": "#fdfdfb",
     "name": "white",
-    "share": 0.2081
-   },
-   {
-    "hex": "#433728",
-    "name": "navy",
-    "share": 0.2041
-   },
-   {
-    "hex": "#777669",
-    "name": "grey",
-    "share": 0.1811
+    "share": 0.1847
    },
    {
     "hex": "#f7f7f5",
     "name": "white",
-    "share": 0.157
+    "share": 0.1502
    },
    {
-    "hex": "#a38f7a",
-    "name": "grey",
-    "share": 0.1327
-   },
-   {
-    "hex": "#d9d4ca",
+    "hex": "#cfc6bc",
     "name": "beige",
-    "share": 0.1169
+    "share": 0.1319
+   },
+   {
+    "hex": "#676555",
+    "name": "brown",
+    "share": 0.1106
    }
   ],
   "screenshot": "screenshots/strathberry/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/strathberry/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 18,
    "prices": {
@@ -52246,27 +52269,45 @@
    "sale_pairs": [],
    "new_in_mentions": 0,
    "url": "https://www.strathberry.com/collections/all"
+  },
+  "delivery_info": {
+   "options": [
+    {
+     "name": "Express Delivery",
+     "price": "£150"
+    }
+   ],
+   "free_threshold": null,
+   "express": true,
+   "express_cutoff": null,
+   "click_collect": false,
+   "url": "https://www.strathberry.com/pages/delivery"
+  },
+  "returns_info": {
+   "window_days": null,
+   "free_returns": true,
+   "exchanges": true,
+   "url": "https://www.strathberry.com/a/return"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:36:38Z",
+  "captured_at": "2026-07-08T14:01:22Z",
   "brand": "DeMellier",
   "slug": "demellier",
   "url": "https://demellierlondon.com/",
   "is_self": false,
-  "hero_message": "Enjoy 10% Off",
+  "hero_message": "collections sale",
   "menu": [
    "New Arrivals",
    "Bags",
    "About"
   ],
   "offers": [
-   "10% off",
    "sale"
   ],
-  "headline_offer": "10% off",
-  "max_discount_pct": 10,
+  "headline_offer": "sale",
+  "max_discount_pct": null,
   "delivery": [
    "free shipping"
   ],
@@ -52367,7 +52408,7 @@
     1
    ],
    [
-    "states",
+    "kingdom",
     1
    ]
   ],
@@ -52390,7 +52431,14 @@
    "has_bnpl": true,
    "email_capture_offer": null,
    "free_delivery_threshold": 0,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -52399,17 +52447,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": "DeMellier",
@@ -52430,9 +52467,9 @@
     "BreadcrumbList",
     "ListItem"
    ],
-   "word_count": 1099,
+   "word_count": 1096,
    "image_count": 22,
-   "internal_link_count": 295
+   "internal_link_count": 297
   },
   "accessibility": {
    "score": 92,
@@ -52481,7 +52518,7 @@
      "ratio": 0.956,
      "passed": true,
      "applicable": true,
-     "detail": "282/295 links"
+     "detail": "284/297 links"
     },
     {
      "id": "button_name",
@@ -52490,7 +52527,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "27/27 buttons"
+     "detail": "26/26 buttons"
     },
     {
      "id": "form_labels",
@@ -52531,48 +52568,119 @@
    ],
    "images_total": 22,
    "images_with_alt": 22,
-   "links_total": 295,
-   "links_with_text": 282
+   "links_total": 297,
+   "links_with_text": 284
   },
   "colours": [
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.7051
+    "share": 0.2721
    },
    {
-    "hex": "#e5e6e4",
-    "name": "cream",
-    "share": 0.1239
+    "hex": "#5a4a37",
+    "name": "brown",
+    "share": 0.2567
    },
    {
-    "hex": "#989085",
-    "name": "grey",
-    "share": 0.1078
+    "hex": "#aca8a2",
+    "name": "sage",
+    "share": 0.2456
    },
    {
-    "hex": "#f4f4f4",
+    "hex": "#e9eae9",
     "name": "white",
-    "share": 0.039
+    "share": 0.1715
    },
    {
     "hex": "#fffffe",
     "name": "white",
-    "share": 0.0234
+    "share": 0.0476
    },
    {
     "hex": "#feffff",
     "name": "white",
-    "share": 0.0008
+    "share": 0.0065
    }
   ],
   "screenshot": "screenshots/demellier/2026-07-08.jpg",
   "status": "success",
-  "error": null
+  "error": null,
+  "screenshot_mobile": "screenshots/demellier/2026-07-08-mobile.jpg",
+  "listing": {
+   "products_seen": 24,
+   "prices": {
+    "count": 24,
+    "currency": "GBP",
+    "min": 395.0,
+    "p25": 425.0,
+    "median": 475.0,
+    "p75": 502.5,
+    "max": 585.0,
+    "sample": [
+     395.0,
+     395.0,
+     415.0,
+     415.0,
+     425.0,
+     425.0,
+     425.0,
+     425.0,
+     450.0,
+     450.0,
+     450.0,
+     475.0,
+     475.0,
+     475.0,
+     475.0,
+     495.0,
+     495.0,
+     495.0,
+     525.0,
+     540.0,
+     550.0,
+     550.0,
+     585.0,
+     585.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 0,
+   "url": "https://demellierlondon.com/collections/all-bags"
+  },
+  "delivery_info": {
+   "options": [
+    {
+     "name": "Standard Delivery",
+     "price": "free"
+    },
+    {
+     "name": "Express Delivery",
+     "price": "£8"
+    },
+    {
+     "name": "Next Day Delivery",
+     "price": "£12"
+    }
+   ],
+   "free_threshold": 0,
+   "express": true,
+   "express_cutoff": null,
+   "click_collect": false,
+   "url": "https://demellierlondon.com/pages/shipping"
+  },
+  "returns_info": {
+   "window_days": 28,
+   "free_returns": null,
+   "exchanges": true,
+   "url": "https://demellierlondon.com/pages/returns"
+  }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:36:51Z",
+  "captured_at": "2026-07-08T14:02:13Z",
   "brand": "Charles & Keith",
   "slug": "charles-keith",
   "url": "https://www.charleskeith.co.uk/gb",
@@ -52730,7 +52838,14 @@
    "free_delivery_threshold": 0,
    "scarcity": [
     "back in stock"
-   ]
+   ],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": "personalise your",
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -52739,17 +52854,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "social",
-    "handle": "@charleskeithofficial",
-    "url": "https://www.tiktok.com/@charleskeithofficial"
-   }
   },
   "seo": {
    "title": "CHARLES & KEITH - Shop the official site",
@@ -52772,12 +52876,12 @@
     "Organization",
     "ContactPoint"
    ],
-   "word_count": 1499,
-   "image_count": 256,
-   "internal_link_count": 710
+   "word_count": 1463,
+   "image_count": 254,
+   "internal_link_count": 709
   },
   "accessibility": {
-   "score": 88,
+   "score": 89,
    "grade": "B",
    "checks": [
     {
@@ -52814,7 +52918,7 @@
      "ratio": 0.984,
      "passed": true,
      "applicable": true,
-     "detail": "252/256 images"
+     "detail": "250/254 images"
     },
     {
      "id": "link_text",
@@ -52823,7 +52927,7 @@
      "ratio": 0.846,
      "passed": false,
      "applicable": true,
-     "detail": "600/709 links"
+     "detail": "599/708 links"
     },
     {
      "id": "button_name",
@@ -52838,10 +52942,10 @@
      "id": "form_labels",
      "label": "Form fields have labels",
      "weight": 8,
-     "ratio": 0.571,
+     "ratio": 0.667,
      "passed": false,
      "applicable": true,
-     "detail": "4/7 fields"
+     "detail": "4/6 fields"
     },
     {
      "id": "headings",
@@ -52871,46 +52975,47 @@
      "detail": "present"
     }
    ],
-   "images_total": 256,
-   "images_with_alt": 252,
-   "links_total": 709,
-   "links_with_text": 600
+   "images_total": 254,
+   "images_with_alt": 250,
+   "links_total": 708,
+   "links_with_text": 599
   },
   "colours": [
    {
+    "hex": "#f3f2f3",
+    "name": "white",
+    "share": 0.2442
+   },
+   {
+    "hex": "#807269",
+    "name": "grey",
+    "share": 0.1877
+   },
+   {
+    "hex": "#e6e4e2",
+    "name": "cream",
+    "share": 0.181
+   },
+   {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.2215
-   },
-   {
-    "hex": "#efeeee",
-    "name": "white",
-    "share": 0.2108
-   },
-   {
-    "hex": "#978a82",
-    "name": "grey",
-    "share": 0.1581
+    "share": 0.1713
    },
    {
     "hex": "#fefefe",
     "name": "white",
-    "share": 0.1542
+    "share": 0.1392
    },
    {
-    "hex": "#e5e3e1",
-    "name": "cream",
-    "share": 0.1433
-   },
-   {
-    "hex": "#f8f8f8",
+    "hex": "#fbfbfb",
     "name": "white",
-    "share": 0.1122
+    "share": 0.0765
    }
   ],
   "screenshot": "screenshots/charles-keith/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/charles-keith/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 24,
    "prices": {
@@ -52953,11 +53058,30 @@
    "sale_pairs": [],
    "new_in_mentions": 3,
    "url": "https://www.charleskeith.co.uk/gb/bags"
+  },
+  "delivery_info": {
+   "options": [
+    {
+     "name": "Free Delivery",
+     "price": "£75"
+    }
+   ],
+   "free_threshold": 0,
+   "express": true,
+   "express_cutoff": null,
+   "click_collect": false,
+   "url": "https://www.charleskeith.co.uk/gb/information/customer-care/faq/shipping-and-tracking.html"
+  },
+  "returns_info": {
+   "window_days": 30,
+   "free_returns": true,
+   "exchanges": true,
+   "url": "https://www.charleskeith.co.uk/gb/information/customer-care/faq/returns-and-exchanges.html"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:08Z",
+  "captured_at": "2026-07-08T14:03:10Z",
   "brand": "Polene",
   "slug": "polene",
   "url": "https://uk.polene-paris.com/",
@@ -52997,7 +53121,14 @@
    "has_bnpl": false,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -53006,17 +53137,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": null,
@@ -53168,119 +53288,190 @@
   ],
   "screenshot": "screenshots/polene/2026-07-08.jpg",
   "status": "success",
-  "error": null
+  "error": null,
+  "screenshot_mobile": "screenshots/polene/2026-07-08-mobile.jpg",
+  "listing": {
+   "products_seen": 48,
+   "prices": {
+    "count": 20,
+    "currency": "GBP",
+    "min": 160.0,
+    "p25": 347.5,
+    "median": 405.0,
+    "p75": 442.5,
+    "max": 540.0,
+    "sample": [
+     160.0,
+     180.0,
+     180.0,
+     260.0,
+     340.0,
+     350.0,
+     370.0,
+     380.0,
+     390.0,
+     390.0,
+     420.0,
+     420.0,
+     440.0,
+     440.0,
+     440.0,
+     450.0,
+     460.0,
+     480.0,
+     480.0,
+     540.0
+    ]
+   },
+   "on_sale_count": 0,
+   "discounted_share": 0.0,
+   "sale_pairs": [],
+   "new_in_mentions": 0,
+   "url": "https://uk.polene-paris.com/collections/handbags"
+  }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:14Z",
+  "captured_at": "2026-07-08T14:03:32Z",
   "brand": "Loewe",
   "slug": "loewe",
   "url": "https://www.loewe.com/eur/en/home",
   "is_self": false,
-  "hero_message": null,
-  "menu": [],
+  "hero_message": "Summer Baskets",
+  "menu": [
+   "Women",
+   "Men",
+   "Gifts"
+  ],
   "offers": [],
-  "headline_offer": "42% off",
-  "max_discount_pct": 42,
+  "headline_offer": null,
+  "max_discount_pct": null,
   "delivery": [],
   "discount_codes": [],
-  "product_mix": {},
+  "product_mix": {
+   "bags": {
+    "count": 3,
+    "share": 0.4286
+   },
+   "accessories": {
+    "count": 3,
+    "share": 0.4286
+   },
+   "gifting": {
+    "count": 1,
+    "share": 0.1429
+   }
+  },
   "keywords": [
    [
-    "ifl",
+    "baskets",
+    5
+   ],
+   [
+    "shoes",
+    4
+   ],
+   [
+    "skip",
+    3
+   ],
+   [
+    "bags",
+    3
+   ],
+   [
+    "accessories",
+    3
+   ],
+   [
+    "summer",
     2
    ],
    [
-    "pbrb",
+    "leather",
     2
    ],
    [
-    "ofq",
+    "flats",
+    2
+   ],
+   [
+    "motif",
+    2
+   ],
+   [
+    "wardrobe",
+    2
+   ],
+   [
+    "staples",
+    2
+   ],
+   [
+    "womenswear",
+    2
+   ],
+   [
+    "sunglasses",
+    2
+   ],
+   [
+    "collection",
+    2
+   ],
+   [
+    "main",
     1
    ],
    [
-    "uvkm",
+    "content",
     1
    ],
    [
-    "tiq",
+    "footer",
     1
    ],
    [
-    "yef",
+    "women",
     1
    ],
    [
-    "dkq",
+    "men",
     1
    ],
    [
-    "zzgp",
-    1
-   ],
-   [
-    "nznu",
-    1
-   ],
-   [
-    "bel",
-    1
-   ],
-   [
-    "fpe",
-    1
-   ],
-   [
-    "yloo",
-    1
-   ],
-   [
-    "roovx",
-    1
-   ],
-   [
-    "fva",
-    1
-   ],
-   [
-    "htn",
-    1
-   ],
-   [
-    "mza",
-    1
-   ],
-   [
-    "zvnzp'",
-    1
-   ],
-   [
-    "ywy",
-    1
-   ],
-   [
-    "lwz",
-    1
-   ],
-   [
-    "ccg",
+    "art",
     1
    ]
   ],
   "prices": {
-   "count": 0,
+   "count": 6,
    "currency": "GBP",
-   "min": null,
-   "median": null,
-   "max": null,
-   "sample": []
+   "min": 490.0,
+   "median": 940.0,
+   "max": 1990.0,
+   "sample": [
+    490.0,
+    890.0,
+    890.0,
+    990.0,
+    1350.0,
+    1990.0
+   ]
   },
   "trading": {
    "finance": [],
    "has_bnpl": false,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -53290,63 +53481,58 @@
    "source": null,
    "confidence": null
   },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
-  },
   "seo": {
-   "title": null,
-   "title_length": 0,
-   "meta_description": null,
-   "meta_description_length": 0,
-   "og_title": null,
-   "og_image": null,
-   "h1": [],
-   "h1_count": 0,
-   "h2_count": 0,
-   "canonical": null,
-   "structured_data_types": [],
-   "word_count": 1676,
-   "image_count": 0,
-   "internal_link_count": 0
+   "title": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website",
+   "title_length": 89,
+   "meta_description": "Explore all the latest collections: bags, leather goods, ready to wear, clothing, shoes, jewellery and sunglasses for men and women on the Loewe online store",
+   "meta_description_length": 157,
+   "og_title": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website",
+   "og_image": "https://www.loewe.com/mobify/bundle/2267/static/img/anagram.svg",
+   "h1": [
+    "LOEWE USA Official Website"
+   ],
+   "h1_count": 1,
+   "h2_count": 10,
+   "canonical": "https://www.loewe.com/usa/en/home",
+   "structured_data_types": [
+    "Corporation",
+    "WebSite",
+    "SearchAction"
+   ],
+   "word_count": 1198,
+   "image_count": 24,
+   "internal_link_count": 81
   },
   "accessibility": {
-   "score": 53,
-   "grade": "E",
+   "score": 100,
+   "grade": "A",
    "checks": [
     {
      "id": "html_lang",
      "label": "Page language declared (<html lang>)",
      "weight": 10,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "missing lang attribute"
+     "detail": "lang=\"en-US\""
     },
     {
      "id": "doc_title",
      "label": "Document has a <title>",
      "weight": 8,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "missing title"
+     "detail": "Loewe | Designer Bags, Clothing, Accessories for Women & Men - LOEWE USA Official Website"
     },
     {
      "id": "viewport",
      "label": "Responsive viewport meta tag",
      "weight": 6,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "missing"
+     "detail": "present"
     },
     {
      "id": "img_alt",
@@ -53354,17 +53540,17 @@
      "weight": 20,
      "ratio": 1.0,
      "passed": true,
-     "applicable": false,
-     "detail": "no images on page"
+     "applicable": true,
+     "detail": "24/24 images"
     },
     {
      "id": "link_text",
      "label": "Links have discernible text",
      "weight": 15,
-     "ratio": 1.0,
+     "ratio": 0.988,
      "passed": true,
-     "applicable": false,
-     "detail": "no links"
+     "applicable": true,
+     "detail": "80/81 links"
     },
     {
      "id": "button_name",
@@ -53372,8 +53558,8 @@
      "weight": 8,
      "ratio": 1.0,
      "passed": true,
-     "applicable": false,
-     "detail": "no buttons"
+     "applicable": true,
+     "detail": "105/105 buttons"
     },
     {
      "id": "form_labels",
@@ -53381,77 +53567,78 @@
      "weight": 8,
      "ratio": 1.0,
      "passed": true,
-     "applicable": false,
-     "detail": "no form fields"
+     "applicable": true,
+     "detail": "73/73 fields"
     },
     {
      "id": "headings",
      "label": "Clear heading structure (single H1)",
      "weight": 10,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "no headings found"
+     "detail": "exactly one <h1>"
     },
     {
      "id": "landmarks",
      "label": "Landmark regions (main, nav)",
      "weight": 8,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "no landmarks"
+     "detail": "main + nav"
     },
     {
      "id": "skip_link",
      "label": "Skip-to-content link",
      "weight": 3,
-     "ratio": 0.0,
-     "passed": false,
+     "ratio": 1.0,
+     "passed": true,
      "applicable": true,
-     "detail": "none found"
+     "detail": "present"
     }
    ],
-   "images_total": 0,
-   "images_with_alt": 0,
-   "links_total": 0,
-   "links_with_text": 0
+   "images_total": 24,
+   "images_with_alt": 24,
+   "links_total": 81,
+   "links_with_text": 80
   },
   "colours": [
    {
+    "hex": "#281417",
+    "name": "black",
+    "share": 0.2289
+   },
+   {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.5514
+    "share": 0.1808
    },
    {
-    "hex": "#bfc0bf",
-    "name": "lilac",
-    "share": 0.1388
+    "hex": "#bf8374",
+    "name": "tan",
+    "share": 0.1717
    },
    {
-    "hex": "#cccdcc",
+    "hex": "#f8f7f6",
+    "name": "white",
+    "share": 0.1643
+   },
+   {
+    "hex": "#d7cfc3",
     "name": "beige",
-    "share": 0.1073
+    "share": 0.131
    },
    {
-    "hex": "#b6b7b6",
-    "name": "sage",
-    "share": 0.0973
-   },
-   {
-    "hex": "#ededed",
-    "name": "white",
-    "share": 0.0764
-   },
-   {
-    "hex": "#feffff",
-    "name": "white",
-    "share": 0.0288
+    "hex": "#6b6257",
+    "name": "brown",
+    "share": 0.1233
    }
   ],
   "screenshot": "screenshots/loewe/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/loewe/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 53,
    "prices": {
@@ -53490,13 +53677,19 @@
    "on_sale_count": 0,
    "discounted_share": 0.0,
    "sale_pairs": [],
-   "new_in_mentions": 6,
+   "new_in_mentions": 13,
    "url": "https://www.loewe.com/eur/en/women/bags"
+  },
+  "returns_info": {
+   "window_days": null,
+   "free_returns": null,
+   "exchanges": false,
+   "url": "https://www.loewe.com/usa/en/loginReturn"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:24Z",
+  "captured_at": "2026-07-08T14:04:34Z",
   "brand": "The White Company",
   "slug": "white-company",
   "url": "https://www.thewhitecompany.com/uk/",
@@ -53604,7 +53797,14 @@
    "has_bnpl": false,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -53613,17 +53813,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": "The White Company - US",
@@ -53777,11 +53966,12 @@
   ],
   "screenshot": "screenshots/white-company/2026-07-08.jpg",
   "status": "success",
-  "error": null
+  "error": null,
+  "screenshot_mobile": "screenshots/white-company/2026-07-08-mobile.jpg"
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:32Z",
+  "captured_at": "2026-07-08T14:04:55Z",
   "brand": "Mejuri",
   "slug": "mejuri",
   "url": "https://mejuri.com/gb/en/",
@@ -53825,12 +54015,16 @@
     9
    ],
    [
-    "mejuri",
+    "stores",
     8
    ],
    [
     "vermeil",
     8
+   ],
+   [
+    "mejuri",
+    7
    ],
    [
     "hoops",
@@ -53849,20 +54043,16 @@
     7
    ],
    [
-    "stores",
-    7
-   ],
-   [
     "huggie",
     5
    ],
    [
-    "play",
+    "piercing",
     4
    ],
    [
-    "piercing",
-    4
+    "play",
+    3
    ],
    [
     "store",
@@ -53885,15 +54075,15 @@
     3
    ],
    [
-    "win",
-    2
-   ],
-   [
-    "guide",
-    2
-   ],
-   [
     "fine",
+    2
+   ],
+   [
+    "everyday",
+    2
+   ],
+   [
+    "top",
     2
    ]
   ],
@@ -53924,7 +54114,14 @@
    "has_bnpl": true,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": true,
+   "live_chat": "Gorgias"
   },
   "reputation": {
    "rating": null,
@@ -53935,17 +54132,6 @@
    "has_reviews": true,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": "Fine Jewelry For Every Day | Mejuri",
@@ -53963,13 +54149,14 @@
    "h2_count": 5,
    "canonical": "https://mejuri.com/gb/en/",
    "structured_data_types": [
-    "Article",
     "Organization",
+    "PostalAddress",
+    "Article",
     "ImageObject",
     "Person"
    ],
-   "word_count": 545,
-   "image_count": 30,
+   "word_count": 539,
+   "image_count": 28,
    "internal_link_count": 72
   },
   "accessibility": {
@@ -54010,7 +54197,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "30/30 images"
+     "detail": "28/28 images"
     },
     {
      "id": "link_text",
@@ -54025,10 +54212,10 @@
      "id": "button_name",
      "label": "Buttons have accessible names",
      "weight": 8,
-     "ratio": 0.932,
+     "ratio": 0.931,
      "passed": true,
      "applicable": true,
-     "detail": "55/59 buttons"
+     "detail": "54/58 buttons"
     },
     {
      "id": "form_labels",
@@ -54067,46 +54254,47 @@
      "detail": "present"
     }
    ],
-   "images_total": 30,
-   "images_with_alt": 30,
+   "images_total": 28,
+   "images_with_alt": 28,
    "links_total": 72,
    "links_with_text": 72
   },
   "colours": [
    {
-    "hex": "#92947f",
-    "name": "grey",
-    "share": 0.2388
-   },
-   {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.2356
+    "share": 0.2355
    },
    {
     "hex": "#424039",
     "name": "navy",
-    "share": 0.2295
+    "share": 0.1949
    },
    {
-    "hex": "#f8f8f7",
+    "hex": "#75846a",
+    "name": "grey",
+    "share": 0.1917
+   },
+   {
+    "hex": "#eeeeed",
     "name": "white",
-    "share": 0.1392
-   },
-   {
-    "hex": "#e2e2e0",
-    "name": "cream",
-    "share": 0.1223
+    "share": 0.1354
    },
    {
     "hex": "#fefefe",
     "name": "white",
-    "share": 0.0346
+    "share": 0.1239
+   },
+   {
+    "hex": "#b0a697",
+    "name": "sage",
+    "share": 0.1186
    }
   ],
   "screenshot": "screenshots/mejuri/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/mejuri/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 53,
    "prices": {
@@ -54165,11 +54353,25 @@
    "sale_pairs": [],
    "new_in_mentions": 1,
    "url": "https://mejuri.com/gb/en/collections/shop-all"
+  },
+  "delivery_info": {
+   "options": [],
+   "free_threshold": null,
+   "express": false,
+   "express_cutoff": null,
+   "click_collect": false,
+   "url": "https://mejuri.com/gb/en/faq/order-shipping"
+  },
+  "returns_info": {
+   "window_days": null,
+   "free_returns": null,
+   "exchanges": true,
+   "url": "https://mejuri.com/gb/en/faq/return-exchanges"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:46Z",
+  "captured_at": "2026-07-08T14:05:33Z",
   "brand": "Sezane",
   "slug": "sezane",
   "url": "https://www.sezane.com/en-en",
@@ -54196,7 +54398,14 @@
    "has_bnpl": false,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -54205,17 +54414,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": "sezane.com",
@@ -54337,41 +54535,42 @@
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.9578
+    "share": 0.9583
    },
    {
     "hex": "#bcbdbc",
     "name": "lilac",
-    "share": 0.0173
+    "share": 0.0167
    },
    {
-    "hex": "#dcdcdb",
+    "hex": "#dbdcdb",
     "name": "cream",
-    "share": 0.0137
+    "share": 0.0139
    },
    {
-    "hex": "#f7f8f7",
+    "hex": "#f8f8f7",
     "name": "white",
-    "share": 0.0058
+    "share": 0.006
    },
    {
     "hex": "#fefffe",
     "name": "white",
-    "share": 0.0045
+    "share": 0.0044
    },
    {
     "hex": "#fffffe",
     "name": "white",
-    "share": 0.0009
+    "share": 0.0008
    }
   ],
   "screenshot": "screenshots/sezane/2026-07-08.jpg",
   "status": "success",
-  "error": null
+  "error": null,
+  "screenshot_mobile": "screenshots/sezane/2026-07-08-mobile.jpg"
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:52Z",
+  "captured_at": "2026-07-08T14:05:58Z",
   "brand": "Coach",
   "slug": "coach",
   "url": "https://uk.coach.com/",
@@ -54382,7 +54581,7 @@
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:37:56Z",
+  "captured_at": "2026-07-08T14:06:15Z",
   "brand": "Oliver Bonas",
   "slug": "oliver-bonas",
   "url": "https://www.oliverbonas.com/",
@@ -54563,7 +54762,14 @@
    "has_bnpl": true,
    "email_capture_offer": "10% off",
    "free_delivery_threshold": 60,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": "copy"
   },
   "reputation": {
    "rating": null,
@@ -54574,17 +54780,6 @@
    "has_reviews": true,
    "source": "text",
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "social",
-    "handle": "@oliverbonas",
-    "url": "https://www.tiktok.com/@oliverbonas?_t=8gCh17GEjGT&amp;_r=1"
-   }
   },
   "seo": {
    "title": "Oliver Bonas | Fashion, Jewellery, Homeware & Gifts",
@@ -54709,7 +54904,7 @@
    {
     "hex": "#fffef8",
     "name": "white",
-    "share": 0.2461
+    "share": 0.246
    },
    {
     "hex": "#de9e63",
@@ -54740,6 +54935,7 @@
   "screenshot": "screenshots/oliver-bonas/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/oliver-bonas/2026-07-08-mobile.jpg",
   "listing": {
    "products_seen": 47,
    "prices": {
@@ -54798,11 +54994,30 @@
    "sale_pairs": [],
    "new_in_mentions": 18,
    "url": "https://www.oliverbonas.com/accessories/bags"
+  },
+  "delivery_info": {
+   "options": [
+    {
+     "name": "Free Delivery",
+     "price": "£60"
+    }
+   ],
+   "free_threshold": 60,
+   "express": true,
+   "express_cutoff": "7pm",
+   "click_collect": true,
+   "url": "https://www.oliverbonas.com/delivery-information"
+  },
+  "returns_info": {
+   "window_days": 30,
+   "free_returns": true,
+   "exchanges": true,
+   "url": "https://www.oliverbonas.com/returns-and-refunds"
   }
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:38:10Z",
+  "captured_at": "2026-07-08T14:07:26Z",
   "brand": "Leo et Violette",
   "slug": "leo-et-violette",
   "url": "https://www.leoetviolette.com/en-uk",
@@ -54821,17 +55036,17 @@
   ],
   "discount_codes": [],
   "product_mix": {
-   "new_in": {
-    "count": 2,
+   "bags": {
+    "count": 3,
     "share": 0.5
    },
-   "bags": {
-    "count": 1,
-    "share": 0.25
+   "new_in": {
+    "count": 2,
+    "share": 0.3333
    },
    "personalised": {
     "count": 1,
-    "share": 0.25
+    "share": 0.1667
    }
   },
   "keywords": [
@@ -54840,11 +55055,35 @@
     3
    ],
    [
+    "duo",
+    3
+   ],
+   [
+    "delivery",
+    3
+   ],
+   [
     "usa",
     2
    ],
    [
     "canada",
+    2
+   ],
+   [
+    "english",
+    2
+   ],
+   [
+    "collection",
+    2
+   ],
+   [
+    "laurence",
+    2
+   ],
+   [
+    "gina",
     2
    ],
    [
@@ -54872,48 +55111,24 @@
     2
    ],
    [
-    "skip",
-    1
+    "newsletter",
+    2
    ],
    [
-    "content",
-    1
+    "enjoy",
+    2
    ],
    [
-    "violette",
-    1
+    "first",
+    2
    ],
    [
-    "bags",
-    1
+    "order",
+    2
    ],
    [
-    "small",
-    1
-   ],
-   [
-    "leather",
-    1
-   ],
-   [
-    "goods",
-    1
-   ],
-   [
-    "archives",
-    1
-   ],
-   [
-    "usd",
-    1
-   ],
-   [
-    "english",
-    1
-   ],
-   [
-    "page",
-    1
+    "exclusive",
+    2
    ]
   ],
   "prices": {
@@ -54933,7 +55148,14 @@
    "has_bnpl": true,
    "email_capture_offer": null,
    "free_delivery_threshold": 0,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": "Gorgias"
   },
   "reputation": {
    "rating": null,
@@ -54944,17 +55166,6 @@
    "has_reviews": true,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": "Léo et Violette - Elegant and accessible leather goods",
@@ -54976,8 +55187,8 @@
     "SearchAction",
     "Organization"
    ],
-   "word_count": 349,
-   "image_count": 28,
+   "word_count": 379,
+   "image_count": 29,
    "internal_link_count": 99
   },
   "accessibility": {
@@ -55018,7 +55229,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "28/28 images"
+     "detail": "29/29 images"
     },
     {
      "id": "link_text",
@@ -55036,7 +55247,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "26/26 buttons"
+     "detail": "29/29 buttons"
     },
     {
      "id": "form_labels",
@@ -55045,7 +55256,7 @@
      "ratio": 1.0,
      "passed": true,
      "applicable": true,
-     "detail": "2/2 fields"
+     "detail": "5/5 fields"
     },
     {
      "id": "headings",
@@ -55075,48 +55286,49 @@
      "detail": "present"
     }
    ],
-   "images_total": 28,
-   "images_with_alt": 28,
+   "images_total": 29,
+   "images_with_alt": 29,
    "links_total": 99,
    "links_with_text": 88
   },
   "colours": [
    {
-    "hex": "#28221d",
+    "hex": "#26231f",
     "name": "black",
-    "share": 0.236
+    "share": 0.2118
    },
    {
     "hex": "#ffffff",
     "name": "white",
-    "share": 0.2051
+    "share": 0.2082
    },
    {
-    "hex": "#c1bcb4",
-    "name": "sage",
-    "share": 0.1927
-   },
-   {
-    "hex": "#92887a",
-    "name": "grey",
-    "share": 0.1611
-   },
-   {
-    "hex": "#675a4b",
+    "hex": "#564f45",
     "name": "brown",
-    "share": 0.1248
+    "share": 0.176
    },
    {
-    "hex": "#f5f5f5",
+    "hex": "#c7c4be",
+    "name": "beige",
+    "share": 0.1677
+   },
+   {
+    "hex": "#84796c",
+    "name": "grey",
+    "share": 0.1438
+   },
+   {
+    "hex": "#fbfbfa",
     "name": "white",
-    "share": 0.0803
+    "share": 0.0924
    }
   ],
   "screenshot": "screenshots/leo-et-violette/2026-07-08.jpg",
   "status": "success",
   "error": null,
+  "screenshot_mobile": "screenshots/leo-et-violette/2026-07-08-mobile.jpg",
   "listing": {
-   "products_seen": 165,
+   "products_seen": 157,
    "prices": {
     "count": 83,
     "currency": "GBP",
@@ -55169,7 +55381,7 @@
     ]
    },
    "on_sale_count": 6,
-   "discounted_share": 0.036,
+   "discounted_share": 0.038,
    "sale_pairs": [
     [
      20200.0,
@@ -55202,7 +55414,7 @@
  },
  {
   "date": "2026-07-08",
-  "captured_at": "2026-07-08T09:38:23Z",
+  "captured_at": "2026-07-08T14:08:09Z",
   "brand": "Mint Velvet",
   "slug": "mint-velvet",
   "url": "https://www.mintvelvet.com/",
@@ -55242,7 +55454,14 @@
    "has_bnpl": false,
    "email_capture_offer": null,
    "free_delivery_threshold": null,
-   "scarcity": []
+   "scarcity": [],
+   "urgency": [],
+   "multibuy": [],
+   "gift_with_purchase": null,
+   "loyalty": null,
+   "personalisation_upsell": null,
+   "sms_capture": false,
+   "live_chat": null
   },
   "reputation": {
    "rating": null,
@@ -55251,17 +55470,6 @@
    "has_reviews": false,
    "source": null,
    "confidence": null
-  },
-  "marketplace": {
-   "amazon": {
-    "state": "none",
-    "url": null
-   },
-   "tiktok": {
-    "state": "none",
-    "handle": null,
-    "url": null
-   }
   },
   "seo": {
    "title": null,
@@ -55413,6 +55621,7 @@
   ],
   "screenshot": "screenshots/mint-velvet/2026-07-08.jpg",
   "status": "success",
-  "error": null
+  "error": null,
+  "screenshot_mobile": "screenshots/mint-velvet/2026-07-08-mobile.jpg"
  }
 ]

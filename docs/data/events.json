@@ -1,6 +1,34 @@
 {
- "generated_at": "2026-07-08T18:12:15Z",
+ "generated_at": "2026-07-09T10:48:01Z",
  "events": [
+  {
+   "date": "2026-07-09",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 111 new products to its range"
+  },
+  {
+   "date": "2026-07-09",
+   "slug": "loewe",
+   "brand": "Loewe",
+   "type": "hero_changed",
+   "text": "Loewe changed its hero to “Raffia remix”"
+  },
+  {
+   "date": "2026-07-09",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "products_added",
+   "text": "DeMellier added 26 new products to its range"
+  },
+  {
+   "date": "2026-07-09",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 43 new products to its range"
+  },
   {
    "date": "2026-07-08",
    "slug": "strathberry",

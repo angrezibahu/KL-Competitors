@@ -2168,6 +2168,208 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-09",
+   "captured_at": "2026-07-09T10:48:00Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1380,
+     "new_count": 0,
+     "removed_count": 464,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 483,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 450,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 119,
+      "scarves": 47,
+      "purses": 56,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 126,
+     "new_count": 26,
+     "removed_count": 1,
+     "new_samples": [
+      "the-capri-salt-pepper-canvas-black-smooth",
+      "the-florence-light-taupe-suede",
+      "the-hudson-dark-sand-small-grain",
+      "the-large-siena-bucket-tan-small-grain",
+      "the-miami-midnight-blue-suede-and-midnight-blue-smooth",
+      "the-miami-mocha-suede-mocha-smooth",
+      "the-midi-new-york-dark-sand-small-grain",
+      "the-midi-new-york-deep-khaki-perforated-suede"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 11,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 604,
+     "new_count": 0,
+     "removed_count": 2,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 16,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1695,
+     "new_count": 43,
+     "removed_count": 14,
+     "new_samples": [
+      "5671.html",
+      "91019-1.html",
+      "ca209.html",
+      "cak97.html",
+      "cap43.html",
+      "caq75.html",
+      "caq85.html",
+      "cat53.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5479,
+     "new_count": 111,
+     "removed_count": 98,
+     "new_samples": [
+      "7-days-of-pampering-beauty-set-386053",
+      "adelaide-heart-charm-chunky-gold-plated-chain-collar-necklace-25",
+      "adorn-adelaide-chunky-chain-heart-necklaces",
+      "alya-clear-stone-star-charm-drop-hoop-earrings-374162",
+      "am-i-a-good-father-father-s-day-card-354017",
+      "anelli-blue-enamel-stone-inlay-hoop-earrings-384659",
+      "anna-one-anna-father-s-day-card",
+      "any-fuss-father-s-day-card"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 242,
+      "scarves": 114,
+      "purses": 37,
+      "accessories": 44,
+      "gifting": 69,
+      "personalised": 43,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2129,
+     "new_count": 1,
+     "removed_count": 0,
+     "new_samples": [
+      "black-graphic-cuff-jumper"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 77,
+      "purses": 2,
+      "accessories": 32,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

@@ -2370,6 +2370,231 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-10",
+   "captured_at": "2026-07-10T10:40:30Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1380,
+     "new_count": 27,
+     "removed_count": 27,
+     "new_samples": [
+      "april-birthstone-keyring-off-white-klb3825",
+      "april-birthstone-pouch-off-white-klb4103",
+      "ascot-suedette-weekend-bag-and-pouch-organiser-forest-green-aw26-klb4511",
+      "august-birthstone-keyring-sage-green-klb3829",
+      "august-birthstone-pouch-sage-green-klb4107",
+      "december-birthstone-keyring-turquoise-klb3833",
+      "december-birthstone-pouch-turquoise-klb4111",
+      "february-birthstone-keyring-lilac-klb3823"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 483,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 447,
+     "new_count": 4,
+     "removed_count": 7,
+     "new_samples": [
+      "nano-tote-croc-embossed-leather-oxblood",
+      "silk-skinny-scarf-floral-chestnut-vanilla",
+      "stylist-croc-embossed-leather-oxblood",
+      "stylist-embossed-lizard-oat"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 117,
+      "scarves": 48,
+      "purses": 56,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 109,
+     "new_count": 6,
+     "removed_count": 23,
+     "new_samples": [
+      "the-hudson-salt-pepper-canvas-mocha-smooth",
+      "the-lisbon-tote-black-canvas-off-white-smooth",
+      "the-miami-off-white-smooth",
+      "the-mini-cannes-pearl-white-smooth",
+      "the-siena-hobo-deep-tan-suede-deep-tan-small-grain",
+      "the-tokyo-tote-mocha-suede-smooth"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 10,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 601,
+     "new_count": 6,
+     "removed_count": 9,
+     "new_samples": [
+      "baby-diamond-mini-studs",
+      "colored-mini-hoops",
+      "lab-grown-diamond-drop-studs",
+      "mini-hoops",
+      "mini-thumbtack-studs",
+      "puffy-pyramid-studs"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 16,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1663,
+     "new_count": 14,
+     "removed_count": 46,
+     "new_samples": [
+      "5696.html",
+      "c5315.html",
+      "ca582.html",
+      "cbx07.html",
+      "cco02.html",
+      "ccv94.html",
+      "cde73.html",
+      "cdk94.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5494,
+     "new_count": 99,
+     "removed_count": 84,
+     "new_samples": [
+      "aurelie-green-mango-wood-bedside-table-352607",
+      "becci-gold-tone-ball-stone-detail-chain-bracelet-389514",
+      "black-cream-embroidered-frill-collar-sleeveless-blouse-409126",
+      "black-cream-embroidered-wide-leg-trousers-409134",
+      "black-floral-embroidered-frill-collar-tiered-midi-dress-409216",
+      "black-leather-animal-print-faux-fur-mitten-gloves-385594",
+      "black-patent-weave-fisherman-sandals-374414",
+      "black-western-leather-knee-high-boots-353512"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 238,
+      "scarves": 120,
+      "purses": 36,
+      "accessories": 43,
+      "gifting": 70,
+      "personalised": 44,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2134,
+     "new_count": 5,
+     "removed_count": 0,
+     "new_samples": [
+      "brown-suede-eyelet-belt",
+      "grey-seam-detail-wide-jeans",
+      "red-floral-print-shirt",
+      "red-print-maxi-dress",
+      "rust-stripe-balloon-sweat"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 77,
+      "purses": 2,
+      "accessories": 33,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

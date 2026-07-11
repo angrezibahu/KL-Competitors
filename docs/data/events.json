@@ -1,6 +1,55 @@
 {
- "generated_at": "2026-07-10T13:35:00Z",
+ "generated_at": "2026-07-11T09:09:49Z",
  "events": [
+  {
+   "date": "2026-07-11",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Designed in Scotland | Handmade in Spain”"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 44 new products to its range"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 2 new products to its range"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_started",
+   "text": "Mejuri started a sale: 40% off"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "sale_ended",
+   "text": "DeMellier ended its sale"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "hero_changed",
+   "text": "DeMellier changed its hero to “New Arrivals”"
+  },
+  {
+   "date": "2026-07-11",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 99 new products to its range"
+  },
   {
    "date": "2026-07-10",
    "slug": "strathberry",

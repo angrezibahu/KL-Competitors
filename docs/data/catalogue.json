@@ -2595,6 +2595,202 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-11",
+   "captured_at": "2026-07-11T09:09:41Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 3,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 446,
+     "new_count": 0,
+     "removed_count": 1,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 116,
+      "scarves": 48,
+      "purses": 56,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 93,
+     "new_count": 0,
+     "removed_count": 16,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 599,
+     "new_count": 1,
+     "removed_count": 3,
+     "new_samples": [
+      "baby-diamond-studs"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1737,
+     "new_count": 99,
+     "removed_count": 25,
+     "new_samples": [
+      "1665-1.html",
+      "2540.html",
+      "25517.html",
+      "2736.html",
+      "2854.html",
+      "4006.html",
+      "4010-1.html",
+      "4011.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5445,
+     "new_count": 44,
+     "removed_count": 93,
+     "new_samples": [
+      "30-denier-black-gold-shimmer-leopard-print-tights-386097",
+      "ali-bird-mindfulness-journal",
+      "azul-spot-glass-ring-dish",
+      "baby-cheeses-christmas-card-390769",
+      "black-textured-button-through-square-neck-top-379475",
+      "black-tie-waist-barrel-leg-jogger-trousers-388764",
+      "blair-gold-tone-black-enamel-heart-chunky-cuff-bangle-387997",
+      "blair-gold-tone-enamel-heart-hoop-earrings-387976"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 232,
+      "scarves": 116,
+      "purses": 35,
+      "accessories": 44,
+      "gifting": 68,
+      "personalised": 43,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2136,
+     "new_count": 2,
+     "removed_count": 0,
+     "new_samples": [
+      "brown-check-wide-trousers",
+      "cream-leather-military-jacket"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 77,
+      "purses": 2,
+      "accessories": 33,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

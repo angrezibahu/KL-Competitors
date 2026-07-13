@@ -2975,6 +2975,191 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-13",
+   "captured_at": "2026-07-13T10:46:33Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 442,
+     "new_count": 2,
+     "removed_count": 6,
+     "new_samples": [
+      "mosaic-nano-sienna-dusty-pink-suede",
+      "silk-skinny-scarf-black-tan-chain-print"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 115,
+      "scarves": 49,
+      "purses": 54,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 7,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 431,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 28,
+      "accessories": 2
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 597,
+     "new_count": 0,
+     "removed_count": 2,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1676,
+     "new_count": 0,
+     "removed_count": 26,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5314,
+     "new_count": 4,
+     "removed_count": 61,
+     "new_samples": [
+      "brown-animal-print-alphabet-embroidered-initial-square-scarf-390800",
+      "coral-orange-pointelle-striped-t-shirt-384594",
+      "sera-wavy-gold-tone-bangle-379214",
+      "yellow-checked-linen-blend-lightweight-scarf-381687"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 230,
+      "scarves": 110,
+      "purses": 35,
+      "accessories": 43,
+      "gifting": 66,
+      "personalised": 43,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2139,
+     "new_count": 3,
+     "removed_count": 0,
+     "new_samples": [
+      "embellished-waist-scarf",
+      "ivory-chain-fringe-scarf",
+      "red-hand-finished-blazer"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 79,
+      "purses": 2,
+      "accessories": 33,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

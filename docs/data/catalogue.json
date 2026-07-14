@@ -3160,6 +3160,204 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-14",
+   "captured_at": "2026-07-14T09:27:58Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 442,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 115,
+      "scarves": 49,
+      "purses": 54,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 421,
+     "new_count": 1,
+     "removed_count": 11,
+     "new_samples": [
+      "nodde-smooth-root"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 597,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1675,
+     "new_count": 15,
+     "removed_count": 16,
+     "new_samples": [
+      "91019-1.html",
+      "c5315.html",
+      "c6838.html",
+      "caf16-1.html",
+      "cam26.html",
+      "car76.html",
+      "cax69.html",
+      "cbf92.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5422,
+     "new_count": 164,
+     "removed_count": 56,
+     "new_samples": [
+      "anastasia-green-studded-resin-claw-clip",
+      "anonymous-copenhagen-keesha-55-gold-metallic-heels-404766",
+      "anonymous-copenhagen-natasha-gold-metallic-heeled-sandals-408687",
+      "auden-peridot-inlay-heart-charm-gold-plated-chain-bracelet",
+      "auden-peridot-inlay-heart-charm-gold-plated-pendant-necklace",
+      "azul-spot-margarita-glasses-set-of-two-388012",
+      "bibi-lou-black-macrame-loafers-378984",
+      "black-cream-cutwork-embroidered-wide-leg-trousers-382166"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 229,
+      "scarves": 110,
+      "purses": 34,
+      "accessories": 48,
+      "gifting": 64,
+      "personalised": 42,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2143,
+     "new_count": 4,
+     "removed_count": 0,
+     "new_samples": [
+      "camille-brown-leather-loafer",
+      "camille-red-leather-loafer",
+      "dark-90s-straight-jeans",
+      "sand-wide-utility-jean"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 79,
+      "purses": 2,
+      "accessories": 33,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

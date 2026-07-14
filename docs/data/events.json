@@ -1,6 +1,41 @@
 {
- "generated_at": "2026-07-13T13:48:19Z",
+ "generated_at": "2026-07-14T09:28:01Z",
  "events": [
+  {
+   "date": "2026-07-14",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 164 new products to its range"
+  },
+  {
+   "date": "2026-07-14",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 4 new products to its range"
+  },
+  {
+   "date": "2026-07-14",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "hero_changed",
+   "text": "Katie Loxton changed its hero to “SUMMER SALE LAST CHANCE”"
+  },
+  {
+   "date": "2026-07-14",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 15 new products to its range"
+  },
+  {
+   "date": "2026-07-14",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "price_shift",
+   "text": "Charles & Keith median price moved up £75.0 → £89.0 (+19%)"
+  },
   {
    "date": "2026-07-13",
    "slug": "strathberry",

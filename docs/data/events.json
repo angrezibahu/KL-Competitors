@@ -1,6 +1,48 @@
 {
- "generated_at": "2026-07-14T12:51:42Z",
+ "generated_at": "2026-07-15T09:32:05Z",
  "events": [
+  {
+   "date": "2026-07-15",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “collections sale”"
+  },
+  {
+   "date": "2026-07-15",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "discount_changed",
+   "text": "Oliver Bonas discount deepened 60% → 70%"
+  },
+  {
+   "date": "2026-07-15",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 30 new products to its range"
+  },
+  {
+   "date": "2026-07-15",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 15 new products to its range"
+  },
+  {
+   "date": "2026-07-15",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 38 new products to its range"
+  },
+  {
+   "date": "2026-07-15",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "hero_changed",
+   "text": "Charles & Keith changed its hero to “New Season Bags”"
+  },
   {
    "date": "2026-07-14",
    "slug": "oliver-bonas",

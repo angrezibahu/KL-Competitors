@@ -3358,6 +3358,208 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-15",
+   "captured_at": "2026-07-15T09:32:04Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 442,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 115,
+      "scarves": 49,
+      "purses": 54,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 422,
+     "new_count": 1,
+     "removed_count": 0,
+     "new_samples": [
+      "numero-neuf-textured-ebony"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 587,
+     "new_count": 0,
+     "removed_count": 10,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1690,
+     "new_count": 38,
+     "removed_count": 23,
+     "new_samples": [
+      "223.html",
+      "225.html",
+      "87137.html",
+      "91635.html",
+      "caq85.html",
+      "cat38.html",
+      "cbh00.html",
+      "cbh08.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5337,
+     "new_count": 30,
+     "removed_count": 115,
+     "new_samples": [
+      "beer-wall-art-print",
+      "better-together-pierre-the-cat-wall-art-391354",
+      "bloody-mary-wall-art-print",
+      "bon-appetit-wall-art-print-403364",
+      "bow-ceramic-diffuser-gift-set-385900",
+      "brighton-pier-framed-wall-art-314792",
+      "capybara-scrub-sponges-set-of-two-391433",
+      "celeste-moon-star-green-onyx-inlay-chain-bracelet-391852"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 225,
+      "scarves": 108,
+      "purses": 33,
+      "accessories": 45,
+      "gifting": 64,
+      "personalised": 43,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2158,
+     "new_count": 15,
+     "removed_count": 0,
+     "new_samples": [
+      "black-horse-cardigan",
+      "blue-cord-belted-midi-dress",
+      "camille-leopard-loafer",
+      "cream-longline-fluff-knit-tee",
+      "ellis-taupe-suede-boot",
+      "grey-twist-knit-top",
+      "juniper-butterfly-print-shirt",
+      "khaki-cord-midi-dress"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 80,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

@@ -1,6 +1,62 @@
 {
- "generated_at": "2026-07-15T12:57:28Z",
+ "generated_at": "2026-07-16T09:37:49Z",
  "events": [
+  {
+   "date": "2026-07-16",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Designed in Scotland | Handmade in Spain”"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 8 new products to its range"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "products_added",
+   "text": "Polene added 7 new products to its range"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 113 new products to its range"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "price_shift",
+   "text": "Mint Velvet median price moved down £59.0 → £49.0 (-17%)"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 3 new products to its range"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "loewe",
+   "brand": "Loewe",
+   "type": "hero_changed",
+   "text": "Loewe changed its hero to “Leather excellence”"
+  },
+  {
+   "date": "2026-07-16",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 45 new products to its range"
+  },
   {
    "date": "2026-07-15",
    "slug": "strathberry",

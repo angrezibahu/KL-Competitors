@@ -3560,6 +3560,218 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-16",
+   "captured_at": "2026-07-16T09:37:48Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 442,
+     "new_count": 8,
+     "removed_count": 8,
+     "new_samples": [
+      "georgia-midi-taupe",
+      "melody-tote-clay",
+      "midi-tote-clay-white-black",
+      "mini-tote-chestnut-caramel-vanilla",
+      "mosaic-nano-black-crochet",
+      "osette-midi-pouch-oxblood",
+      "silk-skinny-scarf-navy-vanilla-belt-print",
+      "stylist-embossed-lizard-oat"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 118,
+      "scarves": 49,
+      "purses": 54,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 427,
+     "new_count": 7,
+     "removed_count": 2,
+     "new_samples": [
+      "shuldo-textured-black",
+      "shuldo-textured-black-cherry",
+      "shuldo-textured-brown",
+      "shuldo-textured-desert",
+      "shuldo-textured-ebony",
+      "shuldo-textured-linden",
+      "shuldo-textured-mist"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 588,
+     "new_count": 3,
+     "removed_count": 2,
+     "new_samples": [
+      "flat-clover-charm",
+      "round-lab-grown-sapphire-bracelet",
+      "round-lab-grown-sapphire-hoops"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1685,
+     "new_count": 45,
+     "removed_count": 50,
+     "new_samples": [
+      "4010.html",
+      "5671.html",
+      "5696.html",
+      "88208.html",
+      "91019.html",
+      "b1087.html",
+      "c2643.html",
+      "c4250.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5318,
+     "new_count": 113,
+     "removed_count": 132,
+     "new_samples": [
+      "alya-clear-stone-star-charm-drop-hoop-earrings-374162",
+      "amerie-brown-enamel-heart-hoop-earrings-388470",
+      "amira-wine-glasses-set-of-four-375277",
+      "angel-geometric-charm-drop-silver-huggie-earrings-348301",
+      "ariadne-circular-black-gold-hook-drop-earrings-360356",
+      "auden-tiny-teardrop-pearl-gold-plated-huggie-earrings-312031",
+      "avaluna-green-stone-moon-charm-drop-earrings-390550",
+      "beautiful-human-sun-birthday-card-383775"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 219,
+      "scarves": 107,
+      "purses": 28,
+      "accessories": 46,
+      "gifting": 63,
+      "personalised": 40,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2158,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 89,
+      "scarves": 80,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

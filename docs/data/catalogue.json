@@ -3772,6 +3772,207 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-17",
+   "captured_at": "2026-07-17T09:31:56Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1378,
+     "new_count": 1,
+     "removed_count": 0,
+     "new_samples": [
+      "stripe-print-pyjama-gift-set-chocolate-and-off-white-aw26-kls823c"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 114,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 419,
+     "new_count": 1,
+     "removed_count": 24,
+     "new_samples": [
+      "osette-midi-pouch-white-wildflower-print"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 110,
+      "scarves": 46,
+      "purses": 51,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 427,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 587,
+     "new_count": 0,
+     "removed_count": 1,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1676,
+     "new_count": 39,
+     "removed_count": 48,
+     "new_samples": [
+      "58110.html",
+      "c0082.html",
+      "cbe84.html",
+      "cbf06.html",
+      "cbm76.html",
+      "cbn00.html",
+      "cbp29.html",
+      "ccc53.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5380,
+     "new_count": 138,
+     "removed_count": 76,
+     "new_samples": [
+      "a-title-above-queen-mother-s-day-card-380710",
+      "albert-blue-ceramic-large-fish-jug",
+      "albert-fish-ceramic-nesting-bowls-set-of-three",
+      "albert-green-ceramic-large-fish-jug",
+      "albertino-blue-ceramic-mini-fish-jug",
+      "albertino-ceramic-fish-salt-pepper-shakers",
+      "aryna-tennis-racket-gold-plated-stud-earrings",
+      "auden-tiny-teardrop-blue-amazonite-silver-huggie-earrings-352146"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 231,
+      "scarves": 106,
+      "purses": 31,
+      "accessories": 45,
+      "gifting": 60,
+      "personalised": 40,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2163,
+     "new_count": 5,
+     "removed_count": 0,
+     "new_samples": [
+      "brown-90s-straight-jeans",
+      "brown-suede-military-jacket-1",
+      "ink-flounce-midi-skirt",
+      "mid-indigo-denim-shirt",
+      "nora-brown-leather-hobo-bag"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 80,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

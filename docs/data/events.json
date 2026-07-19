@@ -1,6 +1,90 @@
 {
- "generated_at": "2026-07-18T12:37:10Z",
+ "generated_at": "2026-07-19T09:28:31Z",
  "events": [
+  {
+   "date": "2026-07-19",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Free delivery & returns*”"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "sale_ended",
+   "text": "Polene ended its sale"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "bnpl_removed",
+   "text": "Polene dropped Klarna"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 2 new products to its range"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "sale_ended",
+   "text": "Mint Velvet ended its sale"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_removed",
+   "text": "Mint Velvet dropped Clearpay"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_removed",
+   "text": "Mint Velvet dropped Klarna"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_started",
+   "text": "Mejuri started a sale: 40% off"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "bnpl_removed",
+   "text": "Leo et Violette dropped Klarna"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Afterpay"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Clearpay"
+  },
+  {
+   "date": "2026-07-19",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Klarna"
+  },
   {
    "date": "2026-07-18",
    "slug": "polene",
@@ -1017,12 +1101,5 @@
    "text": "DeMellier added 13 new products to its range"
   }
  ],
- "opportunities": [
-  {
-   "priority": "medium",
-   "kind": "delivery",
-   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
-   "detail": "Free-delivery messaging is a visible basket-conversion lever."
-  }
- ]
+ "opportunities": []
 }

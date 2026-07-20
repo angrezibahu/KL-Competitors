@@ -1,6 +1,132 @@
 {
- "generated_at": "2026-07-19T12:35:16Z",
+ "generated_at": "2026-07-20T10:31:36Z",
  "events": [
+  {
+   "date": "2026-07-20",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Designed in Scotland | Handmade in Spain”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "sale_started",
+   "text": "Polene started a sale: sale"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "hero_changed",
+   "text": "Polene changed its hero to “HANDBAGS”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "bnpl_added",
+   "text": "Polene added Klarna (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "sale_started",
+   "text": "Mint Velvet started a sale: up to 60% off"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "hero_changed",
+   "text": "Mint Velvet changed its hero to “collections sale”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_added",
+   "text": "Mint Velvet added Clearpay (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_added",
+   "text": "Mint Velvet added Klarna (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_ended",
+   "text": "Mejuri ended its sale"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 2 new products to its range"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "loewe",
+   "brand": "Loewe",
+   "type": "hero_changed",
+   "text": "Loewe changed its hero to “New bags”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "hero_changed",
+   "text": "Leo et Violette changed its hero to “Léo et Violette”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "bnpl_added",
+   "text": "Leo et Violette added Klarna (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "reviews_added",
+   "text": "Leo et Violette added a Trustpilot review widget to its homepage"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "hero_changed",
+   "text": "DeMellier changed its hero to “New Arrivals”"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_added",
+   "text": "DeMellier added Afterpay (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_added",
+   "text": "DeMellier added Clearpay (buy-now-pay-later)"
+  },
+  {
+   "date": "2026-07-20",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_added",
+   "text": "DeMellier added Klarna (buy-now-pay-later)"
+  },
   {
    "date": "2026-07-19",
    "slug": "strathberry",
@@ -1101,5 +1227,12 @@
    "text": "DeMellier added 13 new products to its range"
   }
  ],
- "opportunities": []
+ "opportunities": [
+  {
+   "priority": "medium",
+   "kind": "delivery",
+   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
+   "detail": "Free-delivery messaging is a visible basket-conversion lever."
+  }
+ ]
 }

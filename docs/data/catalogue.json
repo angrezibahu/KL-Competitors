@@ -4344,6 +4344,186 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-20",
+   "captured_at": "2026-07-20T10:31:33Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 419,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 110,
+      "scarves": 46,
+      "purses": 51,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 427,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 586,
+     "new_count": 2,
+     "removed_count": 1,
+     "new_samples": [
+      "flat-heart-charm",
+      "golden-sphere-studs"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1617,
+     "new_count": 1,
+     "removed_count": 12,
+     "new_samples": [
+      "cz362.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5186,
+     "new_count": 1,
+     "removed_count": 95,
+     "new_samples": [
+      "hadlee-triple-row-gold-tone-small-hoop-earrings-390721"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 215,
+      "scarves": 103,
+      "purses": 30,
+      "accessories": 45,
+      "gifting": 59,
+      "personalised": 39,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2164,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 81,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

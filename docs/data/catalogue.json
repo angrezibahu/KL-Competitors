@@ -4524,6 +4524,216 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-21",
+   "captured_at": "2026-07-21T09:50:02Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1377,
+     "new_count": 1,
+     "removed_count": 1,
+     "new_samples": [
+      "ascot-suedette-weekend-bag-and-pouch-organiser-in-forest-green-aw26-klb4511"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 480,
+      "scarves": 86,
+      "purses": 107,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 421,
+     "new_count": 2,
+     "removed_count": 0,
+     "new_samples": [
+      "nano-tote-gold-metallic-foil",
+      "silk-skinny-scarf-oat-lime-pink"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 111,
+      "scarves": 47,
+      "purses": 51,
+      "accessories": 3,
+      "gifting": 2,
+      "personalised": 2
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 427,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 596,
+     "new_count": 10,
+     "removed_count": 0,
+     "new_samples": [
+      "bar-link-chain-bracelet",
+      "bar-link-chain-necklace",
+      "jojo-chain-necklace",
+      "jojo-cuff",
+      "jojo-drop-earrings",
+      "pearl-orbit-bracelet",
+      "pearl-orbit-necklace",
+      "puffy-heart-station-bracelet"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1627,
+     "new_count": 22,
+     "removed_count": 12,
+     "new_samples": [
+      "91019.html",
+      "cal60.html",
+      "cbo40.html",
+      "ccf26.html",
+      "cck67.html",
+      "ccv61.html",
+      "ccv93.html",
+      "cdw32.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5158,
+     "new_count": 45,
+     "removed_count": 73,
+     "new_samples": [
+      "annalisa-leopard-resin-wavy-claw-clip",
+      "aurora-animal-resin-claw-clip",
+      "blue-brown-floral-checked-square-scarf",
+      "briar-green-onyx-gold-plated-pendant-necklace-372932",
+      "brown-leopard-print-cat-eye-acetate-sunglasses-377895",
+      "charlee-black-crossbody-bag-409711",
+      "cilo-green-enamel-photo-frame-5x7-391744",
+      "cilo-light-blue-enamel-photo-frame-6x4-391745"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 218,
+      "scarves": 105,
+      "purses": 30,
+      "accessories": 43,
+      "gifting": 59,
+      "personalised": 39,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2168,
+     "new_count": 4,
+     "removed_count": 0,
+     "new_samples": [
+      "charley-red-leather-woven-pump",
+      "gold-tone-crystal-mix-hoop",
+      "gold-tone-pave-mix-stud",
+      "silver-tone-pave-mix-stud"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 81,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

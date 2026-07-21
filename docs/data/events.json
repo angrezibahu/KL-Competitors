@@ -1,6 +1,146 @@
 {
- "generated_at": "2026-07-20T13:29:29Z",
+ "generated_at": "2026-07-21T09:50:10Z",
  "events": [
+  {
+   "date": "2026-07-21",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 2 new products to its range"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "sale_ended",
+   "text": "Polene ended its sale"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "bnpl_removed",
+   "text": "Polene dropped Klarna"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 45 new products to its range"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "sale_ended",
+   "text": "Mint Velvet ended its sale"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_removed",
+   "text": "Mint Velvet dropped Clearpay"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "bnpl_removed",
+   "text": "Mint Velvet dropped Klarna"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 4 new products to its range"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_started",
+   "text": "Mejuri started a sale: 40% off"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "hero_changed",
+   "text": "Mejuri changed its hero to “FROM SUNRISE TO SUNSET”"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 10 new products to its range"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "leo-et-violette",
+   "brand": "Leo et Violette",
+   "type": "bnpl_removed",
+   "text": "Leo et Violette dropped Klarna"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "discount_changed",
+   "text": "Katie Loxton discount eased 50% → 10%"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "hero_changed",
+   "text": "Katie Loxton changed its hero to “FEEFO PLATINUM TRUSTED SERVICE AWARD 2026”"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "price_shift",
+   "text": "Katie Loxton median price moved up £29.99 → £34.99 (+17%)"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Afterpay"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Clearpay"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "demellier",
+   "brand": "DeMellier",
+   "type": "bnpl_removed",
+   "text": "DeMellier dropped Klarna"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 22 new products to its range"
+  },
+  {
+   "date": "2026-07-21",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "price_shift",
+   "text": "Charles & Keith median price moved down £89.0 → £75.0 (-16%)"
+  },
   {
    "date": "2026-07-20",
    "slug": "strathberry",
@@ -1230,9 +1370,9 @@
  "opportunities": [
   {
    "priority": "medium",
-   "kind": "delivery",
-   "title": "4 competitors advertise free delivery with no threshold — Katie Loxton's is over £40",
-   "detail": "Free-delivery messaging is a visible basket-conversion lever."
+   "kind": "promo",
+   "title": "Katie Loxton's 10% discount is well below the pack (40%)",
+   "detail": "Katie Loxton may be leaving promotional pressure on the table this week."
   }
  ]
 }

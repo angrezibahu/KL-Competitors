@@ -4734,6 +4734,232 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-22",
+   "captured_at": "2026-07-22T09:48:46Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1387,
+     "new_count": 12,
+     "removed_count": 2,
+     "new_samples": [
+      "april-birthstone-pouch-off-white-klb2443",
+      "august-birthstone-pouch-light-sage-klb2447",
+      "birthstone-pouch-klb2440",
+      "birthstone-pouch-klb2441",
+      "birthstone-pouch-klb2442",
+      "birthstone-pouch-klb2444",
+      "birthstone-pouch-klb2445",
+      "birthstone-pouch-klb2446"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 492,
+      "scarves": 86,
+      "purses": 106,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 434,
+     "new_count": 13,
+     "removed_count": 0,
+     "new_samples": [
+      "mosaic-bag-soft-croc-embossed-leather-black",
+      "mosaic-bag-soft-croc-embossed-leather-walnut",
+      "mosaic-bag-stone-grey",
+      "mosaic-nano-croc-embossed-leather-oxblood",
+      "mosaic-nano-soft-croc-embossed-leather-black",
+      "multrees-chain-wallet-croc-embossed-leather-forest",
+      "nano-tote-croc-embossed-leather-oxblood",
+      "osette-paper-floral-raffia-tan"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 116,
+      "scarves": 47,
+      "purses": 52,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 3
+     }
+    },
+    "demellier": {
+     "product_count": 86,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 3,
+     "removed_count": 0,
+     "new_samples": [
+      "numero-dix-onda-black",
+      "numero-dix-smooth-cognac",
+      "numero-un-trio-camel"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 591,
+     "new_count": 3,
+     "removed_count": 8,
+     "new_samples": [
+      "ammonite-mini-studs",
+      "maris-shell-mini-studs",
+      "star-crossed-mini-studs"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 14,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1616,
+     "new_count": 22,
+     "removed_count": 33,
+     "new_samples": [
+      "c4250.html",
+      "c8869.html",
+      "caf68.html",
+      "cam28.html",
+      "caq85.html",
+      "ccd25.html",
+      "ccl23.html",
+      "cdw87.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5239,
+     "new_count": 127,
+     "removed_count": 46,
+     "new_samples": [
+      "aarna-cluster-silver-stacking-rings-set-of-two-364732",
+      "alexa-mini-checked-scrunchies-set-of-three-403285",
+      "alya-brown-resin-inlay-ribbed-square-statement-earrings-388176",
+      "amaris-blue-twist-hoop-earrings",
+      "annalise-freshwater-pearl-drop-bow-statement-earrings-387977",
+      "anonymous-copenhagen-carminho-20-red-suede-sandals-407679",
+      "april-speckled-resin-bird-hair-claw-clip-403904",
+      "art-cats-1000-piece-jigsaw-puzzle-369060"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 214,
+      "scarves": 113,
+      "purses": 31,
+      "accessories": 43,
+      "gifting": 60,
+      "personalised": 41,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2201,
+     "new_count": 33,
+     "removed_count": 0,
+     "new_samples": [
+      "abstract-print-mesh-dress-1",
+      "animal-print-slip-skirt-1",
+      "bianca-burgundy-slingback-heel",
+      "black-leather-military-jacket",
+      "black-tie-waist-track-pant",
+      "burgundy-seam-detail-wide-jean",
+      "gold-tone-t-bar-bracelet",
+      "gold-tone-t-bar-necklace"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 82,
+      "purses": 2,
+      "accessories": 35,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

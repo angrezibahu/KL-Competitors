@@ -328,5 +328,16 @@
    "Coach"
   ],
   "trends_ok": true
+ },
+ {
+  "date": "2026-07-22",
+  "ran_at": "2026-07-22T09:48:46Z",
+  "brands_total": 13,
+  "succeeded": 12,
+  "failed": 1,
+  "failed_brands": [
+   "Coach"
+  ],
+  "trends_ok": false
  }
 ]

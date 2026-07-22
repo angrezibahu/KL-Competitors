@@ -1,6 +1,90 @@
 {
- "generated_at": "2026-07-21T13:03:52Z",
+ "generated_at": "2026-07-22T09:48:47Z",
  "events": [
+  {
+   "date": "2026-07-22",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Free delivery & returns*”"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "products_added",
+   "text": "Strathberry added 13 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "polene",
+   "brand": "Polene",
+   "type": "products_added",
+   "text": "Polene added 3 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "discount_changed",
+   "text": "Oliver Bonas discount eased 70% → 10%"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 127 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 33 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "sale_ended",
+   "text": "Mejuri ended its sale"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 3 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "katie-loxton",
+   "brand": "Katie Loxton",
+   "type": "products_added",
+   "text": "Katie Loxton added 12 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 22 new products to its range"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "hero_changed",
+   "text": "Charles & Keith changed its hero to “Effortless Everyday Bags”"
+  },
+  {
+   "date": "2026-07-22",
+   "slug": "charles-keith",
+   "brand": "Charles & Keith",
+   "type": "price_shift",
+   "text": "Charles & Keith median price moved up £75.0 → £99.0 (+32%)"
+  },
   {
    "date": "2026-07-21",
    "slug": "strathberry",
@@ -1367,12 +1451,5 @@
    "text": "DeMellier added 13 new products to its range"
   }
  ],
- "opportunities": [
-  {
-   "priority": "medium",
-   "kind": "promo",
-   "title": "Katie Loxton's 10% discount is well below the pack (40%)",
-   "detail": "Katie Loxton may be leaving promotional pressure on the table this week."
-  }
- ]
+ "opportunities": []
 }

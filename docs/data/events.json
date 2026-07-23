@@ -1,6 +1,41 @@
 {
- "generated_at": "2026-07-22T13:08:55Z",
+ "generated_at": "2026-07-23T09:46:13Z",
  "events": [
+  {
+   "date": "2026-07-23",
+   "slug": "strathberry",
+   "brand": "Strathberry",
+   "type": "hero_changed",
+   "text": "Strathberry changed its hero to “Designed in Scotland | Handmade in Spain”"
+  },
+  {
+   "date": "2026-07-23",
+   "slug": "oliver-bonas",
+   "brand": "Oliver Bonas",
+   "type": "products_added",
+   "text": "Oliver Bonas added 138 new products to its range"
+  },
+  {
+   "date": "2026-07-23",
+   "slug": "mint-velvet",
+   "brand": "Mint Velvet",
+   "type": "products_added",
+   "text": "Mint Velvet added 249 new products to its range"
+  },
+  {
+   "date": "2026-07-23",
+   "slug": "mejuri",
+   "brand": "Mejuri",
+   "type": "products_added",
+   "text": "Mejuri added 5 new products to its range"
+  },
+  {
+   "date": "2026-07-23",
+   "slug": "coach",
+   "brand": "Coach",
+   "type": "products_added",
+   "text": "Coach added 27 new products to its range"
+  },
   {
    "date": "2026-07-22",
    "slug": "strathberry",

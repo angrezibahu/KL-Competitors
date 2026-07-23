@@ -4960,6 +4960,214 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-23",
+   "captured_at": "2026-07-23T09:46:12Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1387,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 492,
+      "scarves": 86,
+      "purses": 106,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 420,
+     "new_count": 0,
+     "removed_count": 14,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 113,
+      "scarves": 44,
+      "purses": 49,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 3
+     }
+    },
+    "demellier": {
+     "product_count": 87,
+     "new_count": 1,
+     "removed_count": 0,
+     "new_samples": [
+      "the-nano-montreal-black-smooth"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 8,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 592,
+     "new_count": 5,
+     "removed_count": 4,
+     "new_samples": [
+      "baguette-emerald-bar-necklace",
+      "beverly-bracelet",
+      "jojo-cuff",
+      "jojo-drop-earrings",
+      "piercing-aftercare-saline-solution"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1616,
+     "new_count": 27,
+     "removed_count": 27,
+     "new_samples": [
+      "25519.html",
+      "64839.html",
+      "c6229.html",
+      "cak12.html",
+      "cax17.html",
+      "cbg93.html",
+      "cbq53.html",
+      "cbv90.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5237,
+     "new_count": 138,
+     "removed_count": 140,
+     "new_samples": [
+      "30-denier-black-gold-shimmer-leopard-print-tights-386097",
+      "alba-green-striped-ruffle-lamp-shade",
+      "anonymous-copenhagen-natasha-gold-metallic-heeled-sandals-408687",
+      "beaded-spot-frame",
+      "betty-cream-straw-weave-crossbody-sling-bag",
+      "bird-gold-tone-glass-hanging-wall-art",
+      "blue-denim-zip-up-short-sleeve-jumpsuit-379771",
+      "blue-floral-broderie-tile-tiered-midi-skirt-380753"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 238,
+      "scarves": 106,
+      "purses": 34,
+      "accessories": 43,
+      "gifting": 59,
+      "personalised": 37,
+      "sentiment": 1,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2450,
+     "new_count": 249,
+     "removed_count": 0,
+     "new_samples": [
+      "abstract-print-hotfix-skirt",
+      "abstract-print-pleat-blouse",
+      "alix-double-strap-flats",
+      "animal-print-midi-dress-1",
+      "animal-print-slip-skirt",
+      "aria-square-toe-boot-2",
+      "ashley-cream-kitten-heel-boot",
+      "beaded-lace-bow-midi-dress"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 88,
+      "purses": 2,
+      "accessories": 36,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }

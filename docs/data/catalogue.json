@@ -5168,6 +5168,215 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-07-24",
+   "captured_at": "2026-07-24T09:44:20Z",
+   "brands": {
+    "katie-loxton": {
+     "product_count": 1387,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 492,
+      "scarves": 86,
+      "purses": 106,
+      "accessories": 84,
+      "gifting": 113,
+      "personalised": 6,
+      "sentiment": 2
+     }
+    },
+    "strathberry": {
+     "product_count": 414,
+     "new_count": 0,
+     "removed_count": 6,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 111,
+      "scarves": 44,
+      "purses": 49,
+      "accessories": 4,
+      "gifting": 2,
+      "personalised": 3
+     }
+    },
+    "demellier": {
+     "product_count": 96,
+     "new_count": 9,
+     "removed_count": 0,
+     "new_samples": [
+      "the-florence-hazel-suede",
+      "the-midi-hudson-dark-chocolate-suede",
+      "the-midi-new-york-dark-chocolate-suede",
+      "the-new-york-dark-chocolate-suede",
+      "the-small-stockholm-hazel-suede",
+      "the-vancouver-burgundy-small-grain",
+      "the-vancouver-clutch-dark-chocolate-suede",
+      "the-vancouver-clutch-taupe-smooth"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 10,
+      "gifting": 1
+     }
+    },
+    "charles-keith": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "polene": {
+     "product_count": 430,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 36,
+      "purses": 27,
+      "accessories": 1
+     }
+    },
+    "loewe": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "white-company": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no product URLs in sitemap"
+    },
+    "mejuri": {
+     "product_count": 588,
+     "new_count": 0,
+     "removed_count": 4,
+     "new_samples": [],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 15,
+      "scarves": 1,
+      "purses": 3,
+      "gifting": 2
+     }
+    },
+    "sezane": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "coach": {
+     "product_count": 1631,
+     "new_count": 35,
+     "removed_count": 20,
+     "new_samples": [
+      "5696.html",
+      "58035.html",
+      "c2643.html",
+      "c4452.html",
+      "car76.html",
+      "cat31.html",
+      "cbf92.html",
+      "cbw09.html"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {}
+    },
+    "oliver-bonas": {
+     "product_count": 5191,
+     "new_count": 78,
+     "removed_count": 124,
+     "new_samples": [
+      "agnes-pink-gingham-jewellery-box-392028",
+      "ali-disco-ball-light-phone-charger",
+      "ali-make-your-own-neon-light-extra-large",
+      "ali-make-your-own-neon-sign",
+      "ali-silver-disco-ball-string-lights",
+      "ali-silver-disco-balls-light-up-earrings",
+      "anonymous-copenhagen-keesha-55-gold-metallic-heels-404766",
+      "bais-brass-cloud-pearl-drop-earrings-384076"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 229,
+      "scarves": 103,
+      "purses": 34,
+      "accessories": 44,
+      "gifting": 59,
+      "personalised": 36,
+      "sentiment": 2,
+      "new_in": 4
+     }
+    },
+    "leo-et-violette": {
+     "product_count": null,
+     "new_count": 0,
+     "removed_count": 0,
+     "new_samples": [],
+     "ok": false,
+     "first_seen": false,
+     "error": "no sitemap.xml"
+    },
+    "mint-velvet": {
+     "product_count": 2474,
+     "new_count": 24,
+     "removed_count": 0,
+     "new_samples": [
+      "ashley-grey-kitten-heel-boot",
+      "ashley-red-kitten-heel-boot",
+      "black-paisley-neck-scarf",
+      "brown-super-soft-sweatshirt-1",
+      "chocolate-v-neck-tabard",
+      "cream-ric-rac-trim-cotton-top",
+      "floral-print-ruffle-midi-dress-5",
+      "gold-tone-perfume-pendant"
+     ],
+     "ok": true,
+     "first_seen": false,
+     "error": null,
+     "categories": {
+      "bags": 90,
+      "scarves": 90,
+      "purses": 2,
+      "accessories": 36,
+      "gifting": 1
+     }
+    }
+   }
   }
  ]
 }
